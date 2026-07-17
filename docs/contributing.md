@@ -643,6 +643,8 @@ Documentation should explain not only **what** was implemented, but also **why**
 > Documentation is not a by-product of software development.
 > It is an essential part of the development process.
 
+---
+
 ## 7. Pull Requests
 
 Pull Requests (PRs) provide a structured process for reviewing, discussing, and integrating changes into the project.
@@ -1092,4 +1094,3 @@ This guide should evolve alongside the project, remaining aligned with the proje
 Future revisions should preserve the project's commitment to quality, collaboration, and continuous improvement while supporting the long-term vision of the PokéDex Manager.
 
 ---
-

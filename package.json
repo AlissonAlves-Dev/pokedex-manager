@@ -1,0 +1,32 @@
+{
+  "name": "pokedex-manager",
+  "version": "0.1.0",
+  "private": true,
+  "description": "PokéDex Manager - Pokémon GO collection and management platform.",
+  "author": "Alisson Alves",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/AlissonAlves-Dev/pokedex-manager.git"
+  },
+  "bugs": {
+    "url": "https://github.com/AlissonAlves-Dev/pokedex-manager/issues"
+  },
+  "homepage": "https://github.com/AlissonAlves-Dev/pokedex-manager#readme",
+  "workspaces": [
+    "frontend",
+    "backend"
+  ],
+  "scripts": {
+    "dev": "npm run dev --workspace frontend",
+    "dev:frontend": "npm run dev --workspace frontend",
+    "dev:backend": "npm run dev --workspace backend",
+    "build": "npm run build --workspaces",
+    "lint": "npm run lint --workspaces",
+    "format": "npm run format --workspaces"
+  },
+  "engines": {
+    "node": "24.x",
+    "npm": "11.x"
+  }
+}
