@@ -62,3 +62,41 @@ Definir a estrutura técnica do PokéDex Manager e estabelecer a base de documen
 O foco do dia foi estabelecer uma base sólida para o desenvolvimento do PokéDex Manager. Com a arquitetura, o roadmap e a modelagem inicial do banco de dados definidos, o projeto passa a contar com uma documentação consistente que servirá como referência para as próximas etapas de implementação.
 
 ---
+
+## 2026/07/16
+
+### Objetivo
+
+Iniciar oficialmente a **Fase 2 – Desenvolvimento**, configurando o ambiente de desenvolvimento e estabelecendo a arquitetura inicial do monorepositório.
+
+### Atividades realizadas
+
+* Início da **Sprint 0 – Configuração do Projeto**.
+* Inicialização do arquivo `package.json` na raiz do monorepositório.
+* Configuração do projeto utilizando **npm Workspaces**.
+* Definição das informações principais do projeto (`name`, `version`, `description`, `author` e `engines`).
+* Criação e configuração da licença **MIT**.
+* Atualização do `README.md` para incluir as informações da licença.
+* Configuração do projeto como pacote privado do npm (`private: true`).
+* Definição da estrutura inicial do monorepositório, contendo os diretórios `frontend` e `backend`.
+* Documentação da finalidade do `package.json` da raiz dentro da arquitetura de monorepositório.
+* Definição do **React** como framework oficial do frontend.
+* Definição do **TypeScript** como linguagem oficial do frontend.
+* Definição do **ESLint** como linter oficial do projeto.
+* Inicialização do frontend utilizando **Vite 8.1.5** com o template **React + TypeScript**.
+* Análise da estrutura inicial gerada pelo Vite e documentação da finalidade de seus principais arquivos e diretórios.
+* Confirmação da utilização da **Feature-Based Architecture**, conforme definido na documentação de arquitetura.
+* Definição da metodologia de adoção de novas tecnologias durante o desenvolvimento:
+
+  * Compreender a tecnologia.
+  * Justificar sua adoção.
+  * Explicar como ela se integra à arquitetura do projeto.
+  * Implementar.
+  * Validar o resultado.
+* Decisão de remover o diretório temporário `database` do repositório, concentrando futuramente todos os recursos relacionados ao banco de dados dentro do `backend`.
+
+### Observações
+
+O foco do dia foi preparar o ambiente de desenvolvimento e estabelecer os padrões técnicos que servirão de base para as próximas etapas do projeto. Com a configuração inicial do monorepositório concluída e o frontend criado, o PokéDex Manager está pronto para iniciar a implementação de funcionalidades.
+
+---
