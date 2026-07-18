@@ -1,6 +1,6 @@
 # Architecture
 
-**Project:** PokéDex Manager *(Working Title)*
+**Project:** PokéDex Manager _(Working Title)_
 
 **Document:** Architecture
 
@@ -14,9 +14,9 @@
 
 ## Revision History
 
-| Version | Date | Description |
-|----------|------------|----------------------------|
-| 0.1.0 | 2026-07-13 | Initial architecture document |
+| Version | Date       | Description                   |
+| ------- | ---------- | ----------------------------- |
+| 0.1.0   | 2026-07-13 | Initial architecture document |
 
 ---
 
@@ -56,7 +56,7 @@ The PokéDex Manager architecture is based on the following principles:
 - **Simplicity:** Prefer simple and readable solutions over unnecessary complexity.
 - **API First:** The frontend and backend communicate exclusively through a well-defined REST API, allowing both applications to evolve independently.
 - **Feature-Based Organization:** The application is organized into independent feature modules, each encapsulating its own responsibilities.
-  
+
 ---
 
 ## 2. System Architecture
@@ -147,53 +147,53 @@ The PokéDex Manager technology stack was selected to provide a modern, scalable
 
 ### Frontend
 
-| Technology | Purpose |
-|------------|---------|
-| React | Build a modern, component-based user interface. |
-| TypeScript | Provide static typing, improve maintainability, and reduce runtime errors. |
-| Vite | Offer a fast development environment and optimized production builds. |
-| Tailwind CSS | Enable rapid and consistent UI development through utility-first styling. |
-| React Router | Handle client-side navigation. |
-| TanStack Query | Manage server state, caching, and asynchronous data fetching. |
-| Axios | Simplify communication with the backend REST API. |
+| Technology     | Purpose                                                                    |
+| -------------- | -------------------------------------------------------------------------- |
+| React          | Build a modern, component-based user interface.                            |
+| TypeScript     | Provide static typing, improve maintainability, and reduce runtime errors. |
+| Vite           | Offer a fast development environment and optimized production builds.      |
+| Tailwind CSS   | Enable rapid and consistent UI development through utility-first styling.  |
+| React Router   | Handle client-side navigation.                                             |
+| TanStack Query | Manage server state, caching, and asynchronous data fetching.              |
+| Axios          | Simplify communication with the backend REST API.                          |
 
 ---
 
 ### Backend
 
-| Technology | Purpose |
-|------------|---------|
-| Node.js | JavaScript runtime for server-side development. |
-| Express | Build a lightweight and scalable REST API. |
-| TypeScript | Improve code quality through static typing. |
+| Technology | Purpose                                                       |
+| ---------- | ------------------------------------------------------------- |
+| Node.js    | JavaScript runtime for server-side development.               |
+| Express    | Build a lightweight and scalable REST API.                    |
+| TypeScript | Improve code quality through static typing.                   |
 | Prisma ORM | Provide type-safe database access and simplify data modeling. |
 
 ---
 
 ### Database
 
-| Technology | Purpose |
-|------------|---------|
+| Technology | Purpose                                                                           |
+| ---------- | --------------------------------------------------------------------------------- |
 | PostgreSQL | Store relational application data with reliability, consistency, and scalability. |
 
 ---
 
 ### External Services
 
-| Service | Purpose |
-|---------|---------|
+| Service | Purpose                                       |
+| ------- | --------------------------------------------- |
 | PokéAPI | Provide Pokémon data used by the application. |
 
 ---
 
 ### DevOps
 
-| Technology | Purpose |
-|------------|---------|
-| Docker | Standardize the development environment and simplify deployment. |
-| Git | Version control. |
-| GitHub | Source code hosting and collaboration. |
-| GitHub Actions | Automate workflows such as testing and continuous integration. |
+| Technology     | Purpose                                                          |
+| -------------- | ---------------------------------------------------------------- |
+| Docker         | Standardize the development environment and simplify deployment. |
+| Git            | Version control.                                                 |
+| GitHub         | Source code hosting and collaboration.                           |
+| GitHub Actions | Automate workflows such as testing and continuous integration.   |
 
 ---
 
@@ -225,7 +225,6 @@ This structure promotes maintainability, scalability, and a clear separation of 
 pokedex-manager/
 │
 ├── backend/
-├── database/
 ├── docs/
 ├── frontend/
 ├── .gitignore
@@ -243,11 +242,11 @@ frontend/
 │
 ├── public/
 ├── src/
+│   ├── apps/
 │   ├── assets/
 │   ├── components/
-│   ├── hooks/
+│   ├── features/
 │   ├── layouts/
-│   ├── pages/
 │   ├── routes/
 │   ├── services/
 │   ├── styles/
@@ -354,16 +353,16 @@ module-name/
 
 ### Responsibilities
 
-| Folder | Responsibility |
-|---------|----------------|
-| controllers | Handle HTTP requests and responses. |
-| services | Contain business logic. |
-| repositories | Access data sources. |
-| routes | Define API endpoints. |
-| dto | Define request and response objects. |
-| schemas | Validate input data. |
-| types | Store module-specific TypeScript types. |
-| index.ts | Export the module's public interface. |
+| Folder       | Responsibility                          |
+| ------------ | --------------------------------------- |
+| controllers  | Handle HTTP requests and responses.     |
+| services     | Contain business logic.                 |
+| repositories | Access data sources.                    |
+| routes       | Define API endpoints.                   |
+| dto          | Define request and response objects.    |
+| schemas      | Validate input data.                    |
+| types        | Store module-specific TypeScript types. |
+| index.ts     | Export the module's public interface.   |
 
 ---
 
@@ -438,14 +437,14 @@ flowchart TD
 
 ### Layer Responsibilities
 
-| Layer | Responsibility |
-|--------|----------------|
-| Frontend | Render the user interface and communicate with the backend. |
-| Controller | Receive HTTP requests and return HTTP responses. |
-| Service | Execute business logic and orchestrate application workflows. |
-| Repository | Access and persist application data. |
-| Database | Store application data. |
-| External API | Provide Pokémon data not available locally. |
+| Layer        | Responsibility                                                |
+| ------------ | ------------------------------------------------------------- |
+| Frontend     | Render the user interface and communicate with the backend.   |
+| Controller   | Receive HTTP requests and return HTTP responses.              |
+| Service      | Execute business logic and orchestrate application workflows. |
+| Repository   | Access and persist application data.                          |
+| Database     | Store application data.                                       |
+| External API | Provide Pokémon data not available locally.                   |
 
 ---
 

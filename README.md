@@ -42,6 +42,7 @@ Players will be able to:
 - Project planning
 - Documentation
 - Architecture design
+- Development environment setup
 
 ### Planned
 
@@ -64,8 +65,6 @@ Players will be able to:
 - React
 - TypeScript
 - Vite
-- Tailwind CSS
-- TanStack Query
 
 ### Backend
 
@@ -78,11 +77,6 @@ Players will be able to:
 
 - PostgreSQL
 
-### DevOps
-
-- Docker
-- GitHub Actions
-
 ---
 
 ## 📂 Project Structure
@@ -92,9 +86,15 @@ pokedex-manager/
 │
 ├── frontend/
 ├── backend/
-├── database/
 ├── docs/
-├── docker/
+│
+├── .vscode/
+├── .editorconfig
+├── .gitignore
+├── .prettierignore
+├── LICENSE
+├── package.json
+├── package-lock.json
 └── README.md
 ```
 
