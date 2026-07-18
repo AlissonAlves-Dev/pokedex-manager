@@ -27,12 +27,12 @@ Estruturar a documentação do projeto e definir sua organização para dar supo
 
 ### Atividades realizadas
 
-* Definição da arquitetura inicial do PokéDex Manager.
-* Elaboração da documentação de planejamento do projeto.
-* Organização da documentação por responsabilidade.
-* Revisão e padronização da estrutura dos documentos Markdown.
-* Definição do fluxo de trabalho para manter o **Development Journal** atualizado ao final de cada sessão de desenvolvimento.
-* Padronização das datas do diário no formato **YYYY/MM/DD**.
+- Definição da arquitetura inicial do PokéDex Manager.
+- Elaboração da documentação de planejamento do projeto.
+- Organização da documentação por responsabilidade.
+- Revisão e padronização da estrutura dos documentos Markdown.
+- Definição do fluxo de trabalho para manter o **Development Journal** atualizado ao final de cada sessão de desenvolvimento.
+- Padronização das datas do diário no formato **YYYY/MM/DD**.
 
 ### Observações
 
@@ -48,14 +48,14 @@ Definir a estrutura técnica do PokéDex Manager e estabelecer a base de documen
 
 ### Atividades realizadas
 
-* Elaboração da arquitetura inicial do PokéDex Manager.
-* Definição da estrutura e responsabilidades dos módulos do sistema.
-* Criação do Roadmap do projeto, estabelecendo as versões, funcionalidades e evolução planejada.
-* Definição do modelo de banco de dados da versão **0.1**.
-* Planejamento do modelo de banco de dados para versões futuras, visando escalabilidade e novas funcionalidades.
-* Definição das convenções de nomenclatura (Naming Conventions).
-* Definição da estratégia de migração (Migration Strategy).
-* Revisão e aprovação da documentação de planejamento.
+- Elaboração da arquitetura inicial do PokéDex Manager.
+- Definição da estrutura e responsabilidades dos módulos do sistema.
+- Criação do Roadmap do projeto, estabelecendo as versões, funcionalidades e evolução planejada.
+- Definição do modelo de banco de dados da versão **0.1**.
+- Planejamento do modelo de banco de dados para versões futuras, visando escalabilidade e novas funcionalidades.
+- Definição das convenções de nomenclatura (Naming Conventions).
+- Definição da estratégia de migração (Migration Strategy).
+- Revisão e aprovação da documentação de planejamento.
 
 ### Observações
 
@@ -71,32 +71,64 @@ Iniciar oficialmente a **Fase 2 – Desenvolvimento**, configurando o ambiente d
 
 ### Atividades realizadas
 
-* Início da **Sprint 0 – Configuração do Projeto**.
-* Inicialização do arquivo `package.json` na raiz do monorepositório.
-* Configuração do projeto utilizando **npm Workspaces**.
-* Definição das informações principais do projeto (`name`, `version`, `description`, `author` e `engines`).
-* Criação e configuração da licença **MIT**.
-* Atualização do `README.md` para incluir as informações da licença.
-* Configuração do projeto como pacote privado do npm (`private: true`).
-* Definição da estrutura inicial do monorepositório, contendo os diretórios `frontend` e `backend`.
-* Documentação da finalidade do `package.json` da raiz dentro da arquitetura de monorepositório.
-* Definição do **React** como framework oficial do frontend.
-* Definição do **TypeScript** como linguagem oficial do frontend.
-* Definição do **ESLint** como linter oficial do projeto.
-* Inicialização do frontend utilizando **Vite 8.1.5** com o template **React + TypeScript**.
-* Análise da estrutura inicial gerada pelo Vite e documentação da finalidade de seus principais arquivos e diretórios.
-* Confirmação da utilização da **Feature-Based Architecture**, conforme definido na documentação de arquitetura.
-* Definição da metodologia de adoção de novas tecnologias durante o desenvolvimento:
+- Início da **Sprint 0 – Configuração do Projeto**.
+- Inicialização do arquivo `package.json` na raiz do monorepositório.
+- Configuração do projeto utilizando **npm Workspaces**.
+- Definição das informações principais do projeto (`name`, `version`, `description`, `author` e `engines`).
+- Criação e configuração da licença **MIT**.
+- Atualização do `README.md` para incluir as informações da licença.
+- Configuração do projeto como pacote privado do npm (`private: true`).
+- Definição da estrutura inicial do monorepositório, contendo os diretórios `frontend` e `backend`.
+- Documentação da finalidade do `package.json` da raiz dentro da arquitetura de monorepositório.
+- Definição do **React** como framework oficial do frontend.
+- Definição do **TypeScript** como linguagem oficial do frontend.
+- Definição do **ESLint** como linter oficial do projeto.
+- Inicialização do frontend utilizando **Vite 8.1.5** com o template **React + TypeScript**.
+- Análise da estrutura inicial gerada pelo Vite e documentação da finalidade de seus principais arquivos e diretórios.
+- Confirmação da utilização da **Feature-Based Architecture**, conforme definido na documentação de arquitetura.
+- Definição da metodologia de adoção de novas tecnologias durante o desenvolvimento:
 
-  * Compreender a tecnologia.
-  * Justificar sua adoção.
-  * Explicar como ela se integra à arquitetura do projeto.
-  * Implementar.
-  * Validar o resultado.
-* Decisão de remover o diretório temporário `database` do repositório, concentrando futuramente todos os recursos relacionados ao banco de dados dentro do `backend`.
+  - Compreender a tecnologia.
+  - Justificar sua adoção.
+  - Explicar como ela se integra à arquitetura do projeto.
+  - Implementar.
+  - Validar o resultado.
+
+- Decisão de remover o diretório temporário `database` do repositório, concentrando futuramente todos os recursos relacionados ao banco de dados dentro do `backend`.
 
 ### Observações
 
 O foco do dia foi preparar o ambiente de desenvolvimento e estabelecer os padrões técnicos que servirão de base para as próximas etapas do projeto. Com a configuração inicial do monorepositório concluída e o frontend criado, o PokéDex Manager está pronto para iniciar a implementação de funcionalidades.
+
+---
+
+## 2026/07/17
+
+### Objetivo
+
+Concluir a configuração das ferramentas de qualidade de código do projeto, validar seu funcionamento na prática e finalizar a preparação do ambiente de desenvolvimento da **Sprint 0 – Configuração do Projeto**.
+
+### Atividades realizadas
+
+- Instalação e configuração do **Prettier** como ferramenta oficial de formatação de código do projeto.
+- Definição da estratégia de utilizar as configurações padrão do Prettier, evitando customizações desnecessárias.
+- Criação do arquivo `.prettierignore` para ignorar diretórios gerados automaticamente (`node_modules`, `dist`, `build` e `coverage`).
+- Criação da pasta `.vscode` na raiz do projeto para compartilhar configurações do ambiente de desenvolvimento.
+- Configuração do arquivo `settings.json`, habilitando a formatação automática ao salvar arquivos e definindo o Prettier como formatador padrão.
+- Criação do arquivo `extensions.json`, recomendando as extensões oficiais do Prettier e do ESLint para os desenvolvedores do projeto.
+- Validação da integração entre o VS Code e o Prettier, confirmando a formatação automática do código ao salvar arquivos.
+- Estudo detalhado da configuração gerada automaticamente pelo ESLint, compreendendo a função de cada dependência e das regras padrão fornecidas pelo Vite.
+- Realização de testes práticos para validar a integração entre Prettier, ESLint e o plugin React Hooks, verificando:
+
+  - formatação automática do código;
+  - detecção de variáveis não utilizadas;
+  - validação das regras de utilização dos Hooks do React.
+
+- Confirmação de que a configuração atual do projeto não apresenta conflitos entre Prettier e ESLint, optando por não instalar `eslint-config-prettier` e `eslint-plugin-prettier` neste momento.
+- Definição da estratégia de versionamento utilizando um **Git Flow simplificado**, estabelecendo o desenvolvimento em branches `feature/*` e mantendo a `main` sempre estável e revisada.
+
+### Observações
+
+O foco do dia foi concluir a configuração do ambiente de desenvolvimento e validar, na prática, o funcionamento das ferramentas de qualidade de código. Ao final da sessão, o projeto passou a contar com um ambiente padronizado para formatação, análise estática e versionamento, encerrando a preparação técnica da Sprint 0 e deixando o PokéDex Manager pronto para iniciar o desenvolvimento das primeiras funcionalidades.
 
 ---
