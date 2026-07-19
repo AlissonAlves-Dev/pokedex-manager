@@ -65,6 +65,15 @@
 body {
   margin: 0;
 }
+.navigation-link {
+  color: black;
+  text-decoration: none;
+}
+
+.navigation-link.active {
+  font-weight: bold;
+  text-decoration: underline;
+}
 
 h1,
 h2 {

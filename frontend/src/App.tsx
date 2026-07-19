@@ -1,5 +1,5 @@
-function App() {
-  return <h1>PokéDex Manager</h1>;
-}
+import { AppRouter } from "./app/routes/AppRouter";
 
-export default App;
+export function App() {
+  return <AppRouter />;
+}

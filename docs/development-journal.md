@@ -132,3 +132,33 @@ Concluir a configuração das ferramentas de qualidade de código do projeto, va
 O foco do dia foi concluir a configuração do ambiente de desenvolvimento e validar, na prática, o funcionamento das ferramentas de qualidade de código. Ao final da sessão, o projeto passou a contar com um ambiente padronizado para formatação, análise estática e versionamento, encerrando a preparação técnica da Sprint 0 e deixando o PokéDex Manager pronto para iniciar o desenvolvimento das primeiras funcionalidades.
 
 ---
+
+## 2026/07/18
+
+### Objetivo
+
+Dar início à implementação da **Sprint 1 – Frontend Foundation**, estruturando o sistema de navegação da aplicação com React Router.
+
+### Atividades realizadas
+
+- Implementação do `AppRouter`, centralizando toda a configuração de rotas da aplicação.
+- Definição da hierarquia de rotas utilizando `Routes` e `Route`, com organização baseada em rotas aninhadas.
+- Configuração da rota de layout utilizando o `MainLayout` como estrutura compartilhada entre as páginas.
+- Implementação da rota `index` para a página inicial (`Home`).
+- Configuração da rota de listagem de Pokémon (`/pokemon`).
+- Implementação da rota dinâmica de detalhes (`/pokemon/:pokemonId`) utilizando _Route Params_.
+- Configuração da rota curinga (`*`) para tratamento de páginas não encontradas (`NotFound`).
+- Integração do `BrowserRouter` ao `main.tsx`, estabelecendo o contexto global de navegação da aplicação.
+- Simplificação do `App.tsx`, delegando a responsabilidade de roteamento ao `AppRouter`.
+- Correção da importação do arquivo global de estilos (`index.css`) durante a configuração inicial da aplicação.
+- Criação dos componentes estruturais compartilhados `Header`, `Sidebar` e `Footer`.
+- Integração desses componentes ao `MainLayout`, utilizando o `Outlet` como área de renderização das páginas.
+- Implementação da navegação principal utilizando `NavLink`, permitindo a navegação entre as páginas sem recarregamento da aplicação.
+- Configuração do estado visual da rota ativa utilizando a propriedade `className` do `NavLink` com o parâmetro `isActive`.
+- Validação do funcionamento do sistema de navegação, incluindo rotas aninhadas, navegação SPA, renderização dinâmica pelo `Outlet`, rotas dinâmicas e tratamento de páginas inexistentes.
+
+### Observações
+
+Esta sessão marcou o início efetivo da implementação do frontend do PokéDex Manager. Além da implementação do sistema de roteamento, foi realizado um estudo aprofundado sobre o funcionamento interno do React Router, consolidando conceitos como SPA, rotas aninhadas, `BrowserRouter`, `Routes`, `Route`, `Outlet`, `Link`, `NavLink` e _Route Params_. Todo o desenvolvimento foi realizado priorizando a compreensão dos conceitos antes da implementação prática.
+
+---
