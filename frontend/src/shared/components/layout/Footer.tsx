@@ -1,7 +1,9 @@
+import "./Footer.css";
+
 export function Footer() {
   return (
-    <footer>
-      <p>PokéDex Manager</p>
+    <footer className="app-footer">
+      <p className="app-footer__text">PokéDex Manager</p>
     </footer>
   );
 }

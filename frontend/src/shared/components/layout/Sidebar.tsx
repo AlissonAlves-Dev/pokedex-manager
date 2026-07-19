@@ -1,16 +1,20 @@
 import { NavLink } from "react-router";
 
+import "./Sidebar.css";
+
 export function Sidebar() {
   return (
-    <aside>
-      <nav>
-        <ul>
+    <aside className="app-sidebar">
+      <nav aria-label="Navegação principal">
+        <ul className="app-sidebar__list">
           <li>
             <NavLink
               to="/"
               end
               className={({ isActive }) =>
-                isActive ? "navigation-link active" : "navigation-link"
+                isActive
+                  ? "app-sidebar__link app-sidebar__link--active"
+                  : "app-sidebar__link"
               }
             >
               Home
@@ -21,7 +25,9 @@ export function Sidebar() {
             <NavLink
               to="/pokemon"
               className={({ isActive }) =>
-                isActive ? "navigation-link active" : "navigation-link"
+                isActive
+                  ? "app-sidebar__link app-sidebar__link--active"
+                  : "app-sidebar__link"
               }
             >
               Pokémon

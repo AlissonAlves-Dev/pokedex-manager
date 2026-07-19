@@ -4,20 +4,22 @@ import { Header } from "../../shared/components/layout/Header";
 import { Sidebar } from "../../shared/components/layout/Sidebar";
 import { Footer } from "../../shared/components/layout/Footer";
 
+import "./MainLayout.css";
+
 export function MainLayout() {
   return (
-    <>
+    <div className="app-layout">
       <Header />
 
-      <div>
+      <div className="app-layout__body">
         <Sidebar />
 
-        <main>
+        <main className="app-layout__content">
           <Outlet />
         </main>
       </div>
 
       <Footer />
-    </>
+    </div>
   );
 }
