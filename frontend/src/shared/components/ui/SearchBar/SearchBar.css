@@ -1,0 +1,12 @@
+.search-bar {
+  display: flex;
+  align-items: stretch;
+  gap: var(--spacing-sm);
+
+  width: 100%;
+  max-width: 40rem;
+}
+
+.search-bar .input {
+  flex: 1;
+}

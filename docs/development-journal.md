@@ -162,3 +162,33 @@ Dar início à implementação da **Sprint 1 – Frontend Foundation**, estrutur
 Esta sessão marcou o início efetivo da implementação do frontend do PokéDex Manager. Além da implementação do sistema de roteamento, foi realizado um estudo aprofundado sobre o funcionamento interno do React Router, consolidando conceitos como SPA, rotas aninhadas, `BrowserRouter`, `Routes`, `Route`, `Outlet`, `Link`, `NavLink` e _Route Params_. Todo o desenvolvimento foi realizado priorizando a compreensão dos conceitos antes da implementação prática.
 
 ---
+
+## 2026/07/19
+
+### Objetivo
+
+Dar início à primeira funcionalidade da aplicação, integrando o frontend com a PokéAPI e estruturando a arquitetura de acesso a dados utilizando uma camada de serviços, modelos de domínio e hooks personalizados.
+
+### Atividades realizadas
+
+- Definição da estratégia de desacoplamento entre a PokéAPI e a aplicação, optando pela utilização de modelos próprios de domínio em vez de depender diretamente da estrutura da API.
+- Criação dos modelos de domínio `Pokemon` e `PokemonType`, representando apenas os dados relevantes para a aplicação.
+- Criação dos modelos de resposta da PokéAPI (`PokemonApiListResponse` e `PokemonApiDetailResponse`) para garantir tipagem segura na integração.
+- Implementação do `PokemonService`, centralizando toda a comunicação com a PokéAPI.
+- Implementação da camada de mapeamento (_Mapper_), convertendo a resposta da API para o modelo interno da aplicação.
+- Organização da arquitetura da feature **Pokedex** em camadas (`types`, `services`, `hooks` e `components`).
+- Refatoração do componente `TypeBadge` para reutilizar o tipo `PokemonType`, eliminando duplicação e adotando o princípio de **Single Source of Truth (SSOT)**.
+- Implementação do hook `usePokemonList`, responsável pelo gerenciamento dos estados de carregamento, erro e dados.
+- Estruturação do fluxo de carregamento utilizando `useEffect`, `async/await`, `try/catch/finally` e tratamento tipado de erros.
+- Validação do comportamento do **React Strict Mode** durante o desenvolvimento, identificando a duplicação das requisições como comportamento esperado e registrando a implementação futura de `AbortController` como melhoria técnica.
+- Criação do componente `PokemonCard`, responsável pela apresentação visual dos Pokémon utilizando os componentes reutilizáveis do Design System.
+- Implementação da renderização dos tipos utilizando `TypeBadge`, exibição da artwork oficial da PokéAPI e tratamento para imagens indisponíveis.
+- Criação do componente `PokemonGrid`, responsável pela organização dos cards utilizando um layout responsivo com **CSS Grid**.
+- Implementação da primeira listagem funcional da aplicação, exibindo os 20 primeiros Pokémon obtidos diretamente da PokéAPI.
+- Validação de todos os componentes e funcionalidades implementadas por meio de testes funcionais, `npm run lint` e `npm run build`.
+
+### Observações
+
+Esta sessão marcou a conclusão da primeira funcionalidade do PokéDex Manager com consumo de dados reais da PokéAPI. Além da implementação, foram consolidados conceitos importantes relacionados à separação entre modelos de domínio e integração, arquitetura em camadas, baixo acoplamento, **Single Source of Truth (SSOT)**, hooks personalizados e boas práticas de componentização em React. Ao final da sessão, a aplicação passou a exibir, de forma responsiva, os 20 primeiros Pokémon utilizando a arquitetura definida para o projeto.
+
+---

@@ -1,0 +1,96 @@
+.type-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  width: fit-content;
+  min-height: 1.5rem;
+  padding: var(--spacing-xs) var(--spacing-sm);
+
+  color: #ffffff;
+
+  font-size: 0.75rem;
+  font-weight: 600;
+  line-height: 1;
+
+  border: 1px solid rgb(0 0 0 / 10%);
+  border-radius: 999px;
+}
+
+.type-badge--normal {
+  background-color: #a8a77a;
+}
+
+.type-badge--fire {
+  background-color: #ee8130;
+}
+
+.type-badge--water {
+  background-color: #6390f0;
+}
+
+.type-badge--electric {
+  color: #3f3f3f;
+  background-color: #f7d02c;
+}
+
+.type-badge--grass {
+  background-color: #7ac74c;
+}
+
+.type-badge--ice {
+  color: #3f3f3f;
+  background-color: #96d9d6;
+}
+
+.type-badge--fighting {
+  background-color: #c22e28;
+}
+
+.type-badge--poison {
+  background-color: #a33ea1;
+}
+
+.type-badge--ground {
+  color: #3f3f3f;
+  background-color: #e2bf65;
+}
+
+.type-badge--flying {
+  background-color: #a98ff3;
+}
+
+.type-badge--psychic {
+  background-color: #f95587;
+}
+
+.type-badge--bug {
+  color: #3f3f3f;
+  background-color: #a6b91a;
+}
+
+.type-badge--rock {
+  background-color: #b6a136;
+}
+
+.type-badge--ghost {
+  background-color: #735797;
+}
+
+.type-badge--dragon {
+  background-color: #6f35fc;
+}
+
+.type-badge--dark {
+  background-color: #705746;
+}
+
+.type-badge--steel {
+  color: #3f3f3f;
+  background-color: #b7b7ce;
+}
+
+.type-badge--fairy {
+  color: #3f3f3f;
+  background-color: #d685ad;
+}
