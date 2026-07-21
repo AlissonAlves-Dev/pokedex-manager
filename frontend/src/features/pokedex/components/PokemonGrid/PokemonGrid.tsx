@@ -1,11 +1,10 @@
-import type { Pokemon } from "../../types/pokemon";
-
+import type { PokemonSummary } from "../../types/pokemon";
 import { PokemonCard } from "../PokemonCard/PokemonCard";
 
 import "./PokemonGrid.css";
 
 type PokemonGridProps = {
-  pokemonList: Pokemon[];
+  pokemonList: PokemonSummary[];
 };
 
 export function PokemonGrid({ pokemonList }: PokemonGridProps) {

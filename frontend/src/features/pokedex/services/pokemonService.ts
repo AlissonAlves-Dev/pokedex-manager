@@ -1,4 +1,10 @@
-import type { Pokemon, PokemonType } from "../types/pokemon";
+import {
+  mapPokemonApiToDetails,
+  mapPokemonApiToSummary,
+} from "../mappers/pokemonMapper";
+
+import type { PokemonDetails, PokemonSummary } from "../types/pokemon";
+
 import type {
   PokemonApiDetailResponse,
   PokemonApiListResponse,
@@ -6,18 +12,9 @@ import type {
 
 const POKE_API_BASE_URL = "https://pokeapi.co/api/v2";
 
-function mapPokemonDetailToPokemon(pokemon: PokemonApiDetailResponse): Pokemon {
-  return {
-    id: pokemon.id,
-    name: pokemon.name,
-    imageUrl: pokemon.sprites.other["official-artwork"].front_default ?? "",
-    types: pokemon.types
-      .sort((firstType, secondType) => firstType.slot - secondType.slot)
-      .map(({ type }) => type.name as PokemonType),
-  };
-}
-
-async function getPokemonDetails(url: string): Promise<Pokemon> {
+async function fetchPokemonDetails(
+  url: string,
+): Promise<PokemonApiDetailResponse> {
   const response = await fetch(url);
 
   if (!response.ok) {
@@ -26,13 +23,19 @@ async function getPokemonDetails(url: string): Promise<Pokemon> {
 
   const data: PokemonApiDetailResponse = await response.json();
 
-  return mapPokemonDetailToPokemon(data);
+  return data;
+}
+
+async function getPokemonSummary(url: string): Promise<PokemonSummary> {
+  const pokemonApi = await fetchPokemonDetails(url);
+
+  return mapPokemonApiToSummary(pokemonApi);
 }
 
 export async function getPokemonList(
   limit = 20,
   offset = 0,
-): Promise<Pokemon[]> {
+): Promise<PokemonSummary[]> {
   const response = await fetch(
     `${POKE_API_BASE_URL}/pokemon?limit=${limit}&offset=${offset}`,
   );
@@ -44,6 +47,16 @@ export async function getPokemonList(
   const data: PokemonApiListResponse = await response.json();
 
   return Promise.all(
-    data.results.map((pokemon) => getPokemonDetails(pokemon.url)),
+    data.results.map((pokemon) => getPokemonSummary(pokemon.url)),
   );
+}
+
+export async function getPokemonById(
+  pokemonId: number,
+): Promise<PokemonDetails> {
+  const pokemonApi = await fetchPokemonDetails(
+    `${POKE_API_BASE_URL}/pokemon/${pokemonId}`,
+  );
+
+  return mapPokemonApiToDetails(pokemonApi);
 }

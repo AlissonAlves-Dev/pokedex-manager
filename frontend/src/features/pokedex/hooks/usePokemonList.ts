@@ -1,16 +1,16 @@
 import { useEffect, useState } from "react";
 
 import { getPokemonList } from "../services/pokemonService";
-import type { Pokemon } from "../types/pokemon";
+import type { PokemonSummary } from "../types/pokemon";
 
 type UsePokemonListResult = {
-  pokemonList: Pokemon[];
+  pokemonList: PokemonSummary[];
   isLoading: boolean;
   error: string | null;
 };
 
 export function usePokemonList(limit = 20, offset = 0): UsePokemonListResult {
-  const [pokemonList, setPokemonList] = useState<Pokemon[]>([]);
+  const [pokemonList, setPokemonList] = useState<PokemonSummary[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 

@@ -1,7 +1,19 @@
 .pokemon-card {
   height: 100%;
 
-  align-items: stretch;
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.pokemon-card__link:hover .pokemon-card {
+  transform: translateY(-0.25rem);
+}
+
+.pokemon-card__link:focus-visible {
+  border-radius: var(--border-radius-md);
+  outline: 0.125rem solid var(--color-primary);
+  outline-offset: 0.25rem;
 }
 
 .pokemon-card__header {
@@ -64,4 +76,9 @@
   font-weight: 700;
   text-align: center;
   text-transform: capitalize;
+}
+
+.pokemon-card__link {
+  color: inherit;
+  text-decoration: none;
 }

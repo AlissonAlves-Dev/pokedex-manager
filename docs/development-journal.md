@@ -192,3 +192,38 @@ Dar início à primeira funcionalidade da aplicação, integrando o frontend com
 Esta sessão marcou a conclusão da primeira funcionalidade do PokéDex Manager com consumo de dados reais da PokéAPI. Além da implementação, foram consolidados conceitos importantes relacionados à separação entre modelos de domínio e integração, arquitetura em camadas, baixo acoplamento, **Single Source of Truth (SSOT)**, hooks personalizados e boas práticas de componentização em React. Ao final da sessão, a aplicação passou a exibir, de forma responsiva, os 20 primeiros Pokémon utilizando a arquitetura definida para o projeto.
 
 ---
+
+## 2026/07/20
+
+### Objetivo
+
+Concluir a primeira funcionalidade da Pokédex, iniciando a implementação da página de detalhes dos Pokémon e evoluindo a arquitetura da aplicação para suportar modelos distintos de listagem e detalhes.
+
+### Atividades realizadas
+
+- Conclusão da funcionalidade de pesquisa por nome.
+- Implementação do botão **"Limpar pesquisa"**.
+- Exibição da quantidade de resultados encontrados.
+- Implementação do estado vazio para pesquisas sem resultados.
+- Refatoração do modelo de domínio da Pokédex, separando o antigo modelo `Pokemon` em `PokemonSummary` e `PokemonDetails`.
+- Criação dos modelos auxiliares `PokemonAbility` e `PokemonStat`.
+- Criação da pasta `mappers` na feature `pokedex`.
+- Extração da lógica de transformação da PokéAPI do `PokemonService` para uma camada dedicada de mapeamento.
+- Implementação dos mappers `mapPokemonApiToSummary` e `mapPokemonApiToDetails`.
+- Refatoração do `PokemonService`, reutilizando a busca de dados da PokéAPI para gerar diferentes modelos de domínio.
+- Implementação do método `getPokemonById()`.
+- Criação do hook `usePokemonDetails`, responsável pela obtenção dos dados, gerenciamento dos estados de carregamento e erro, validação do parâmetro da rota e disponibilização dos dados para a interface.
+- Refatoração do `usePokemonDetails` para eliminar atualizações síncronas de estado dentro do `useEffect`.
+- Implementação da primeira versão funcional da página de detalhes dos Pokémon.
+- Integração da página de detalhes com a rota dinâmica utilizando o parâmetro `pokemonId`.
+- Implementação dos estados de carregamento, erro e sucesso na tela de detalhes.
+- Exibição das informações reais obtidas da PokéAPI na página de detalhes.
+- Início da componentização da tela de detalhes através dos componentes `PokemonDetailsHeader` e `PokemonPhysicalInfo`.
+- Implementação da exibição de altura e peso, realizando a conversão das unidades da PokéAPI para metros e quilogramas.
+- Consolidação da organização da feature `pokedex`, separando as responsabilidades entre `components`, `hooks`, `mappers`, `services` e `types`.
+
+### Observações
+
+Esta sessão marcou a conclusão da primeira funcionalidade da Pokédex e a evolução da arquitetura para suportar modelos específicos de listagem e detalhes. A separação entre as camadas de serviço, mapeamento, hooks e componentes tornou a aplicação mais organizada, escalável e preparada para a implementação das próximas funcionalidades, mantendo cada responsabilidade isolada e facilitando futuras manutenções.
+
+---
