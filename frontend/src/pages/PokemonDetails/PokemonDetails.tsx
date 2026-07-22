@@ -7,7 +7,9 @@ import { ErrorState } from "../../shared/components/feedback/ErrorState/ErrorSta
 import { PageContainer } from "../../shared/components/ui/PageContainer/PageContainer";
 import { PageHeader } from "../../shared/components/ui/PageHeader/PageHeader";
 import { Spinner } from "../../shared/components/ui/Spinner/Spinner";
-
+import { PokemonAbilities } from "../../features/pokedex/components/PokemonAbilities/PokemonAbilities";
+import { PokemonStats } from "../../features/pokedex/components/PokemonStats/PokemonStats";
+import { BackButton } from "../../shared/components/BackButton/BackButton";
 import "./PokemonDetails.css";
 
 export function PokemonDetails() {
@@ -26,9 +28,11 @@ export function PokemonDetails() {
 
   return (
     <PageContainer>
+      <BackButton label="Voltar para Pokédex" />
+
       <PageHeader
         title="Detalhes do Pokémon"
-        description="Consulte as principais informações do Pokémon selecionado."
+        description="Informações gerais, habilidades e estatísticas base."
       />
 
       {isLoading && (
@@ -46,10 +50,16 @@ export function PokemonDetails() {
         <div className="pokemon-details">
           <PokemonDetailsHeader pokemon={pokemon} />
 
-          <PokemonPhysicalInfo
-            height={pokemon.height}
-            weight={pokemon.weight}
-          />
+          <div className="pokemon-details__overview">
+            <PokemonPhysicalInfo
+              height={pokemon.height}
+              weight={pokemon.weight}
+            />
+
+            <PokemonAbilities abilities={pokemon.abilities} />
+          </div>
+
+          <PokemonStats stats={pokemon.stats} />
         </div>
       )}
     </PageContainer>

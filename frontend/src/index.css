@@ -38,7 +38,9 @@
   --shadow-md: 0 4px 6px rgb(0 0 0 / 10%);
 }
 
-* {
+*,
+*::before,
+*::after {
   box-sizing: border-box;
 }
 
@@ -65,4 +67,15 @@ select {
 
 a {
   color: inherit;
+}
+:where(button, a, input):focus-visible {
+  outline: 3px solid var(--color-primary);
+  outline-offset: 2px;
+}
+
+button {
+  cursor: pointer;
+
+  cursor: not-allowed;
+  opacity: 0.6;
 }

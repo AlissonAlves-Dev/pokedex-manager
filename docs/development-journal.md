@@ -227,3 +227,35 @@ Concluir a primeira funcionalidade da Pokédex, iniciando a implementação da p
 Esta sessão marcou a conclusão da primeira funcionalidade da Pokédex e a evolução da arquitetura para suportar modelos específicos de listagem e detalhes. A separação entre as camadas de serviço, mapeamento, hooks e componentes tornou a aplicação mais organizada, escalável e preparada para a implementação das próximas funcionalidades, mantendo cada responsabilidade isolada e facilitando futuras manutenções.
 
 ---
+
+## 2026/07/21
+
+### Objetivo
+
+Realizar o refinamento visual (**UI Polish**) da página de detalhes da Pokédex, melhorando a experiência do usuário, a organização dos componentes e preparando a Sprint 1 para o Code Review.
+
+### Atividades realizadas
+
+- Refatoração do componente `PokemonStats`.
+- Extração da responsabilidade de renderização para o novo componente `PokemonStatItem`, aplicando o princípio da Responsabilidade Única (SRP).
+- Criação da estrutura `STAT_METADATA`, centralizando rótulos, descrições e configurações das estatísticas.
+- Reformulação completa da apresentação das estatísticas base.
+- Criação de cards individuais para cada atributo.
+- Inclusão de descrições explicativas para cada estatística.
+- Destaque visual dos valores por meio de badges.
+- Implementação de barras de progresso coloridas, exibindo tanto a parte preenchida quanto a parte restante de cada estatística.
+- Ajustes de animações, espaçamentos e acabamento visual da seção de estatísticas.
+- Revisão da responsividade da página de detalhes em diferentes resoluções.
+- Identificação e correção de problemas de layout em dispositivos com larguras reduzidas.
+- Refinamento do cabeçalho da página de detalhes.
+- Definição do card principal ocupando toda a largura disponível, com o conteúdo centralizado internamente.
+- Ajustes de alinhamento e espaçamento para melhorar a apresentação das informações principais do Pokémon.
+- Revisão da consistência visual da página de detalhes, padronizando espaçamentos, hierarquia visual e organização dos componentes.
+- Definição da estratégia para ocultar a `Sidebar` em dispositivos móveis, preparando a arquitetura para a futura implementação de um menu responsivo.
+- Definição do refinamento visual dos componentes `PokemonPhysicalInfo` e `PokemonAbilities` para uma Sprint futura, mantendo o escopo da Sprint 1 sob controle.
+
+### Observações
+
+Esta sessão foi dedicada ao refinamento visual da página de detalhes da Pokédex, priorizando usabilidade, consistência visual e organização da interface. Além das melhorias na experiência do usuário, foram realizadas refatorações que reduziram o acoplamento entre componentes e centralizaram configurações compartilhadas, tornando a arquitetura mais organizada e preparada para futuras evoluções. Ao final da sessão, a Sprint 1 ficou praticamente concluída, restando apenas ajustes finais antes do Code Review e do encerramento oficial da sprint.
+
+---

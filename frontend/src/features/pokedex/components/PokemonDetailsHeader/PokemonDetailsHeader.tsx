@@ -17,7 +17,7 @@ export function PokemonDetailsHeader({ pokemon }: PokemonDetailsHeaderProps) {
           <img
             className="pokemon-details-header__image"
             src={pokemon.imageUrl}
-            alt={pokemon.name}
+            alt={`Imagem de ${pokemon.name}`}
           />
         ) : (
           <span className="pokemon-details-header__image-placeholder">

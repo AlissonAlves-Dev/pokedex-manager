@@ -1,33 +1,57 @@
 .pokemon-details-header {
   display: grid;
-  grid-template-columns: minmax(12rem, 20rem) 1fr;
-  gap: 2rem;
+  grid-template-columns: auto auto;
+  gap: 4rem;
   align-items: center;
+
+  width: 100%;
+
+  padding: 2rem;
+
+  background-color: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: 1rem;
 }
 
 .pokemon-details-header__image-container {
   display: flex;
   align-items: center;
   justify-content: center;
-
-  min-height: 18rem;
 }
 
 .pokemon-details-header__image {
+  display: block;
+
   width: 100%;
+  max-width: 20rem;
   height: auto;
+  max-height: 20rem;
+
   object-fit: contain;
 }
 
 .pokemon-details-header__image-placeholder {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  width: 100%;
+  min-height: 14rem;
+  padding: 1rem;
+
   color: var(--color-text-secondary);
   text-align: center;
+
+  border: 1px dashed var(--color-border);
+  border-radius: 0.75rem;
 }
 
 .pokemon-details-header__content {
   display: flex;
   flex-direction: column;
-  gap: 0.75rem;
+  justify-content: center;
+
+  min-width: 26rem;
 }
 
 .pokemon-details-header__number {
@@ -40,7 +64,10 @@
 .pokemon-details-header__name {
   margin: 0;
 
-  font-size: 2rem;
+  overflow-wrap: anywhere;
+
+  font-size: clamp(2rem, 5vw, 3.5rem);
+  line-height: 1.1;
   text-transform: capitalize;
 }
 
@@ -53,10 +80,41 @@
 @media (max-width: 48rem) {
   .pokemon-details-header {
     grid-template-columns: 1fr;
+    gap: 1.5rem;
+
+    padding: 1.5rem;
+  }
+
+  .pokemon-details-header__image-container {
+    min-height: 14rem;
+  }
+
+  .pokemon-details-header__image {
+    max-width: 16rem;
+    max-height: 16rem;
   }
 
   .pokemon-details-header__content {
     align-items: center;
     text-align: center;
+  }
+
+  .pokemon-details-header__types {
+    justify-content: center;
+  }
+}
+
+@media (max-width: 30rem) {
+  .pokemon-details-header {
+    padding: 1rem;
+  }
+
+  .pokemon-details-header__image-container {
+    min-height: 11rem;
+  }
+
+  .pokemon-details-header__image {
+    max-width: 13rem;
+    max-height: 13rem;
   }
 }
