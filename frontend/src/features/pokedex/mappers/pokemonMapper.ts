@@ -1,10 +1,21 @@
-import type {
-  PokemonDetails,
-  PokemonSummary,
-  PokemonType,
-} from "../types/pokemon";
+import { isPokemonType } from "../types/pokemon";
 
+import type { PokemonDetails, PokemonSummary } from "../types/pokemon";
 import type { PokemonApiDetailResponse } from "../types/pokemonApi";
+
+function mapPokemonTypes(
+  pokemon: PokemonApiDetailResponse,
+): PokemonSummary["types"] {
+  return [...pokemon.types]
+    .sort((firstType, secondType) => firstType.slot - secondType.slot)
+    .map(({ type }) => {
+      if (!isPokemonType(type.name)) {
+        throw new Error(`Tipo de Pokémon desconhecido: ${type.name}`);
+      }
+
+      return type.name;
+    });
+}
 
 export function mapPokemonApiToSummary(
   pokemon: PokemonApiDetailResponse,
@@ -13,9 +24,7 @@ export function mapPokemonApiToSummary(
     id: pokemon.id,
     name: pokemon.name,
     imageUrl: pokemon.sprites.other["official-artwork"].front_default ?? "",
-    types: [...pokemon.types]
-      .sort((firstType, secondType) => firstType.slot - secondType.slot)
-      .map(({ type }) => type.name as PokemonType),
+    types: mapPokemonTypes(pokemon),
   };
 }
 
@@ -27,9 +36,7 @@ export function mapPokemonApiToDetails(
     name: pokemon.name,
     imageUrl: pokemon.sprites.other["official-artwork"].front_default ?? "",
 
-    types: [...pokemon.types]
-      .sort((firstType, secondType) => firstType.slot - secondType.slot)
-      .map(({ type }) => type.name as PokemonType),
+    types: mapPokemonTypes(pokemon),
 
     height: pokemon.height,
     weight: pokemon.weight,

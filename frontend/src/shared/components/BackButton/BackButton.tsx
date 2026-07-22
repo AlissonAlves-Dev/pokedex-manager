@@ -6,18 +6,24 @@ import "./BackButton.css";
 
 type BackButtonProps = {
   label?: string;
+  to?: string;
 };
 
-export function BackButton({ label = "Voltar" }: BackButtonProps) {
+export function BackButton({ label = "Voltar", to }: BackButtonProps) {
   const navigate = useNavigate();
 
   function handleBack() {
+    if (to) {
+      navigate(to);
+      return;
+    }
+
     navigate(-1);
   }
 
   return (
     <div className="back-button">
-      <Button variant="secondary" onClick={handleBack}>
+      <Button type="button" variant="secondary" onClick={handleBack}>
         ← {label}
       </Button>
     </div>

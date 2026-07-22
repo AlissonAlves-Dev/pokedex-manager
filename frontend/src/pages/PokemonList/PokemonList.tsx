@@ -28,10 +28,19 @@ export function PokemonList() {
   }
 
   const normalizedSearchQuery = searchQuery.toLowerCase();
+  const normalizedNumberQuery = normalizedSearchQuery.replace(/^#/, "");
+  const isNumberSearch = /^\d+$/.test(normalizedNumberQuery);
 
-  const filteredPokemonList = pokemonList.filter((pokemon) =>
-    pokemon.name.toLowerCase().includes(normalizedSearchQuery),
-  );
+  const filteredPokemonList = pokemonList.filter((pokemon) => {
+    const matchesName = pokemon.name
+      .toLowerCase()
+      .includes(normalizedSearchQuery);
+
+    const matchesId =
+      isNumberSearch && pokemon.id === Number(normalizedNumberQuery);
+
+    return matchesName || matchesId;
+  });
 
   const resultCount = filteredPokemonList.length;
 
@@ -52,14 +61,18 @@ export function PokemonList() {
 
       <SearchBar
         value={searchInput}
-        placeholder="Pesquise pelo nome do Pokémon"
+        placeholder="Pesquise pelo nome ou número"
         buttonLabel="Pesquisar"
         onChange={setSearchInput}
         onSubmit={handleSearch}
       />
 
       {searchQuery && (
-        <Button variant="secondary" onClick={handleClearSearch}>
+        <Button
+          className="pokemon-list__clear-search"
+          variant="secondary"
+          onClick={handleClearSearch}
+        >
           Limpar pesquisa
         </Button>
       )}
@@ -84,7 +97,7 @@ export function PokemonList() {
         />
       )}
 
-      {!isLoading && !error && pokemonList.length > 0 && (
+      {!isLoading && !error && filteredPokemonList.length > 0 && (
         <PokemonGrid pokemonList={filteredPokemonList} />
       )}
     </PageContainer>

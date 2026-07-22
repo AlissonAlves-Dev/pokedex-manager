@@ -28,7 +28,7 @@ export function PokemonDetails() {
 
   return (
     <PageContainer>
-      <BackButton label="Voltar para Pokédex" />
+      <BackButton label="Voltar para Pokédex" to="/pokemon" />
 
       <PageHeader
         title="Detalhes do Pokémon"
