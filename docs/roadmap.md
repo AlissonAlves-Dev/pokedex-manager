@@ -1,22 +1,23 @@
 # Roadmap
 
-**Project:** PokéDex Manager *(Working Title)*
+**Project:** PokéDex Manager _(Working Title)_
 
 **Document:** Roadmap
 
-**Version:** 0.1.0
+**Version:** 0.1.1
 
 **Status:** Draft
 
-**Last Updated:** 2026-07-13
+**Last Updated:** 2026-07-22
 
 ---
 
 ## Revision History
 
-| Version | Date | Description |
-|----------|------------|--------------------------------|
-| 0.1.0 | 2026-07-13 | Initial project roadmap |
+| Version | Date       | Description                                         |
+| ------- | ---------- | --------------------------------------------------- |
+| 0.1.0   | 2026-07-13 | Initial project roadmap                             |
+| 0.1.1   | 2026-07-22 | Updated Sprint 1 and Milestone 1 development status |
 
 ---
 
@@ -96,23 +97,33 @@ flowchart TD
 
 ### Milestone Status
 
-| Icon | Status | Description |
-|------|---------|-------------|
-| ⚪ | Planned | The milestone is planned but development has not started. |
-| 🟡 | In Progress | The milestone is currently under development. |
-| 🟢 | Completed | The milestone has been successfully completed and released. |
+| Icon | Status      | Description                                                 |
+| ---- | ----------- | ----------------------------------------------------------- |
+| ⚪   | Planned     | The milestone is planned but development has not started.   |
+| 🟡   | In Progress | The milestone is currently under development.               |
+| 🟢   | Completed   | The milestone has been successfully completed and released. |
 
 ---
 
 ### Current Progress
 
-| Milestone | Theme | Status |
-|-----------|-------|--------|
+| Milestone   | Theme       | Status         |
+| ----------- | ----------- | -------------- |
 | Milestone 1 | 🔍 Discover | 🟡 In Progress |
-| Milestone 2 | 📦 Collect | ⚪ Planned |
-| Milestone 3 | ⚙️ Manage | ⚪ Planned |
-| Milestone 4 | 🧠 Analyze | ⚪ Planned |
-| Milestone 5 | 🌎 Connect | ⚪ Planned |
+| Milestone 2 | 📦 Collect  | ⚪ Planned     |
+| Milestone 3 | ⚙️ Manage   | ⚪ Planned     |
+| Milestone 4 | 🧠 Analyze  | ⚪ Planned     |
+| Milestone 5 | 🌎 Connect  | ⚪ Planned     |
+
+---
+
+### Sprint Progress
+
+| Sprint   | Scope                    | Status       | Result                                                                                                   |
+| -------- | ------------------------ | ------------ | -------------------------------------------------------------------------------------------------------- |
+| Sprint 0 | Project Setup            | 🟢 Completed | Monorepo, frontend foundation, development tools, code quality standards, and project configuration.     |
+| Sprint 1 | Frontend Foundation      | 🟢 Completed | Routing, application layout, Design System, PokéAPI integration, listing, search, details, and feedback. |
+| Sprint 2 | Milestone 1 Continuation | ⚪ Planned   | UI/UX refinement, navigation restructuring, remaining MVP information, and technical improvements.       |
 
 ---
 
@@ -126,12 +137,12 @@ The objective is to deliver complete user-facing capabilities while preserving t
 
 Each milestone contains the following sections:
 
-| Section | Description |
-|----------|-------------|
-| Goal | Defines the primary objective of the milestone. |
-| Versions | Lists the project versions included in the milestone. |
-| Features | Describes the major functionality introduced. |
-| Deliverables | Specifies the expected outcome of the milestone. |
+| Section          | Description                                            |
+| ---------------- | ------------------------------------------------------ |
+| Goal             | Defines the primary objective of the milestone.        |
+| Versions         | Lists the project versions included in the milestone.  |
+| Features         | Describes the major functionality introduced.          |
+| Deliverables     | Specifies the expected outcome of the milestone.       |
 | Success Criteria | Defines when the milestone can be considered complete. |
 
 ---
@@ -182,6 +193,30 @@ Deliver a complete Pokédex experience without requiring user authentication or 
 - Display evolution chain.
 - Display available forms.
 - Display Pokédex description.
+
+---
+
+### Current Delivery Status
+
+| Deliverable                      | Status         | Notes                                                                     |
+| -------------------------------- | -------------- | ------------------------------------------------------------------------- |
+| Search Pokémon by name           | 🟢 Completed   | Search is currently applied to the loaded Pokémon list.                   |
+| Search Pokémon by Pokédex number | 🟢 Completed   | Supports numeric searches such as `1`, `001`, and `#001`.                 |
+| Browse available Pokémon         | 🟡 In Progress | The initial set is available; pagination and broader loading are pending. |
+| Display official artwork         | 🟢 Completed   | Official artwork is displayed in listing and details.                     |
+| Display sprites                  | ⚪ Planned     | Not implemented yet.                                                      |
+| Display Pokémon types            | 🟢 Completed   | Types are validated and displayed through TypeBadge.                      |
+| Display base stats               | 🟢 Completed   | Base stats include accessible progress indicators.                        |
+| Display abilities                | 🟢 Completed   | Regular and hidden abilities are displayed.                               |
+| Display evolution chain          | ⚪ Planned     | Not implemented yet.                                                      |
+| Display available forms          | ⚪ Planned     | Not implemented yet.                                                      |
+| Display Pokédex description      | ⚪ Planned     | Not implemented yet.                                                      |
+| Responsive interface             | 🟢 Completed   | Validated from 320px through desktop resolutions.                         |
+| Loading, empty, and error states | 🟢 Completed   | Includes request cancellation and retry support.                          |
+
+> The search implemented during Sprint 1 operates on the Pokémon currently
+> loaded by the application. Full-dataset search, pagination, or API-driven
+> search will be addressed during the continuation of Milestone 1.
 
 ---
 
