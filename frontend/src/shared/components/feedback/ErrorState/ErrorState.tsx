@@ -14,7 +14,7 @@ export function ErrorState({
   onRetry,
 }: ErrorStateProps) {
   return (
-    <section className="error-state" role="alert" aria-live="assertive">
+    <section className="error-state" role="alert">
       <div className="error-state__icon" aria-hidden="true">
         !
       </div>

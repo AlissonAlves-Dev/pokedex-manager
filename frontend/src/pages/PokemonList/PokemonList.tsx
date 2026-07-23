@@ -11,7 +11,7 @@ import { Button } from "../../shared/components/ui/Button/Button";
 import "./PokemonList.css";
 
 export function PokemonList() {
-  const { pokemonList, isLoading, error } = usePokemonList();
+  const { pokemonList, isLoading, error, retry } = usePokemonList();
 
   const [searchInput, setSearchInput] = useState("");
   const [searchQuery, setSearchQuery] = useState("");
@@ -83,7 +83,13 @@ export function PokemonList() {
 
       {isLoading && <Spinner size="large" label="Carregando Pokémon..." />}
 
-      {error && <ErrorState title="Erro ao carregar Pokémon" message={error} />}
+      {error && (
+        <ErrorState
+          title="Erro ao carregar Pokémon"
+          message={error}
+          onRetry={retry}
+        />
+      )}
 
       {!isLoading && !error && filteredPokemonList.length === 0 && (
         <EmptyState

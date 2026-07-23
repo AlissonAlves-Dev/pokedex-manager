@@ -1,4 +1,5 @@
 .app-sidebar {
+  flex: 0 0 15rem;
   width: 15rem;
   padding: var(--spacing-lg) var(--spacing-md);
 
@@ -41,4 +42,10 @@
   font-weight: 600;
 
   background-color: rgb(220 38 38 / 10%);
+}
+
+@media (max-width: 48rem) {
+  .app-sidebar {
+    display: none;
+  }
 }

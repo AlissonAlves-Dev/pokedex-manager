@@ -9,4 +9,16 @@
 
 .search-bar .input {
   flex: 1;
+
+  min-width: 0;
+}
+
+@media (max-width: 30rem) {
+  .search-bar {
+    flex-direction: column;
+  }
+
+  .search-bar .button {
+    width: 100%;
+  }
 }

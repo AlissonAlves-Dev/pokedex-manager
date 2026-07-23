@@ -13,12 +13,13 @@ export function Button({
   children,
   variant = "primary",
   className = "",
+  type = "button",
   ...props
 }: ButtonProps) {
   const buttonClassName = `button button--${variant} ${className}`.trim();
 
   return (
-    <button className={buttonClassName} {...props}>
+    <button type={type} className={buttonClassName} {...props}>
       {children}
     </button>
   );

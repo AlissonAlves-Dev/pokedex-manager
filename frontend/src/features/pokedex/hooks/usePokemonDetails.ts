@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 
 import { getPokemonById } from "../services/pokemonService";
 import type { PokemonDetails } from "../types/pokemon";
@@ -7,10 +7,12 @@ type UsePokemonDetailsReturn = {
   pokemon: PokemonDetails | null;
   isLoading: boolean;
   error: string | null;
+  retry: () => void;
 };
 
 type PokemonDetailsState = {
   pokemonId: number;
+  requestKey: number;
   pokemon: PokemonDetails | null;
   error: string | null;
 };
@@ -19,33 +21,42 @@ export function usePokemonDetails(
   pokemonId: number | null,
 ): UsePokemonDetailsReturn {
   const [state, setState] = useState<PokemonDetailsState | null>(null);
+  const [requestKey, setRequestKey] = useState(0);
+
+  const retry = useCallback(() => {
+    setRequestKey((currentKey) => currentKey + 1);
+  }, []);
 
   useEffect(() => {
     if (pokemonId === null) {
       return;
     }
 
+    const controller = new AbortController();
     const currentPokemonId = pokemonId;
-    let isCancelled = false;
+    const currentRequestKey = requestKey;
 
     async function loadPokemonDetails() {
       try {
-        const pokemonDetails = await getPokemonById(currentPokemonId);
+        const pokemonDetails = await getPokemonById(
+          currentPokemonId,
+          controller.signal,
+        );
 
-        if (!isCancelled) {
-          setState({
-            pokemonId: currentPokemonId,
-            pokemon: pokemonDetails,
-            error: null,
-          });
-        }
+        setState({
+          pokemonId: currentPokemonId,
+          requestKey: currentRequestKey,
+          pokemon: pokemonDetails,
+          error: null,
+        });
       } catch (error) {
-        if (isCancelled) {
+        if (controller.signal.aborted) {
           return;
         }
 
         setState({
           pokemonId: currentPokemonId,
+          requestKey: currentRequestKey,
           pokemon: null,
           error:
             error instanceof Error
@@ -58,23 +69,26 @@ export function usePokemonDetails(
     void loadPokemonDetails();
 
     return () => {
-      isCancelled = true;
+      controller.abort();
     };
-  }, [pokemonId]);
+  }, [pokemonId, requestKey]);
 
   if (pokemonId === null) {
     return {
       pokemon: null,
       isLoading: false,
       error: "O identificador do Pokémon é inválido.",
+      retry,
     };
   }
 
-  const hasCurrentPokemon = state?.pokemonId === pokemonId;
+  const hasCurrentRequest =
+    state?.pokemonId === pokemonId && state.requestKey === requestKey;
 
   return {
-    pokemon: hasCurrentPokemon ? state.pokemon : null,
-    isLoading: !hasCurrentPokemon,
-    error: hasCurrentPokemon ? state.error : null,
+    pokemon: hasCurrentRequest ? state.pokemon : null,
+    isLoading: !hasCurrentRequest,
+    error: hasCurrentRequest ? state.error : null,
+    retry,
   };
 }

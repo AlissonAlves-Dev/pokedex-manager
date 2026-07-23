@@ -11,7 +11,7 @@
 }
 
 .pokemon-card__link:focus-visible {
-  border-radius: var(--border-radius-md);
+  border-radius: var(--radius-md);
   outline: 0.125rem solid var(--color-primary);
   outline-offset: 0.25rem;
 }

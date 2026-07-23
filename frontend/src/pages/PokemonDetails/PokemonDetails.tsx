@@ -24,7 +24,8 @@ export function PokemonDetails() {
       ? parsedPokemonId
       : null;
 
-  const { pokemon, isLoading, error } = usePokemonDetails(validPokemonId);
+  const { pokemon, isLoading, error, retry } =
+    usePokemonDetails(validPokemonId);
 
   return (
     <PageContainer>
@@ -43,6 +44,7 @@ export function PokemonDetails() {
         <ErrorState
           title="Não foi possível carregar o Pokémon"
           message={error}
+          onRetry={validPokemonId === null ? undefined : retry}
         />
       )}
 
