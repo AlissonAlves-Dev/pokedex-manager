@@ -259,3 +259,69 @@ Realizar o refinamento visual (**UI Polish**) da página de detalhes da Pokédex
 Esta sessão foi dedicada ao refinamento visual da página de detalhes da Pokédex, priorizando usabilidade, consistência visual e organização da interface. Além das melhorias na experiência do usuário, foram realizadas refatorações que reduziram o acoplamento entre componentes e centralizaram configurações compartilhadas, tornando a arquitetura mais organizada e preparada para futuras evoluções. Ao final da sessão, a Sprint 1 ficou praticamente concluída, restando apenas ajustes finais antes do Code Review e do encerramento oficial da sprint.
 
 ---
+
+## 2026/07/22
+
+### Objetivo
+
+Realizar o **Code Review da Sprint 1**, revisando tecnicamente a implementação, corrigindo problemas funcionais, estruturais, visuais, de responsividade, tipagem e acessibilidade antes da preparação do merge.
+
+### Atividades realizadas
+
+- Revisão das rotas e do `MainLayout`.
+- Validação da separação de responsabilidades entre páginas, componentes, hooks, serviços, mappers e modelos.
+- Redução de duplicação entre os modelos `PokemonSummary` e `PokemonDetails`.
+- Criação de uma fonte única para os tipos de Pokémon.
+- Implementação da validação segura dos tipos recebidos pela PokéAPI.
+- Remoção de casts inseguros na camada de mapeamento.
+- Transformação da marca do `Header` em link para a página inicial.
+- Definição de destinos explícitos para o componente `BackButton`.
+- Correção da navegação da página de detalhes para `/pokemon`.
+- Correção da navegação da página `NotFound` para `/`.
+- Implementação de um link de acessibilidade para permitir o salto direto ao conteúdo principal.
+- Remoção dos componentes demonstrativos do Design System da página inicial.
+- Criação de uma apresentação funcional do PokéDex Manager na página `Home`.
+- Inclusão de um CTA para acesso à Pokédex.
+- Correção do alinhamento entre o `PageHeader` e o card principal da página inicial.
+- Ampliação da pesquisa para aceitar nome e número do Pokémon.
+- Implementação de suporte aos formatos `1`, `001` e `#001`.
+- Correção da exibição do estado vazio da pesquisa.
+- Inclusão do botão para limpar a pesquisa.
+- Ajustes de espaçamento entre a busca, o contador de resultados e a listagem.
+- Implementação do cancelamento de requisições utilizando `AbortController`.
+- Prevenção de atualizações tardias de estado após o encerramento das requisições.
+- Inclusão de uma função de repetição nos hooks de carregamento de dados.
+- Ativação do botão **“Tentar novamente”** nas páginas.
+- Implementação de tratamento diferenciado para identificadores inválidos e falhas de rede.
+- Remoção do padding duplicado entre `MainLayout` e `PageContainer`.
+- Correção de overflow horizontal em resoluções reduzidas.
+- Ocultação da `Sidebar` em dispositivos móveis.
+- Ajuste da barra de pesquisa para empilhamento em telas estreitas.
+- Centralização do conteúdo principal do cabeçalho da página de detalhes.
+- Validação e correção do layout nas resoluções de `320px`, `375px`, `480px`, `768px`, `1024px` e superiores.
+- Correção da regra global que fazia todos os botões apresentarem aparência de desabilitados.
+- Remoção do efeito de hover em botões desabilitados.
+- Definição de `type="button"` como padrão no componente `Button`.
+- Correção de um token inválido no estado de foco do `PokemonCard`.
+- Criação do token `--color-surface-secondary`.
+- Remoção de declaração CSS duplicada.
+- Ampliação dos estilos de foco visível para navegação por teclado.
+- Alteração do idioma do documento para `pt-BR`.
+- Atualização do título da aplicação.
+- Inclusão da meta description.
+- Manutenção temporária do favicon padrão.
+- Centralização das regras de arquivos ignorados na raiz do monorepositório.
+- Remoção do `.gitignore` redundante do frontend.
+- Inclusão do arquivo `.gitattributes`.
+- Correção da configuração de finais de linha.
+- Padronização das configurações compartilhadas do VS Code.
+- Correção do script do Prettier para ignorar a pasta `dist`.
+- Validação do projeto por meio dos comandos `npm run format`, `npm run lint`, `npm run build` e `git diff --check`.
+- Realização de testes manuais de navegação, pesquisa, tratamento de erros, repetição de requisições, acessibilidade por teclado e responsividade.
+- Confirmação da ausência de rolagem horizontal nas resoluções testadas.
+
+### Observações
+
+A sessão foi dedicada à revisão completa da implementação desenvolvida durante a Sprint 1. Foram corrigidos problemas de arquitetura, navegação, tipagem, responsividade, acessibilidade, configuração e consistência visual. Ao final do Code Review, todas as validações automatizadas e os testes manuais foram concluídos com sucesso, deixando a Sprint 1 tecnicamente estável e aprovada para a preparação do merge.
+
+---
