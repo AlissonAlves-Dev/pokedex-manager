@@ -4,19 +4,20 @@
 
 **Document:** Requirements Specification
 
-**Version:** 0.1.0
+**Version:** 0.1.1
 
 **Status:** Draft
 
-**Last Updated:** 2026-07-12
+**Last Updated:** 2026-07-22
 
 ---
 
 ## Revision History
 
-| Version | Date       | Description                          |
-| ------- | ---------- | ------------------------------------ |
-| 0.1.0   | 2026-07-12 | Initial requirements for Pokédex MVP |
+| Version | Date       | Description                                                                           |
+| ------- | ---------- | ------------------------------------------------------------------------------------- |
+| 0.1.0   | 2026-07-12 | Initial requirements for Pokédex MVP                                                  |
+| 0.1.1   | 2026-07-22 | Corrected authentication constraint and aligned requirements with current development |
 
 ---
 
@@ -125,7 +126,7 @@ The frontend shall be developed using React and TypeScript.
 
 ### C-001
 
-The application will require user authentication.
+The application will not require user authentication.
 
 ### C-002
 

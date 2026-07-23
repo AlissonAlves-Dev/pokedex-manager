@@ -39,22 +39,40 @@ Players will be able to:
 
 ### Current
 
-- Project planning
-- Documentation
-- Architecture design
-- Development environment setup
+- Project planning and technical documentation
+- Monorepo and frontend development environment
+- React Router navigation
+- Responsive application layout
+- Reusable frontend Design System
+- PokéAPI integration
+- Pokémon listing
+- Search by Pokémon name and Pokédex number
+- Pokémon details
+- Official artwork, types, abilities, and base stats
+- Loading, empty, error, retry, and invalid-route states
+- Request cancellation with AbortController
+- Responsive interface for mobile and desktop
+
+### In Progress
+
+- Complete Pokédex MVP
+- Pagination and broader Pokémon loading
+- Full-dataset Pokémon search
+- Pokémon sprites
+- Evolution chains
+- Pokémon forms
+- Pokédex descriptions
 
 ### Planned
 
-- 🔍 Pokémon search
-- 📊 Pokémon details
-- 🎯 PvP rankings
-- ⚔️ Raid recommendations
-- 📁 Personal collection
-- ❤️ Favorites
-- 🔐 Authentication
-- 🌙 Dark mode
-- 📱 Responsive design
+- Backend API
+- User authentication
+- Personal collection
+- Favorites
+- Pokémon GO data
+- PvP and PvE analysis
+- Raid recommendations
+- Dark mode
 
 ---
 
@@ -116,10 +134,14 @@ Project documentation can be found in the `docs` folder.
 ## 🚀 Roadmap
 
 - [x] Project planning
-- [ ] Database design
+- [x] Technical documentation
+- [x] Database design
+- [x] Project and monorepo setup
+- [x] Frontend foundation
+- [x] Sprint 1 code review
+- [ ] Complete Pokédex MVP
 - [ ] Backend API
 - [ ] Authentication
-- [ ] Frontend
 - [ ] Personal Collection
 - [ ] Deployment
 

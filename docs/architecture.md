@@ -4,19 +4,20 @@
 
 **Document:** Architecture
 
-**Version:** 0.1.0
+**Version:** 0.1.1
 
 **Status:** Draft
 
-**Last Updated:** 2026-07-13
+**Last Updated:** 2026-07-22
 
 ---
 
 ## Revision History
 
-| Version | Date       | Description                   |
-| ------- | ---------- | ----------------------------- |
-| 0.1.0   | 2026-07-13 | Initial architecture document |
+| Version | Date       | Description                                                                 |
+| ------- | ---------- | --------------------------------------------------------------------------- |
+| 0.1.0   | 2026-07-13 | Initial architecture document                                               |
+| 0.1.1   | 2026-07-22 | Documented the temporary direct PokéAPI integration used during Milestone 1 |
 
 ---
 
@@ -69,7 +70,11 @@ The frontend is responsible for the user interface and user interactions, while 
 
 Data persistence is handled by a relational database, allowing the application to evolve independently from third-party APIs.
 
-The frontend communicates exclusively with the backend through a REST API.
+The target architecture establishes that the frontend communicates exclusively with the backend through a REST API.
+
+During the initial development of Milestone 1, the frontend temporarily consumes the PokéAPI directly. This approach allows the Pokédex interface, domain models, mapping layer, loading states, and error handling to be validated before the project backend is introduced.
+
+When the backend API becomes available, external API communication will be centralized in the backend, and the frontend will consume only the application's internal REST API.
 
 ```mermaid
 flowchart LR
