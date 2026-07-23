@@ -1,6 +1,6 @@
 # Vision
 
-**Project:** PokéDex Manager *(Working Title)*
+**Project:** PokéDex Manager _(Working Title)_
 
 **Document:** Vision
 
@@ -76,7 +76,7 @@ Create a platform that can continue evolving after the portfolio is complete, be
 - Pokémon GO information
 - Personal collection management
 - Powerful filters
-- User authentication
+- Future user authentication
 
 ---
 

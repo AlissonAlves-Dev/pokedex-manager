@@ -1,22 +1,23 @@
 # Architecture
 
-**Project:** PokéDex Manager *(Working Title)*
+**Project:** PokéDex Manager _(Working Title)_
 
 **Document:** Architecture
 
-**Version:** 0.1.0
+**Version:** 0.1.1
 
 **Status:** Draft
 
-**Last Updated:** 2026-07-13
+**Last Updated:** 2026-07-22
 
 ---
 
 ## Revision History
 
-| Version | Date | Description |
-|----------|------------|----------------------------|
-| 0.1.0 | 2026-07-13 | Initial architecture document |
+| Version | Date       | Description                                                                                                  |
+| ------- | ---------- | ------------------------------------------------------------------------------------------------------------ |
+| 0.1.0   | 2026-07-13 | Initial architecture document                                                                                |
+| 0.1.1   | 2026-07-22 | Aligned current implementation with the target architecture and documented the temporary PokéAPI integration |
 
 ---
 
@@ -56,7 +57,7 @@ The PokéDex Manager architecture is based on the following principles:
 - **Simplicity:** Prefer simple and readable solutions over unnecessary complexity.
 - **API First:** The frontend and backend communicate exclusively through a well-defined REST API, allowing both applications to evolve independently.
 - **Feature-Based Organization:** The application is organized into independent feature modules, each encapsulating its own responsibilities.
-  
+
 ---
 
 ## 2. System Architecture
@@ -69,7 +70,11 @@ The frontend is responsible for the user interface and user interactions, while 
 
 Data persistence is handled by a relational database, allowing the application to evolve independently from third-party APIs.
 
-The frontend communicates exclusively with the backend through a REST API.
+The target architecture establishes that the frontend communicates exclusively with the backend through a REST API.
+
+During the initial development of Milestone 1, the frontend temporarily consumes the PokéAPI directly. This approach allows the Pokédex interface, domain models, mapping layer, loading states, and error handling to be validated before the project backend is introduced.
+
+When the backend API becomes available, external API communication will be centralized in the backend, and the frontend will consume only the application's internal REST API.
 
 ```mermaid
 flowchart LR
@@ -97,9 +102,11 @@ flowchart LR
 
 ### Client
 
-The client application provides the user interface and is responsible for presenting Pokémon data, handling user interactions, and communicating with the backend through REST API requests.
+The client application provides the user interface and is responsible for presenting Pokémon data and handling user interactions.
 
-The frontend does not access the database or external APIs directly.
+During the initial development of Milestone 1, the frontend temporarily communicates directly with the PokéAPI through its service layer.
+
+In the target architecture, the frontend will communicate exclusively with the PokéDex Manager backend through REST API requests and will not access the database or external services directly.
 
 ---
 
@@ -147,53 +154,56 @@ The PokéDex Manager technology stack was selected to provide a modern, scalable
 
 ### Frontend
 
-| Technology | Purpose |
-|------------|---------|
-| React | Build a modern, component-based user interface. |
-| TypeScript | Provide static typing, improve maintainability, and reduce runtime errors. |
-| Vite | Offer a fast development environment and optimized production builds. |
-| Tailwind CSS | Enable rapid and consistent UI development through utility-first styling. |
-| React Router | Handle client-side navigation. |
-| TanStack Query | Manage server state, caching, and asynchronous data fetching. |
-| Axios | Simplify communication with the backend REST API. |
+| Technology   | Status  | Purpose                                                                    |
+| ------------ | ------- | -------------------------------------------------------------------------- |
+| React        | Current | Build a modern, component-based user interface.                            |
+| TypeScript   | Current | Provide static typing, improve maintainability, and reduce runtime errors. |
+| Vite         | Current | Offer a fast development environment and optimized production builds.      |
+| React Router | Current | Handle client-side navigation.                                             |
+| Native CSS   | Current | Implement the Design System, responsive layouts, and component styling.    |
+| Fetch API    | Current | Perform HTTP requests during the initial PokéAPI integration.              |
 
 ---
 
 ### Backend
 
-| Technology | Purpose |
-|------------|---------|
-| Node.js | JavaScript runtime for server-side development. |
-| Express | Build a lightweight and scalable REST API. |
-| TypeScript | Improve code quality through static typing. |
+> The backend technologies below represent the target architecture and have not been implemented yet.
+
+| Technology | Purpose                                                       |
+| ---------- | ------------------------------------------------------------- |
+| Node.js    | JavaScript runtime for server-side development.               |
+| Express    | Build a lightweight and scalable REST API.                    |
+| TypeScript | Improve code quality through static typing.                   |
 | Prisma ORM | Provide type-safe database access and simplify data modeling. |
 
 ---
 
 ### Database
 
-| Technology | Purpose |
-|------------|---------|
+| Technology | Purpose                                                                           |
+| ---------- | --------------------------------------------------------------------------------- |
 | PostgreSQL | Store relational application data with reliability, consistency, and scalability. |
+
+> PostgreSQL and Prisma are part of the planned persistence architecture and have not been implemented yet.
 
 ---
 
 ### External Services
 
-| Service | Purpose |
-|---------|---------|
+| Service | Purpose                                       |
+| ------- | --------------------------------------------- |
 | PokéAPI | Provide Pokémon data used by the application. |
 
 ---
 
 ### DevOps
 
-| Technology | Purpose |
-|------------|---------|
-| Docker | Standardize the development environment and simplify deployment. |
-| Git | Version control. |
-| GitHub | Source code hosting and collaboration. |
-| GitHub Actions | Automate workflows such as testing and continuous integration. |
+| Technology     | Status  | Purpose                                                          |
+| -------------- | ------- | ---------------------------------------------------------------- |
+| Git            | Current | Version control.                                                 |
+| GitHub         | Current | Source code hosting and collaboration.                           |
+| Docker         | Planned | Standardize the development environment and simplify deployment. |
+| GitHub Actions | Planned | Automate testing, builds, and continuous integration.            |
 
 ---
 
@@ -225,7 +235,6 @@ This structure promotes maintainability, scalability, and a clear separation of 
 pokedex-manager/
 │
 ├── backend/
-├── database/
 ├── docs/
 ├── frontend/
 ├── .gitignore
@@ -236,26 +245,39 @@ pokedex-manager/
 
 ### Frontend Structure
 
-The frontend follows a feature-oriented structure, separating reusable components, pages, services, and utilities.
+The frontend follows a feature-based architecture combined with shared reusable components and application-level configuration.
 
 ```text
 frontend/
 │
 ├── public/
+│
 ├── src/
-│   ├── assets/
-│   ├── components/
-│   ├── hooks/
-│   ├── layouts/
+│   ├── app/
+│   │   ├── layouts/
+│   │   └── routes/
+│   │
+│   ├── features/
+│   │   └── pokedex/
+│   │       ├── components/
+│   │       ├── hooks/
+│   │       ├── mappers/
+│   │       ├── services/
+│   │       └── types/
+│   │
 │   ├── pages/
-│   ├── routes/
-│   ├── services/
-│   ├── styles/
-│   ├── types/
-│   ├── utils/
+│   │
+│   ├── shared/
+│   │   └── components/
+│   │       ├── feedback/
+│   │       ├── layout/
+│   │       └── ui/
+│   │
 │   ├── App.tsx
+│   ├── index.css
 │   └── main.tsx
 │
+├── index.html
 ├── package.json
 └── vite.config.ts
 ```
@@ -299,15 +321,19 @@ backend/
 
 ### Database Structure
 
-Database-related files are stored separately from the backend implementation.
+Database-related resources will be maintained inside the backend workspace, keeping the persistence implementation close to the application layer responsible for accessing it.
 
 ```text
-database/
+backend/
 │
-├── diagrams/
-├── migrations/
-├── seeds/
-└── README.md
+├── prisma/
+│   ├── migrations/
+│   ├── schema.prisma
+│   └── seed.ts
+│
+└── src/
+    └── shared/
+        └── database/
 ```
 
 ---
@@ -354,26 +380,32 @@ module-name/
 
 ### Responsibilities
 
-| Folder | Responsibility |
-|---------|----------------|
-| controllers | Handle HTTP requests and responses. |
-| services | Contain business logic. |
-| repositories | Access data sources. |
-| routes | Define API endpoints. |
-| dto | Define request and response objects. |
-| schemas | Validate input data. |
-| types | Store module-specific TypeScript types. |
-| index.ts | Export the module's public interface. |
+| Folder       | Responsibility                          |
+| ------------ | --------------------------------------- |
+| controllers  | Handle HTTP requests and responses.     |
+| services     | Contain business logic.                 |
+| repositories | Access data sources.                    |
+| routes       | Define API endpoints.                   |
+| dto          | Define request and response objects.    |
+| schemas      | Validate input data.                    |
+| types        | Store module-specific TypeScript types. |
+| index.ts     | Export the module's public interface.   |
 
 ---
 
 ## 6. Data Flow
 
-The application follows a request-response workflow where the frontend communicates exclusively with the backend through REST API endpoints.
+The following request-response workflow represents the target architecture of the PokéDex Manager application.
 
-The backend orchestrates the entire request lifecycle, ensuring that business rules, data persistence, and external integrations remain isolated within their respective layers.
+In this architecture, the frontend communicates exclusively with the backend through REST API endpoints. The backend centralizes business rules, persistence, and communication with external services.
 
-Whenever possible, the application prioritizes locally stored data to improve performance and reduce dependency on external services.
+During the initial implementation of Milestone 1, the temporary flow is:
+
+```text
+User → Frontend → PokéAPI
+```
+
+This temporary integration will be replaced when the internal backend REST API is introduced.
 
 ---
 
@@ -438,14 +470,14 @@ flowchart TD
 
 ### Layer Responsibilities
 
-| Layer | Responsibility |
-|--------|----------------|
-| Frontend | Render the user interface and communicate with the backend. |
-| Controller | Receive HTTP requests and return HTTP responses. |
-| Service | Execute business logic and orchestrate application workflows. |
-| Repository | Access and persist application data. |
-| Database | Store application data. |
-| External API | Provide Pokémon data not available locally. |
+| Layer        | Responsibility                                                |
+| ------------ | ------------------------------------------------------------- |
+| Frontend     | Render the user interface and communicate with the backend.   |
+| Controller   | Receive HTTP requests and return HTTP responses.              |
+| Service      | Execute business logic and orchestrate application workflows. |
+| Repository   | Access and persist application data.                          |
+| Database     | Store application data.                                       |
+| External API | Provide Pokémon data not available locally.                   |
 
 ---
 

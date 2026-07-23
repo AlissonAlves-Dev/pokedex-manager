@@ -1,0 +1,12 @@
+.pokemon-list__result-count {
+  margin: var(--spacing-md) 0 var(--spacing-sm);
+
+  color: var(--color-text-secondary);
+
+  font-size: 0.875rem;
+  font-weight: 500;
+}
+
+.pokemon-list__clear-search {
+  margin-top: var(--spacing-sm);
+}

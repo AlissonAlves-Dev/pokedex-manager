@@ -1,0 +1,21 @@
+.home__card {
+  width: 100%;
+  max-width: 48rem;
+}
+
+.home__content {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 1rem;
+}
+
+.home__title {
+  margin: 0;
+  font-size: 1.5rem;
+}
+
+.home__description {
+  margin: 0;
+  line-height: 1.6;
+}

@@ -1,0 +1,19 @@
+.page-container {
+  width: 100%;
+  max-width: 75rem;
+
+  margin-inline: auto;
+  padding: 2rem;
+}
+
+@media (max-width: 48rem) {
+  .page-container {
+    padding: 1.5rem;
+  }
+}
+
+@media (max-width: 30rem) {
+  .page-container {
+    padding: 1rem;
+  }
+}
