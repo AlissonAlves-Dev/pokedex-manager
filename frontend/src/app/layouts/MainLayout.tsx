@@ -1,7 +1,6 @@
 import { Outlet } from "react-router";
 
 import { Header } from "../../shared/components/layout/Header";
-import { Sidebar } from "../../shared/components/layout/Sidebar";
 import { Footer } from "../../shared/components/layout/Footer";
 
 import "./MainLayout.css";
@@ -15,13 +14,9 @@ export function MainLayout() {
 
       <Header />
 
-      <div className="app-layout__body">
-        <Sidebar />
-
-        <main id="main-content" className="app-layout__content">
-          <Outlet />
-        </main>
-      </div>
+      <main id="main-content" className="app-layout__content" tabIndex={-1}>
+        <Outlet />
+      </main>
 
       <Footer />
     </div>
