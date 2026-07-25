@@ -5,24 +5,13 @@
   min-height: 100vh;
 }
 
-.app-layout__body {
-  display: flex;
-  flex: 1;
-
-  min-width: 0;
-}
-
 .app-layout__content {
   flex: 1;
 
+  width: 100%;
   min-width: 0;
 }
 
-@media (max-width: 48rem) {
-  .app-layout__body {
-    display: block;
-  }
-}
 .skip-link {
   position: fixed;
   top: var(--spacing-md);
@@ -43,6 +32,6 @@
   transition: transform 150ms ease;
 }
 
-.skip-link:focus {
+.skip-link:focus-visible {
   transform: translateY(0);
 }

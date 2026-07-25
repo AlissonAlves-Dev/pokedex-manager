@@ -325,3 +325,87 @@ Realizar o **Code Review da Sprint 1**, revisando tecnicamente a implementação
 A sessão foi dedicada à revisão completa da implementação desenvolvida durante a Sprint 1. Foram corrigidos problemas de arquitetura, navegação, tipagem, responsividade, acessibilidade, configuração e consistência visual. Ao final do Code Review, todas as validações automatizadas e os testes manuais foram concluídos com sucesso, deixando a Sprint 1 tecnicamente estável e aprovada para a preparação do merge.
 
 ---
+
+## 2026/07/23
+
+### Objetivo
+
+Iniciar a **Sprint 2** do PokéDex Manager, substituindo a `Sidebar` por uma navegação responsiva integrada ao `Header`, com foco em acessibilidade, responsividade e simplificação estrutural do layout.
+
+### Atividades realizadas
+
+- Revisão dos arquivos responsáveis pela estrutura atual de navegação e layout:
+
+  - `MainLayout.tsx`;
+  - `MainLayout.css`;
+  - `Header.tsx`;
+  - `Header.css`;
+  - `Sidebar.tsx`;
+  - `Sidebar.css`;
+  - `AppRouter.tsx`;
+  - `index.css`.
+
+- Confirmação das rotas existentes na aplicação:
+
+  - `/`;
+  - `/pokemon`;
+  - `/pokemon/:pokemonId`.
+
+- Análise das responsabilidades do `MainLayout`, `Header` e `Sidebar` antes da refatoração.
+- Migração dos links **Home** e **Pokémon** da `Sidebar` para o `Header`.
+- Manutenção do uso de `NavLink` e da indicação visual da rota ativa.
+- Utilização da propriedade `end` no link da Home para impedir sua ativação incorreta em outras rotas.
+- Manutenção do link de Pokémon ativo também durante a navegação pelas páginas de detalhes.
+- Implementação de uma navegação horizontal no `Header` para resoluções desktop.
+- Organização do `Header` com a marca posicionada à esquerda e a navegação à direita, utilizando **CSS Grid**.
+- Reaproveitamento da linguagem visual utilizada anteriormente na `Sidebar`.
+- Criação de um botão de menu exibido em telas com largura de até `48rem`.
+- Implementação de um menu mobile expansível abaixo da linha principal do `Header`.
+- Implementação da transformação visual do ícone de três linhas em um `X` enquanto o menu está aberto.
+- Utilização de uma única estrutura de navegação para desktop e mobile, evitando duplicação de links.
+- Implementação dos atributos de acessibilidade `aria-expanded`, `aria-controls` e `aria-label`.
+- Associação do botão ao elemento principal de navegação.
+- Marcação do ícone do menu como decorativo utilizando `aria-hidden`.
+- Implementação do fechamento automático do menu ao:
+
+  - selecionar a Home;
+  - selecionar a página de Pokémon;
+  - clicar na marca do projeto;
+  - pressionar a tecla `Escape`.
+
+- Implementação do retorno do foco ao botão do menu após o fechamento com `Escape`.
+- Registro e remoção segura do evento de teclado utilizando `useEffect`.
+- Preservação e aprimoramento do link **“Pular para o conteúdo principal”**.
+- Inclusão de `tabIndex={-1}` no elemento `main`, permitindo o direcionamento correto do foco pelo skip link.
+- Remoção da renderização da `Sidebar`.
+- Remoção do contêiner `app-layout__body`, que deixou de ser necessário após a alteração da navegação.
+- Transferência da responsabilidade de crescimento do layout diretamente para o elemento `main`.
+- Manutenção do `Footer` no final da tela por meio da estrutura flexível do layout.
+- Remoção dos arquivos:
+
+  - `frontend/src/shared/components/layout/Sidebar.tsx`;
+  - `frontend/src/shared/components/layout/Sidebar.css`.
+
+- Verificação e remoção das referências restantes a `Sidebar`, `app-sidebar` e `app-layout__body`.
+- Correção do alinhamento do card principal da Home, que ficou deslocado após a remoção da `Sidebar`.
+- Centralização horizontal do card por meio de ajustes no arquivo `Home.css`.
+- Validação da navegação desktop.
+- Validação do menu mobile nas resoluções de `768px`, `375px` e `320px`.
+- Validação da abertura e do fechamento do menu pelo botão.
+- Validação do fechamento do menu após a seleção de uma rota.
+- Validação do fechamento pela tecla `Escape` e do retorno do foco ao botão.
+- Validação do estado ativo das rotas na Home, listagem e página de detalhes.
+- Validação do skip link por meio da navegação por teclado.
+- Confirmação da ausência de rolagem horizontal.
+- Validação do `Footer` e da estrutura geral das páginas.
+- Execução bem-sucedida dos comandos:
+
+  - `npm run lint`;
+  - `npm run build`;
+  - `git diff --check`.
+
+### Observações
+
+A primeira tarefa da Sprint 2 foi concluída com sucesso. A `Sidebar` foi substituída por uma navegação responsiva integrada ao `Header`, com funcionamento adequado em desktop e dispositivos móveis. A alteração também simplificou o `MainLayout`, removeu estruturas e arquivos que deixaram de ser necessários e aprimorou a acessibilidade da navegação por teclado. Todas as validações técnicas foram aprovadas, e as alterações permaneceram apenas no ambiente local ao final da sessão, ainda sem commit e push.
+
+---
