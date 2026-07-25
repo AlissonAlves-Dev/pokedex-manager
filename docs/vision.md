@@ -1,6 +1,6 @@
 # Vision
 
-**Project:** PokéDex Manager _(Working Title)_
+**Project:** Minha Pokédex
 
 **Document:** Vision
 
@@ -32,7 +32,7 @@ Pokémon GO players often rely on multiple websites, spreadsheets, and applicati
 
 This fragmented experience makes it difficult to quickly decide which Pokémon are worth investing in.
 
-PokéDex Manager aims to centralize these features into a single, intuitive platform.
+Minha Pokédex aims to centralize these features into a single, intuitive platform.
 
 ---
 

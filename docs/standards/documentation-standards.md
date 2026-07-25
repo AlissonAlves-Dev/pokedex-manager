@@ -1,6 +1,6 @@
 # Documentation Standards
 
-**Project:** PokéDex Manager *(Working Title)*
+**Project:** Minha Pokédex
 
 **Document:** Documentation Standards
 
@@ -14,15 +14,15 @@
 
 ## Revision History
 
-| Version | Date | Description |
-|----------|------------|-------------------------------------------|
-| 0.1.0 | 2026-07-12 | Initial documentation standards |
+| Version | Date       | Description                     |
+| ------- | ---------- | ------------------------------- |
+| 0.1.0   | 2026-07-12 | Initial documentation standards |
 
 ---
 
 ## Purpose
 
-This document defines the documentation standards used throughout the PokéDex Manager project.
+This document defines the documentation standards used throughout the Minha Pokédex project.
 
 Its purpose is to ensure consistency, readability, and maintainability across all project documentation.
 
@@ -44,7 +44,7 @@ Every document shall begin with the following header:
 ```md
     # Document Title
 
-    **Project:** PokéDex Manager *(Working Title)*
+    **Project:** Minha Pokédex
 
     **Document:** Document Name
 
@@ -58,9 +58,9 @@ Every document shall begin with the following header:
 
 ## Revision History
 
-| Version | Date | Description |
-|----------|------------|----------------|
-| X.Y.Z | YYYY-MM-DD | Description |
+| Version | Date       | Description |
+| ------- | ---------- | ----------- |
+| X.Y.Z   | YYYY-MM-DD | Description |
 ```
 
 ---
@@ -112,11 +112,11 @@ Example:
 
 ## Document Status
 
-| Status | Description |
-|----------|-------------|
-| Draft | Work in progress |
-| Review | Ready for review |
-| Approved | Official version |
+| Status     | Description                 |
+| ---------- | --------------------------- |
+| Draft      | Work in progress            |
+| Review     | Ready for review            |
+| Approved   | Official version            |
 | Deprecated | Replaced by another version |
 
 ---
@@ -152,6 +152,7 @@ The project documentation shall follow this heading hierarchy:
 
     #### Nested Section (only when necessary)
 ```
+
 Rules:
 
 - Each document shall contain only one level-1 heading (#).
@@ -183,7 +184,7 @@ Use tables for structured information whenever appropriate.
 Example:
 
 | Name | Description |
-|------|-------------|
+| ---- | ----------- |
 
 ---
 
@@ -202,12 +203,12 @@ const app = express();
 
 Requirements shall use standardized identifiers.
 
-| Type | Prefix | Example |
-|------|--------|---------|
-| Functional Requirement | FR | FR-001 |
-| Non-Functional Requirement | NFR | NFR-001 |
-| Business Rule | BR | BR-001 |
-| Constraint | C | C-001 |
+| Type                       | Prefix | Example |
+| -------------------------- | ------ | ------- |
+| Functional Requirement     | FR     | FR-001  |
+| Non-Functional Requirement | NFR    | NFR-001 |
+| Business Rule              | BR     | BR-001  |
+| Constraint                 | C      | C-001   |
 
 ---
 
@@ -261,4 +262,5 @@ docs/
 
 ## Approval
 
-This document defines the official documentation standard for the PokéDex Manager project.
+This document defines the official documentation standard for the Minha Pokédex project.
+````

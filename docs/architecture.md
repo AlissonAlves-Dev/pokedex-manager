@@ -1,6 +1,6 @@
 # Architecture
 
-**Project:** PokéDex Manager _(Working Title)_
+**Project:** Minha Pokédex
 
 **Document:** Architecture
 
@@ -25,7 +25,7 @@
 
 ### Purpose
 
-This document describes the architecture of the PokéDex Manager project, providing a high-level view of the system, its components, and how they interact.
+This document describes the architecture of the Minha Pokédex project, providing a high-level view of the system, its components, and how they interact.
 
 Its purpose is to establish a clear architectural foundation that guides development decisions, promotes consistency, and supports the project's long-term evolution.
 
@@ -47,7 +47,7 @@ The architecture has been designed to achieve the following goals:
 
 ### Architectural Principles
 
-The PokéDex Manager architecture is based on the following principles:
+The Minha Pokédex architecture is based on the following principles:
 
 - **Separation of Concerns (SoC):** Each layer has a well-defined responsibility.
 - **Modularity:** Features are organized into independent modules whenever possible.
@@ -64,7 +64,7 @@ The PokéDex Manager architecture is based on the following principles:
 
 ### High-Level Architecture
 
-PokéDex Manager follows a layered Client-Server architecture.
+Minha Pokédex follows a layered Client-Server architecture.
 
 The frontend is responsible for the user interface and user interactions, while the backend centralizes business logic, data processing, and communication with external services.
 
@@ -106,7 +106,7 @@ The client application provides the user interface and is responsible for presen
 
 During the initial development of Milestone 1, the frontend temporarily communicates directly with the PokéAPI through its service layer.
 
-In the target architecture, the frontend will communicate exclusively with the PokéDex Manager backend through REST API requests and will not access the database or external services directly.
+In the target architecture, the frontend will communicate exclusively with the Minha Pokédex backend through REST API requests and will not access the database or external services directly.
 
 ---
 
@@ -136,7 +136,7 @@ Future versions will introduce persistent user data, including personal collecti
 
 ### External Services
 
-PokéDex Manager integrates with external services to retrieve Pokémon data.
+Minha Pokédex integrates with external services to retrieve Pokémon data.
 
 The primary external data source is the PokéAPI.
 
@@ -148,7 +148,7 @@ Future versions may introduce additional external services as needed.
 
 ## 3. Technology Stack
 
-The PokéDex Manager technology stack was selected to provide a modern, scalable, and maintainable Full Stack architecture while leveraging widely adopted technologies and best development practices.
+The Minha Pokédex technology stack was selected to provide a modern, scalable, and maintainable Full Stack architecture while leveraging widely adopted technologies and best development practices.
 
 ---
 
@@ -395,7 +395,7 @@ module-name/
 
 ## 6. Data Flow
 
-The following request-response workflow represents the target architecture of the PokéDex Manager application.
+The following request-response workflow represents the target architecture of the Minha Pokédex application.
 
 In this architecture, the frontend communicates exclusively with the backend through REST API endpoints. The backend centralizes business rules, persistence, and communication with external services.
 
@@ -483,7 +483,7 @@ flowchart TD
 
 ## 7. Design Principles
 
-The PokéDex Manager follows a set of software design principles intended to improve code quality, maintainability, and long-term scalability.
+The Minha Pokédex follows a set of software design principles intended to improve code quality, maintainability, and long-term scalability.
 
 These principles guide architectural decisions and should be respected throughout the development of the project.
 
@@ -563,7 +563,7 @@ Architectural decisions should prioritize extensibility, allowing new features t
 
 ## 8. Scalability
 
-The PokéDex Manager architecture has been designed with scalability as a core principle.
+The Minha Pokédex architecture has been designed with scalability as a core principle.
 
 The project is expected to evolve incrementally, allowing new features, modules, and integrations to be added without requiring significant architectural changes.
 
@@ -624,7 +624,7 @@ Each new module should follow the architectural standards defined for the projec
 
 ## 9. Security
 
-Security is considered a fundamental aspect of the PokéDex Manager architecture.
+Security is considered a fundamental aspect of the Minha Pokédex architecture.
 
 Although the initial version focuses on public Pokémon data, the architecture has been designed to support secure handling of user information and authenticated resources in future releases.
 
@@ -693,7 +693,7 @@ New modules must follow the project's security standards, ensuring that authenti
 
 ## 10. Future Architecture
 
-The current architecture has been designed to support the continuous evolution of the PokéDex Manager without requiring major structural changes.
+The current architecture has been designed to support the continuous evolution of the Minha Pokédex without requiring major structural changes.
 
 As the project grows, new capabilities should be introduced as independent modules, preserving the existing architecture and maintaining a low level of coupling between features.
 
@@ -758,7 +758,7 @@ Every new module or infrastructure component should comply with the architectura
 
 ## 11. Approval
 
-This document defines the official software architecture of the PokéDex Manager project.
+This document defines the official software architecture of the Minha Pokédex project.
 
 All architectural decisions should be aligned with the principles, standards, and guidelines described in this document.
 

@@ -1,6 +1,4 @@
-# PokéDex Manager
-
-> **Working title** — The project name may change during development.
+# Minha Pokédex
 
 A modern Full Stack application for Pokémon GO players to search, organize, analyze, and manage their Pokémon collection.
 
@@ -12,7 +10,7 @@ A modern Full Stack application for Pokémon GO players to search, organize, ana
 
 Managing Pokémon in Pokémon GO often requires using multiple websites and tools.
 
-PokéDex Manager aims to provide a single platform where players can search Pokémon, analyze their collection, and make better decisions about where to invest their resources.
+Minha Pokédex aims to provide a single platform where players can search Pokémon, analyze their collection, and make better decisions about where to invest their resources.
 
 At the same time, this project serves as a practical Full Stack Software Engineering portfolio.
 
@@ -20,7 +18,7 @@ At the same time, this project serves as a practical Full Stack Software Enginee
 
 ## 📖 About
 
-PokéDex Manager is a web application designed to centralize Pokémon GO information and collection management in one place.
+Minha Pokédex is a web application designed to centralize Pokémon GO information and collection management in one place.
 
 The project was created both as a portfolio project and as a real-world application that can continue evolving over time.
 

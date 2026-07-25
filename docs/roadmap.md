@@ -1,6 +1,6 @@
 # Roadmap
 
-**Project:** PokéDex Manager _(Working Title)_
+**Project:** Minha Pokédex
 
 **Document:** Roadmap
 
@@ -23,7 +23,7 @@
 
 ## 1. Purpose
 
-The purpose of this roadmap is to define the planned evolution of the PokéDex Manager project.
+The purpose of this roadmap is to define the planned evolution of the Minha Pokédex project.
 
 Rather than serving as a simple task list, this roadmap represents the long-term product vision, organizing development into milestones that deliver meaningful value to users.
 
@@ -45,7 +45,7 @@ The roadmap is expected to evolve over time as the project grows and new require
 
 ## 3. Development Philosophy
 
-The development of PokéDex Manager is guided by the following principles:
+The development of Minha Pokédex is guided by the following principles:
 
 - Deliver value incrementally.
 - Maintain architectural consistency.
@@ -60,7 +60,7 @@ The development of PokéDex Manager is guided by the following principles:
 
 ## 4. Roadmap Overview
 
-The following roadmap presents the planned evolution of the PokéDex Manager project.
+The following roadmap presents the planned evolution of the Minha Pokédex project.
 
 Each milestone represents a significant product increment, delivering a complete set of features that provide value to the end user.
 
@@ -490,7 +490,7 @@ At the end of this milestone, users will be able to make informed decisions abou
 
 ### Overview
 
-The fifth milestone transforms PokéDex Manager into a collaborative platform, enabling users to interact with the community, share information, and stay informed about Pokémon GO events and updates.
+The fifth milestone transforms Minha Pokédex into a collaborative platform, enabling users to interact with the community, share information, and stay informed about Pokémon GO events and updates.
 
 This milestone extends the application beyond personal collection management, fostering engagement and collaboration among players.
 
@@ -575,13 +575,13 @@ Analyze
 Connect
 ```
 
-Each milestone builds upon the previous one, gradually transforming PokéDex Manager from a Pokémon encyclopedia into a complete companion platform for Pokémon GO players.
+Each milestone builds upon the previous one, gradually transforming Minha Pokédex from a Pokémon encyclopedia into a complete companion platform for Pokémon GO players.
 
 ---
 
 ## 13. Future Releases
 
-The roadmap presented in this document represents the current long-term vision for the PokéDex Manager project.
+The roadmap presented in this document represents the current long-term vision for the Minha Pokédex project.
 
 As the project evolves, additional milestones, modules, and features may be introduced based on user feedback, technical improvements, and new Pokémon GO mechanics.
 
@@ -604,7 +604,7 @@ The roadmap is a living document and should be reviewed and updated as the proje
 
 ## 14. Approval
 
-This document defines the official development roadmap of the PokéDex Manager project.
+This document defines the official development roadmap of the Minha Pokédex project.
 
 The roadmap should be used as a strategic guide for planning, prioritizing, and tracking the project's evolution.
 

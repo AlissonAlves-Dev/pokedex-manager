@@ -1,6 +1,6 @@
 # Requirements Specification
 
-**Project:** PokéDex Manager _(Working Title)_
+**Project:** Minha Pokédex
 
 **Document:** Requirements Specification
 

@@ -1,6 +1,6 @@
 # Database
 
-**Project:** PokéDex Manager *(Working Title)*
+**Project:** Minha Pokédex
 
 **Document:** Database
 
@@ -14,15 +14,15 @@
 
 ## Revision History
 
-| Version | Date | Description |
-|----------|------------|--------------------------------|
-| 0.1.0 | 2026-07-13 | Initial database architecture |
+| Version | Date       | Description                   |
+| ------- | ---------- | ----------------------------- |
+| 0.1.0   | 2026-07-13 | Initial database architecture |
 
 ---
 
 ## 1. Purpose
 
-This document defines the database architecture of the PokéDex Manager project.
+This document defines the database architecture of the Minha Pokédex project.
 
 Its purpose is to describe the data model, entity relationships, design principles, naming conventions, and long-term evolution of the application's persistence layer.
 
@@ -45,7 +45,7 @@ This document complements the following project documentation:
 
 ## 2. Database Overview
 
-PokéDex Manager uses a relational database as the primary persistence layer for application data.
+Minha Pokédex uses a relational database as the primary persistence layer for application data.
 
 The database is designed to provide a reliable, consistent, and scalable foundation capable of supporting both the current application requirements and future feature expansion.
 
@@ -79,11 +79,11 @@ flowchart TD
 
 ### Database Technologies
 
-| Technology | Purpose |
-|------------|---------|
-| PostgreSQL | Primary relational database management system. |
-| Prisma ORM | Type-safe database access and schema management. |
-| Prisma Migrate | Database versioning and migration management. |
+| Technology     | Purpose                                          |
+| -------------- | ------------------------------------------------ |
+| PostgreSQL     | Primary relational database management system.   |
+| Prisma ORM     | Type-safe database access and schema management. |
+| Prisma Migrate | Database versioning and migration management.    |
 
 ---
 
@@ -101,7 +101,7 @@ This approach improves performance, increases application availability, and prov
 
 ## 3. Database Design Principles
 
-The database design of PokéDex Manager follows a set of principles intended to ensure consistency, scalability, maintainability, and long-term data integrity.
+The database design of Minha Pokédex follows a set of principles intended to ensure consistency, scalability, maintainability, and long-term data integrity.
 
 These principles should guide the design and evolution of every entity, relationship, and schema modification throughout the project's lifecycle.
 
@@ -243,7 +243,7 @@ The persistence layer follows the workflow below:
 
 ## 5. Entity Relationship Overview
 
-The following diagrams present the evolution of the PokéDex Manager data model from a conceptual perspective to its physical implementation.
+The following diagrams present the evolution of the Minha Pokédex data model from a conceptual perspective to its physical implementation.
 
 The conceptual model represents the business domain and the relationships between entities, while the physical model documents the database implementation used by the application.
 
@@ -294,7 +294,7 @@ The physical model will evolve incrementally as new project milestones are imple
 
 ## 6. Version 0.1 Data Model
 
-Version 0.1 establishes the foundation of the PokéDex Manager database.
+Version 0.1 establishes the foundation of the Minha Pokédex database.
 
 The initial data model focuses exclusively on Pokémon reference data required to support the Pokédex MVP.
 
@@ -308,14 +308,14 @@ Future milestones will extend the data model while preserving the relationships 
 
 The following entities compose the initial database schema for version 0.1:
 
-| Entity | Purpose |
-|---------|---------|
-| Species | Stores the core information for each Pokémon species. |
-| Type | Defines Pokémon elemental types. |
-| Ability | Stores Pokémon abilities. |
-| Move | Stores Pokémon moves. |
-| Form | Represents alternative Pokémon forms. |
-| Evolution | Defines evolution relationships between species. |
+| Entity    | Purpose                                               |
+| --------- | ----------------------------------------------------- |
+| Species   | Stores the core information for each Pokémon species. |
+| Type      | Defines Pokémon elemental types.                      |
+| Ability   | Stores Pokémon abilities.                             |
+| Move      | Stores Pokémon moves.                                 |
+| Form      | Represents alternative Pokémon forms.                 |
+| Evolution | Defines evolution relationships between species.      |
 
 ---
 
@@ -496,7 +496,7 @@ This approach minimizes breaking changes, simplifies maintenance, and ensures lo
 
 ## 8. Naming Conventions
 
-The PokéDex Manager database follows a consistent naming convention to improve readability, maintainability, and collaboration.
+The Minha Pokédex database follows a consistent naming convention to improve readability, maintainability, and collaboration.
 
 All database objects should follow these standards unless a documented exception is required.
 
@@ -517,8 +517,8 @@ All database objects should follow these standards unless a documented exception
 
 Table names represent a single business entity.
 
-| Object | Convention | Example |
-|---------|------------|---------|
+| Object | Convention             | Example                                          |
+| ------ | ---------------------- | ------------------------------------------------ |
 | Tables | Singular, `snake_case` | `species`, `type`, `ability`, `collection_entry` |
 
 ---
@@ -527,12 +527,12 @@ Table names represent a single business entity.
 
 Column names should clearly describe the stored information.
 
-| Column Type | Convention | Example |
-|-------------|------------|---------|
-| Primary Key | `id` | `id` |
-| Foreign Key | `<entity>_id` | `species_id`, `user_id` |
-| Boolean | Prefix with `is_`, `has_`, or `can_` | `is_legendary`, `has_gender_difference` |
-| Timestamp | Descriptive | `created_at`, `updated_at` |
+| Column Type | Convention                           | Example                                 |
+| ----------- | ------------------------------------ | --------------------------------------- |
+| Primary Key | `id`                                 | `id`                                    |
+| Foreign Key | `<entity>_id`                        | `species_id`, `user_id`                 |
+| Boolean     | Prefix with `is_`, `has_`, or `can_` | `is_legendary`, `has_gender_difference` |
+| Timestamp   | Descriptive                          | `created_at`, `updated_at`              |
 
 ---
 
@@ -540,11 +540,11 @@ Column names should clearly describe the stored information.
 
 Many-to-many relationships should use descriptive names based on the related entities.
 
-| Relationship | Example |
-|--------------|---------|
-| Species ↔ Type | `pokemon_type` |
+| Relationship      | Example           |
+| ----------------- | ----------------- |
+| Species ↔ Type    | `pokemon_type`    |
 | Species ↔ Ability | `pokemon_ability` |
-| Species ↔ Move | `pokemon_move` |
+| Species ↔ Move    | `pokemon_move`    |
 
 ---
 
@@ -552,12 +552,12 @@ Many-to-many relationships should use descriptive names based on the related ent
 
 Database constraints should follow consistent prefixes.
 
-| Constraint | Convention |
-|------------|------------|
-| Primary Key | `pk_<table>` |
+| Constraint  | Convention                      |
+| ----------- | ------------------------------- |
+| Primary Key | `pk_<table>`                    |
 | Foreign Key | `fk_<table>_<referenced_table>` |
-| Unique | `uq_<table>_<column>` |
-| Check | `ck_<table>_<rule>` |
+| Unique      | `uq_<table>_<column>`           |
+| Check       | `ck_<table>_<rule>`             |
 
 ---
 
@@ -565,10 +565,10 @@ Database constraints should follow consistent prefixes.
 
 Indexes should use descriptive names.
 
-| Index Type | Convention |
-|------------|------------|
-| Standard | `idx_<table>_<column>` |
-| Unique | `uidx_<table>_<column>` |
+| Index Type | Convention              |
+| ---------- | ----------------------- |
+| Standard   | `idx_<table>_<column>`  |
+| Unique     | `uidx_<table>_<column>` |
 
 ---
 
@@ -576,22 +576,22 @@ Indexes should use descriptive names.
 
 Prisma model names should follow PascalCase while mapping to snake_case database tables.
 
-| Prisma Model | Database Table |
-|--------------|----------------|
-| `Species` | `species` |
+| Prisma Model      | Database Table     |
+| ----------------- | ------------------ |
+| `Species`         | `species`          |
 | `CollectionEntry` | `collection_entry` |
-| `PokemonType` | `pokemon_type` |
+| `PokemonType`     | `pokemon_type`     |
 
 ---
 
 ### Examples
 
-| Database | Prisma |
-|-----------|--------|
-| `species` | `Species` |
-| `pokemon_type` | `PokemonType` |
+| Database           | Prisma            |
+| ------------------ | ----------------- |
+| `species`          | `Species`         |
+| `pokemon_type`     | `PokemonType`     |
 | `collection_entry` | `CollectionEntry` |
-| `created_at` | `createdAt` |
+| `created_at`       | `createdAt`       |
 
 ---
 
@@ -609,17 +609,17 @@ Whenever possible, names should remain consistent across:
 
 Examples:
 
-| Domain Term | Database | Prisma |
-|-------------|----------|---------|
-| Species | `species` | `Species` |
+| Domain Term      | Database           | Prisma            |
+| ---------------- | ------------------ | ----------------- |
+| Species          | `species`          | `Species`         |
 | Collection Entry | `collection_entry` | `CollectionEntry` |
-| Pokémon Type | `pokemon_type` | `PokemonType` |
+| Pokémon Type     | `pokemon_type`     | `PokemonType`     |
 
 ---
 
 ## 9. Migration Strategy
 
-The PokéDex Manager database evolves through incremental, version-controlled migrations.
+The Minha Pokédex database evolves through incremental, version-controlled migrations.
 
 Each schema modification should be implemented using Prisma Migrate, ensuring that every database change is reproducible, traceable, and consistent across development environments.
 
@@ -694,7 +694,7 @@ This approach ensures that design decisions are reviewed before implementation, 
 
 ## 10. Approval
 
-This document defines the official database architecture of the PokéDex Manager project.
+This document defines the official database architecture of the Minha Pokédex project.
 
 All database design decisions, entity relationships, naming conventions, and migration strategies should follow the principles and standards established in this document.
 

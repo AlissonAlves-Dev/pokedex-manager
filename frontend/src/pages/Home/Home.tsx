@@ -17,8 +17,8 @@ export function Home() {
   return (
     <PageContainer>
       <PageHeader
-        title="Bem-vindo ao PokéDex Manager"
-        description="Consulte informações sobre Pokémon e organize sua experiência em um único lugar."
+        title="Bem-vindo à Minha Pokédex"
+        description="Consulte informações sobre Pokémon e explore seus detalhes em um único lugar."
       />
 
       <Card className="home__card">
