@@ -45,7 +45,7 @@ export function Header() {
           aria-label="Ir para a página inicial"
           onClick={handleCloseMenu}
         >
-          <span className="app-header__title">PokéDex Manager</span>
+          <span className="app-header__title">Minha Pokédex</span>
 
           <span className="app-header__subtitle">Explore o mundo Pokémon</span>
         </Link>

@@ -1,6 +1,6 @@
 # Contributing
 
-**Project:** PokéDex Manager *(Working Title)*
+**Project:** Minha Pokédex
 
 **Document:** Contributing Guide
 
@@ -14,15 +14,15 @@
 
 ## Revision History
 
-| Version | Date | Description |
-|----------|------------|------------------------------|
-| 0.1.0 | 2026-07-14 | Initial contributing guide |
+| Version | Date       | Description                |
+| ------- | ---------- | -------------------------- |
+| 0.1.0   | 2026-07-14 | Initial contributing guide |
 
 ---
 
 ## 1. Purpose
 
-This document defines the development workflow, contribution guidelines, and engineering practices for the PokéDex Manager project.
+This document defines the development workflow, contribution guidelines, and engineering practices for the Minha Pokédex project.
 
 Its purpose is to establish a consistent development process that promotes code quality, maintainability, collaboration, and long-term project sustainability.
 
@@ -49,20 +49,20 @@ Together, these documents establish the standards that guide every stage of the 
 
 ### Documentation Ecosystem
 
-| Document | Primary Question |
-|----------|------------------|
-| Vision | Why are we building it? |
-| Requirements | What are we building? |
-| Architecture | How is it designed? |
-| Roadmap | How will it evolve? |
-| Database | How is data organized? |
-| Contributing | How do we build it? |
+| Document     | Primary Question        |
+| ------------ | ----------------------- |
+| Vision       | Why are we building it? |
+| Requirements | What are we building?   |
+| Architecture | How is it designed?     |
+| Roadmap      | How will it evolve?     |
+| Database     | How is data organized?  |
+| Contributing | How do we build it?     |
 
 ---
 
 ## 2. Development Workflow
 
-The PokéDex Manager follows a documentation-driven and incremental development workflow.
+The Minha Pokédex follows a documentation-driven and incremental development workflow.
 
 Every significant change should begin with planning and documentation before implementation, ensuring that architectural decisions remain consistent throughout the project's evolution.
 
@@ -101,14 +101,15 @@ flowchart TD
 ```
 
 ---
+
 ### Development Phases
 
-| Phase | Activities |
-|--------|------------|
-| **Plan** | Requirements, Documentation, Architecture & Design |
-| **Build** | Implementation |
-| **Validate** | Testing and Code Review |
-| **Maintain** | Commit changes and update project documentation |
+| Phase        | Activities                                         |
+| ------------ | -------------------------------------------------- |
+| **Plan**     | Requirements, Documentation, Architecture & Design |
+| **Build**    | Implementation                                     |
+| **Validate** | Testing and Code Review                            |
+| **Maintain** | Commit changes and update project documentation    |
 
 ---
 
@@ -140,7 +141,7 @@ The development workflow is guided by the following principles:
 
 ## 3. Branch Strategy
 
-The PokéDex Manager follows a simplified GitHub Flow branching strategy.
+The Minha Pokédex follows a simplified GitHub Flow branching strategy.
 
 Each new feature, bug fix, documentation update, or refactoring should be developed in its own branch before being merged into the `main` branch.
 
@@ -272,20 +273,20 @@ flowchart LR
 
 ### Branch Prefixes
 
-| Prefix | Purpose |
-|---------|---------|
-| `feature/` | New features |
-| `fix/` | Bug fixes |
-| `docs/` | Documentation updates |
+| Prefix      | Purpose                                     |
+| ----------- | ------------------------------------------- |
+| `feature/`  | New features                                |
+| `fix/`      | Bug fixes                                   |
+| `docs/`     | Documentation updates                       |
 | `refactor/` | Code improvements without changing behavior |
-| `test/` | Testing-related work |
-| `chore/` | Maintenance tasks and project configuration |
+| `test/`     | Testing-related work                        |
+| `chore/`    | Maintenance tasks and project configuration |
 
 ---
 
 ## 4. Commit Convention
 
-The PokéDex Manager follows the Conventional Commits specification to maintain a clear, consistent, and meaningful Git history.
+The Minha Pokédex follows the Conventional Commits specification to maintain a clear, consistent, and meaningful Git history.
 
 Each commit should represent a single logical change and use a standardized prefix to describe its purpose.
 
@@ -312,15 +313,15 @@ refactor: simplify species service
 
 ### Commit Types
 
-| Type | Purpose |
-|------|---------|
-| `feat` | Introduces a new feature. |
-| `fix` | Fixes a bug or unexpected behavior. |
-| `docs` | Updates or adds documentation. |
-| `refactor` | Improves code structure without changing behavior. |
-| `style` | Applies formatting or style changes without affecting logic. |
-| `test` | Adds or updates automated tests. |
-| `chore` | Performs maintenance tasks, dependency updates, or project configuration. |
+| Type       | Purpose                                                                   |
+| ---------- | ------------------------------------------------------------------------- |
+| `feat`     | Introduces a new feature.                                                 |
+| `fix`      | Fixes a bug or unexpected behavior.                                       |
+| `docs`     | Updates or adds documentation.                                            |
+| `refactor` | Improves code structure without changing behavior.                        |
+| `style`    | Applies formatting or style changes without affecting logic.              |
+| `test`     | Adds or updates automated tests.                                          |
+| `chore`    | Performs maintenance tasks, dependency updates, or project configuration. |
 
 ---
 
@@ -402,7 +403,7 @@ flowchart LR
 
 ## 5. Coding Standards
 
-The PokéDex Manager follows a consistent set of coding standards to ensure readability, maintainability, scalability, and long-term project quality.
+The Minha Pokédex follows a consistent set of coding standards to ensure readability, maintainability, scalability, and long-term project quality.
 
 All source code should prioritize clarity over complexity and remain consistent across all application modules.
 
@@ -441,10 +442,10 @@ Code formatting should be handled automatically whenever possible.
 
 The project adopts the following tools:
 
-| Tool | Purpose |
-|------|---------|
-| ESLint | Static code analysis and quality enforcement. |
-| Prettier | Automatic code formatting. |
+| Tool         | Purpose                                              |
+| ------------ | ---------------------------------------------------- |
+| ESLint       | Static code analysis and quality enforcement.        |
+| Prettier     | Automatic code formatting.                           |
 | EditorConfig | Consistent editor configuration across environments. |
 
 Developers should avoid manual formatting when automated tools are available.
@@ -455,16 +456,16 @@ Developers should avoid manual formatting when automated tools are available.
 
 Code identifiers should follow consistent naming conventions.
 
-| Element | Convention | Example |
-|---------|------------|---------|
-| Variables | camelCase | `pokemonName` |
-| Functions | camelCase | `getPokemonById()` |
-| Classes | PascalCase | `PokemonService` |
-| Interfaces | PascalCase | `PokemonResponse` |
-| Enums | PascalCase | `PokemonType` |
-| Constants | UPPER_SNAKE_CASE | `MAX_RESULTS` |
-| Files | kebab-case | `pokemon-service.ts` |
-| Folders | kebab-case | `pokemon-details` |
+| Element    | Convention       | Example              |
+| ---------- | ---------------- | -------------------- |
+| Variables  | camelCase        | `pokemonName`        |
+| Functions  | camelCase        | `getPokemonById()`   |
+| Classes    | PascalCase       | `PokemonService`     |
+| Interfaces | PascalCase       | `PokemonResponse`    |
+| Enums      | PascalCase       | `PokemonType`        |
+| Constants  | UPPER_SNAKE_CASE | `MAX_RESULTS`        |
+| Files      | kebab-case       | `pokemon-service.ts` |
+| Folders    | kebab-case       | `pokemon-details`    |
 
 ---
 
@@ -766,7 +767,7 @@ This traceability helps document the origin, implementation, and integration of 
 
 ## 8. Issue Management
 
-Issues are used to organize, prioritize, and track the development of the PokéDex Manager project.
+Issues are used to organize, prioritize, and track the development of the Minha Pokédex project.
 
 Each significant feature, bug fix, improvement, or documentation update should be represented by an issue before implementation begins.
 
@@ -805,14 +806,14 @@ flowchart LR
 
 ### Issue Categories
 
-| Category | Purpose |
-|----------|---------|
-| Feature | New functionality |
-| Bug | Bug fixes |
-| Enhancement | Improvements to existing functionality |
-| Documentation | Documentation updates |
-| Refactor | Code improvements without changing behavior |
-| Chore | Maintenance and project configuration |
+| Category      | Purpose                                     |
+| ------------- | ------------------------------------------- |
+| Feature       | New functionality                           |
+| Bug           | Bug fixes                                   |
+| Enhancement   | Improvements to existing functionality      |
+| Documentation | Documentation updates                       |
+| Refactor      | Code improvements without changing behavior |
+| Chore         | Maintenance and project configuration       |
 
 ---
 
@@ -830,7 +831,7 @@ Every issue should:
 
 ## 9. Code Review
 
-Code reviews are an essential part of the development process and help ensure the quality, consistency, and maintainability of the PokéDex Manager project.
+Code reviews are an essential part of the development process and help ensure the quality, consistency, and maintainability of the Minha Pokédex project.
 
 Every significant change should be reviewed before being merged into the `main` branch.
 
@@ -925,7 +926,7 @@ Constructive feedback should be welcomed, and technical discussions should prior
 
 ## 10. Development Environment
 
-The PokéDex Manager project uses a standardized development environment to ensure consistency across all contributors.
+The Minha Pokédex project uses a standardized development environment to ensure consistency across all contributors.
 
 Developers should use the project's recommended tools, technologies, and configurations to minimize environment-specific issues and maintain compatibility throughout the development lifecycle.
 
@@ -933,28 +934,28 @@ Developers should use the project's recommended tools, technologies, and configu
 
 ### Core Technologies
 
-| Technology | Purpose |
-|------------|---------|
-| Node.js | JavaScript runtime environment |
-| TypeScript | Primary programming language |
-| React | Frontend framework |
-| Vite | Frontend build tool |
-| Express | Backend framework |
-| PostgreSQL | Relational database |
+| Technology | Purpose                        |
+| ---------- | ------------------------------ |
+| Node.js    | JavaScript runtime environment |
+| TypeScript | Primary programming language   |
+| React      | Frontend framework             |
+| Vite       | Frontend build tool            |
+| Express    | Backend framework              |
+| PostgreSQL | Relational database            |
 | Prisma ORM | Database access and migrations |
-| Git | Version control |
+| Git        | Version control                |
 
 ---
 
 ### Development Tools
 
-| Tool | Purpose |
-|------|---------|
-| Visual Studio Code | Recommended code editor |
-| ESLint | Static code analysis |
-| Prettier | Code formatting |
-| EditorConfig | Editor configuration |
-| GitHub | Source code hosting and collaboration |
+| Tool               | Purpose                               |
+| ------------------ | ------------------------------------- |
+| Visual Studio Code | Recommended code editor               |
+| ESLint             | Static code analysis                  |
+| Prettier           | Code formatting                       |
+| EditorConfig       | Editor configuration                  |
+| GitHub             | Source code hosting and collaboration |
 
 ---
 
@@ -1015,7 +1016,7 @@ Examples include:
 
 ## 11. Best Practices
 
-The following best practices represent the engineering principles that guide the development of the PokéDex Manager project.
+The following best practices represent the engineering principles that guide the development of the Minha Pokédex project.
 
 These practices are intended to promote consistency, maintainability, and long-term sustainability throughout the project's lifecycle.
 
@@ -1073,7 +1074,7 @@ Improvements should be adopted when they provide clear benefits without introduc
 
 ### Project Principles
 
-The PokéDex Manager is guided by five fundamental principles:
+The Minha Pokédex is guided by five fundamental principles:
 
 1. **Plan before building.**
 2. **Document before implementing.**
@@ -1085,12 +1086,12 @@ The PokéDex Manager is guided by five fundamental principles:
 
 ## 12. Approval
 
-This document defines the official development guidelines for the PokéDex Manager project.
+This document defines the official development guidelines for the Minha Pokédex project.
 
 All contributors are expected to follow the workflows, standards, conventions, and best practices established in this guide to ensure consistency, maintainability, and long-term project sustainability.
 
 This guide should evolve alongside the project, remaining aligned with the project's architecture, documentation, and engineering principles.
 
-Future revisions should preserve the project's commitment to quality, collaboration, and continuous improvement while supporting the long-term vision of the PokéDex Manager.
+Future revisions should preserve the project's commitment to quality, collaboration, and continuous improvement while supporting the long-term vision of the Minha Pokédex.
 
 ---
