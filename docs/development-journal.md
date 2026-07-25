@@ -409,3 +409,102 @@ Iniciar a **Sprint 2** do PokéDex Manager, substituindo a `Sidebar` por uma nav
 A primeira tarefa da Sprint 2 foi concluída com sucesso. A `Sidebar` foi substituída por uma navegação responsiva integrada ao `Header`, com funcionamento adequado em desktop e dispositivos móveis. A alteração também simplificou o `MainLayout`, removeu estruturas e arquivos que deixaram de ser necessários e aprimorou a acessibilidade da navegação por teclado. Todas as validações técnicas foram aprovadas, e as alterações permaneceram apenas no ambiente local ao final da sessão, ainda sem commit e push.
 
 ---
+
+## 2026/07/24
+
+### Objetivo
+
+Concluir a revisão e a integração da navegação responsiva desenvolvida na Sprint 2 e realizar a primeira etapa do rebranding do projeto, adotando oficialmente o nome **Minha Pokédex** na interface, na documentação e nos metadados técnicos.
+
+### Atividades realizadas
+
+- Realização do code review final da branch `feature/responsive-navigation`.
+- Validação da estrutura e das responsabilidades dos componentes envolvidos na navegação.
+- Validação da navegação desktop e do menu mobile.
+- Verificação da indicação visual da rota ativa.
+- Revisão da semântica HTML e dos atributos ARIA.
+- Validação do fechamento do menu após a seleção de uma rota.
+- Validação do fechamento do menu pela tecla `Escape`.
+- Confirmação do retorno do foco ao botão do menu após o fechamento por teclado.
+- Validação do funcionamento do skip link.
+- Revisão da responsividade e confirmação da ausência de regressões.
+- Verificação da integridade do diff.
+- Execução bem-sucedida dos comandos:
+
+  - `npm run lint`;
+  - `npm run build`;
+  - `git diff --check`.
+
+- Confirmação de que a branch `feature/responsive-navigation` estava um commit à frente e nenhum commit atrás da `main`.
+- Integração da navegação responsiva à `main`.
+- Envio da `main` atualizada ao repositório remoto.
+- Encerramento da branch de desenvolvimento da navegação responsiva.
+- Aprovação da alteração do nome público do projeto de **PokéDex Manager** para **Minha Pokédex**.
+- Definição das convenções do rebranding:
+
+  - nome público: **Minha Pokédex**;
+  - nome técnico do pacote: `minha-pokedex`;
+  - idioma principal da interface: português brasileiro;
+  - idioma técnico do código e da arquitetura: inglês.
+
+- Definição de que a renomeação do repositório remoto seria mantida fora desta etapa.
+- Criação da branch `chore/project-rebrand`.
+- Levantamento completo das referências a:
+
+  - `PokéDex Manager`;
+  - `Pokedex Manager`;
+  - `pokedex-manager`.
+
+- Classificação das ocorrências entre identidade pública, documentação viva, metadados técnicos, referências temporárias ao repositório, registros históricos e estruturas técnicas.
+- Definição da preservação das entradas antigas do Development Journal.
+- Preservação das URLs atuais do GitHub e das árvores de diretórios que ainda utilizam `pokedex-manager`.
+- Preservação das rotas, dos nomes de componentes, dos serviços e da estrutura da feature `pokedex`.
+- Atualização da identidade textual nos arquivos:
+
+  - `frontend/index.html`;
+  - `frontend/src/pages/Home/Home.tsx`;
+  - `frontend/src/shared/components/layout/Footer.tsx`;
+  - `frontend/src/shared/components/layout/Header.tsx`.
+
+- Atualização do nome exibido no `Header`.
+- Atualização dos textos da página inicial.
+- Atualização do nome exibido no `Footer`.
+- Alteração do título da página e da meta description.
+- Confirmação de que nenhuma rota, lógica ou estrutura funcional foi modificada durante o rebranding.
+- Atualização da documentação nos arquivos:
+
+  - `README.md`;
+  - `docs/architecture.md`;
+  - `docs/contributing.md`;
+  - `docs/database.md`;
+  - `docs/requirements.md`;
+  - `docs/roadmap.md`;
+  - `docs/standards/documentation-standards.md`;
+  - `docs/vision.md`.
+
+- Substituição das referências ao nome antigo por **Minha Pokédex** na documentação viva.
+- Remoção das indicações de que o nome do projeto ainda era provisório, incluindo referências a _Working Title_.
+- Manutenção das URLs e árvores de diretórios relacionadas ao repositório atual como `pokedex-manager`.
+- Atualização do pacote raiz para:
+
+  - `name`: `minha-pokedex`;
+  - `description`: `Minha Pokédex - Pokémon GO collection and management platform.`
+
+- Atualização automática do `package-lock.json` por meio do comando `npm install --package-lock-only`.
+- Confirmação de que nenhuma dependência ou versão foi alterada.
+- Execução bem-sucedida de `npm run lint`, `npm run build` e `git diff --check` após o rebranding.
+- Validação do build com Vite 8.1.5, totalizando 128 módulos transformados e conclusão sem erros.
+- Revisão das ocorrências restantes do nome antigo.
+- Revisão do diff completo e dos arquivos com alterações maiores provocadas pela formatação.
+- Validação da consistência entre `package.json` e `package-lock.json`.
+- Confirmação da preservação das URLs atuais do repositório.
+- Confirmação da ausência de alterações funcionais e de mudanças nas dependências.
+- Publicação, revisão e aprovação da branch `chore/project-rebrand`.
+
+### Observações
+
+A sessão marcou duas mudanças importantes no projeto. A navegação responsiva foi revisada, aprovada e integrada à `main`, concluindo a primeira tarefa da Sprint 2. Além disso, o projeto passou a adotar oficialmente o nome **Minha Pokédex**, com a identidade textual atualizada no frontend, na documentação e nos metadados técnicos.
+
+As referências históricas, as URLs atuais do GitHub e as estruturas técnicas que utilizam o termo `pokedex` foram preservadas de forma intencional. A branch `chore/project-rebrand` foi publicada e aprovada ao final da sessão, ficando tecnicamente validada para integração à `main`.
+
+---
