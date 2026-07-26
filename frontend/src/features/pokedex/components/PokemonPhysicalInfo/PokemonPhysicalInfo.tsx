@@ -5,31 +5,54 @@ type PokemonPhysicalInfoProps = {
   weight: number;
 };
 
+const measurementFormatter = new Intl.NumberFormat("pt-BR", {
+  maximumFractionDigits: 1,
+});
+
 export function PokemonPhysicalInfo({
   height,
   weight,
 }: PokemonPhysicalInfoProps) {
+  const heightInMeters = measurementFormatter.format(height / 10);
+  const weightInKilograms = measurementFormatter.format(weight / 10);
+
   return (
-    <section className="pokemon-physical-info">
-      <h3 className="pokemon-physical-info__title">Informações físicas</h3>
+    <section
+      className="pokemon-physical-info"
+      aria-labelledby="pokemon-physical-info-title"
+    >
+      <h3
+        id="pokemon-physical-info-title"
+        className="pokemon-physical-info__title"
+      >
+        Informações físicas
+      </h3>
 
-      <div className="pokemon-physical-info__grid">
+      <dl className="pokemon-physical-info__list">
         <div className="pokemon-physical-info__item">
-          <span className="pokemon-physical-info__label">Altura</span>
+          <dt className="pokemon-physical-info__label">Altura</dt>
 
-          <strong className="pokemon-physical-info__value">
-            {height / 10} m
-          </strong>
+          <dd className="pokemon-physical-info__value">
+            <span className="pokemon-physical-info__number">
+              {heightInMeters}
+            </span>
+
+            <span className="pokemon-physical-info__unit">m</span>
+          </dd>
         </div>
 
         <div className="pokemon-physical-info__item">
-          <span className="pokemon-physical-info__label">Peso</span>
+          <dt className="pokemon-physical-info__label">Peso</dt>
 
-          <strong className="pokemon-physical-info__value">
-            {weight / 10} kg
-          </strong>
+          <dd className="pokemon-physical-info__value">
+            <span className="pokemon-physical-info__number">
+              {weightInKilograms}
+            </span>
+
+            <span className="pokemon-physical-info__unit">kg</span>
+          </dd>
         </div>
-      </div>
+      </dl>
     </section>
   );
 }

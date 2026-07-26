@@ -1,3 +1,4 @@
+import { Badge } from "../../../../shared/components/ui/Badge/Badge";
 import type { PokemonAbility } from "../../types/pokemon";
 
 import "./PokemonAbilities.css";
@@ -15,21 +16,34 @@ function formatAbilityName(name: string) {
 
 export function PokemonAbilities({ abilities }: PokemonAbilitiesProps) {
   return (
-    <section className="pokemon-abilities">
-      <h3 className="pokemon-abilities__title">Habilidades</h3>
+    <section
+      className="pokemon-abilities"
+      aria-labelledby="pokemon-abilities-title"
+    >
+      <h3 id="pokemon-abilities-title" className="pokemon-abilities__title">
+        Habilidades
+      </h3>
 
       <ul className="pokemon-abilities__list">
-        {abilities.map((ability) => (
+        {abilities.map((ability, index) => (
           <li className="pokemon-abilities__item" key={ability.name}>
-            <span className="pokemon-abilities__name">
-              {formatAbilityName(ability.name)}
-            </span>
-
-            {ability.isHidden && (
-              <span className="pokemon-abilities__hidden">
-                Habilidade oculta
+            <div className="pokemon-abilities__item-header">
+              <span className="pokemon-abilities__position">
+                Habilidade {index + 1}
               </span>
-            )}
+
+              {ability.isHidden && <Badge variant="warning">Oculta</Badge>}
+            </div>
+
+            <strong className="pokemon-abilities__name">
+              {formatAbilityName(ability.name)}
+            </strong>
+
+            <span className="pokemon-abilities__description">
+              {ability.isHidden
+                ? "Habilidade especial que normalmente não é encontrada."
+                : "Habilidade padrão deste Pokémon."}
+            </span>
           </li>
         ))}
       </ul>
