@@ -508,3 +508,61 @@ A sessão marcou duas mudanças importantes no projeto. A navegação responsiva
 As referências históricas, as URLs atuais do GitHub e as estruturas técnicas que utilizam o termo `pokedex` foram preservadas de forma intencional. A branch `chore/project-rebrand` foi publicada e aprovada ao final da sessão, ficando tecnicamente validada para integração à `main`.
 
 ---
+
+## 2026/07/25
+
+### Objetivo
+
+Melhorar a apresentação visual das informações físicas e das habilidades na página de detalhes dos Pokémon, concluindo a segunda tarefa da Sprint 2 da **Minha Pokédex**.
+
+### Atividades realizadas
+
+- Revisão e atualização dos componentes:
+
+  - `PokemonPhysicalInfo.tsx`;
+  - `PokemonPhysicalInfo.css`;
+  - `PokemonAbilities.tsx`;
+  - `PokemonAbilities.css`.
+
+- Melhoria da hierarquia visual das informações de altura e peso.
+- Substituição da estrutura genérica das informações físicas pelos elementos semânticos `dl`, `dt` e `dd`.
+- Formatação dos valores de altura e peso no padrão `pt-BR`.
+- Separação visual entre os valores numéricos e suas respectivas unidades.
+- Centralização do conteúdo interno da seção de informações físicas.
+- Reutilização dos design tokens existentes.
+- Manutenção do card de informações físicas ocupando toda a largura disponível, com o conteúdo centralizado internamente.
+- Melhoria da hierarquia visual da seção de habilidades.
+- Inclusão da ordem de exibição das habilidades.
+- Reutilização do componente `Badge` para identificar habilidades ocultas.
+- Inclusão de textos explicativos para diferenciar habilidades comuns e ocultas.
+- Preservação da estrutura semântica com `ul` e `li`.
+- Implementação do tratamento visual de nomes compostos e prevenção de overflow.
+- Limitação e centralização do conteúdo interno da seção de habilidades.
+- Manutenção dos modelos de domínio, do `PokemonService`, dos hooks, dos mappers e da integração com a PokéAPI sem alterações.
+- Manutenção dos nomes das habilidades no idioma original, aplicando apenas formatação visual, como em `solar-power` para `Solar Power`.
+- Validação da interface nas resoluções de `320px`, `375px`, tablet e desktop.
+- Preservação da semântica HTML e da navegação por teclado.
+- Validação da acessibilidade das seções.
+- Confirmação da ausência de rolagem horizontal.
+- Validação da consistência visual com as seções de tipos, estatísticas e cabeçalho da página.
+- Confirmação de que não foram necessárias alterações em `PokemonDetails.tsx` ou `PokemonDetails.css`.
+- Execução bem-sucedida dos comandos:
+
+  - `npm run format`;
+  - `npm run lint`;
+  - `npm run build`;
+  - `git diff --check`.
+
+- Desenvolvimento realizado na branch `feature/pokemon-details-ui-polish`.
+- Realização do code review da branch.
+- Publicação e integração das alterações à `main`.
+- Remoção da branch de desenvolvimento local e remota.
+- Confirmação de que a `main` permaneceu limpa e sincronizada com `origin/main`.
+
+### Observações
+
+A segunda tarefa da Sprint 2 foi concluída com sucesso. As informações físicas e as habilidades passaram a apresentar uma hierarquia visual mais clara, melhor semântica HTML e comportamento responsivo consistente, sem alterar a arquitetura de dados ou a integração com a PokéAPI.
+
+A tradução das habilidades para português brasileiro não fez parte do escopo desta tarefa. Os nomes permaneceram no idioma original, recebendo apenas formatação visual para melhorar sua legibilidade. Ao final da sessão, a implementação estava integrada à `main`, sem branches pendentes relacionadas à tarefa.
+
+---
