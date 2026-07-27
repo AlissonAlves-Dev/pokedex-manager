@@ -7,8 +7,10 @@
     "Segoe UI",
     sans-serif;
 
-  color: #1f2937;
-  background-color: #f3f4f6;
+  color: var(--color-text-primary);
+  background-color: var(--color-background);
+
+  color-scheme: light;
 
   font-synthesis: none;
   text-rendering: optimizeLegibility;
@@ -22,8 +24,30 @@
 
   --color-primary: #dc2626;
   --color-primary-hover: #b91c1c;
+  --color-on-primary: #ffffff;
+  --color-primary-soft: rgb(220 38 38 / 10%);
+  --color-primary-soft-border: rgb(220 38 38 / 20%);
 
   --color-border: #e5e7eb;
+
+  --color-success: #166534;
+  --color-success-soft: #dcfce7;
+  --color-success-border: #bbf7d0;
+
+  --color-warning: #92400e;
+  --color-warning-soft: #fef3c7;
+  --color-warning-border: #fde68a;
+
+  --color-danger: #991b1b;
+  --color-danger-soft: #fee2e2;
+  --color-danger-border: #fecaca;
+
+  --color-focus-ring: rgb(220 38 38 / 25%);
+  --color-focus-shadow: rgb(220 38 38 / 15%);
+
+  --color-stat-track: #dde3ea;
+  --color-stat-track-border: rgb(0 0 0 / 8%);
+  --color-stat-bar-shadow: rgb(0 0 0 / 15%);
 
   --spacing-xs: 0.25rem;
   --spacing-sm: 0.5rem;
@@ -37,6 +61,47 @@
 
   --shadow-sm: 0 1px 2px rgb(0 0 0 / 5%);
   --shadow-md: 0 4px 6px rgb(0 0 0 / 10%);
+}
+
+:root[data-theme="dark"] {
+  color-scheme: dark;
+
+  --color-background: #0f172a;
+  --color-surface: #1e293b;
+  --color-surface-secondary: #273449;
+
+  --color-text-primary: #f9fafb;
+  --color-text-secondary: #cbd5e1;
+
+  --color-primary: #f87171;
+  --color-primary-hover: #fca5a5;
+  --color-on-primary: #111827;
+  --color-primary-soft: rgb(248 113 113 / 16%);
+  --color-primary-soft-border: rgb(248 113 113 / 32%);
+
+  --color-border: #334155;
+
+  --color-success: #86efac;
+  --color-success-soft: rgb(34 197 94 / 16%);
+  --color-success-border: rgb(134 239 172 / 35%);
+
+  --color-warning: #fcd34d;
+  --color-warning-soft: rgb(245 158 11 / 16%);
+  --color-warning-border: rgb(252 211 77 / 35%);
+
+  --color-danger: #fca5a5;
+  --color-danger-soft: rgb(239 68 68 / 16%);
+  --color-danger-border: rgb(252 165 165 / 35%);
+
+  --color-focus-ring: rgb(248 113 113 / 40%);
+  --color-focus-shadow: rgb(248 113 113 / 24%);
+
+  --color-stat-track: #374151;
+  --color-stat-track-border: rgb(255 255 255 / 8%);
+  --color-stat-bar-shadow: rgb(0 0 0 / 25%);
+
+  --shadow-sm: 0 1px 3px rgb(0 0 0 / 35%);
+  --shadow-md: 0 8px 18px rgb(0 0 0 / 28%);
 }
 
 *,
@@ -70,7 +135,7 @@ a {
   color: inherit;
 }
 :where(button, a, input, textarea, select):focus-visible {
-  outline: 3px solid var(--color-primary);
+  outline: 3px solid var(--color-focus-ring);
   outline-offset: 2px;
 }
 

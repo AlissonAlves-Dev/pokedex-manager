@@ -566,3 +566,109 @@ A segunda tarefa da Sprint 2 foi concluída com sucesso. As informações físic
 A tradução das habilidades para português brasileiro não fez parte do escopo desta tarefa. Os nomes permaneceram no idioma original, recebendo apenas formatação visual para melhorar sua legibilidade. Ao final da sessão, a implementação estava integrada à `main`, sem branches pendentes relacionadas à tarefa.
 
 ---
+
+## 2026/07/26
+
+### Objetivo
+
+Implementar suporte aos temas claro e escuro na **Minha Pokédex**, respeitando a preferência do sistema operacional, permitindo a alteração manual pelo usuário e persistindo a escolha no navegador.
+
+### Atividades realizadas
+
+- Revisão dos tokens globais definidos em `index.css`.
+- Levantamento das cores fixas utilizadas nos componentes da aplicação.
+- Classificação das cores entre:
+
+  - cores estruturais da interface;
+  - cores semânticas de estados;
+  - cores representativas dos tipos de Pokémon;
+  - cores representativas das estatísticas.
+
+- Definição da estratégia de aplicação do tema por meio do atributo `data-theme` no elemento `<html>`.
+- Manutenção do tema claro como padrão dos tokens globais.
+- Criação dos tokens específicos para o tema escuro.
+- Inclusão de tokens para:
+
+  - texto sobre a cor primária;
+  - fundos suaves;
+  - estados de sucesso, aviso e erro;
+  - anéis de foco;
+  - trilhas das barras de estatísticas;
+  - sombras adaptadas ao tema.
+
+- Inclusão da propriedade `color-scheme` para integrar os controles nativos do navegador ao tema ativo.
+- Criação do token global `--color-danger`, que já era utilizado pelo componente `ErrorState`.
+- Substituição de cores fixas por tokens nos componentes:
+
+  - `Header`;
+  - `Badge`;
+  - `Button`;
+  - `Input`;
+  - `PokemonStats`.
+
+- Preservação das cores fixas dos tipos de Pokémon e das barras de estatísticas, por representarem dados e categorias específicas da aplicação.
+- Criação da estrutura global de gerenciamento de tema:
+
+  - `ThemeContext`;
+  - `ThemeProvider`;
+  - `useTheme`.
+
+- Definição de `light` e `dark` como temas aceitos pela aplicação.
+- Implementação da detecção da preferência do sistema por meio de `prefers-color-scheme`.
+- Implementação do acompanhamento das alterações no tema do sistema enquanto não existir uma escolha manual.
+- Definição da preferência manual do usuário como prioridade sobre a configuração do sistema operacional.
+- Implementação da persistência do tema no `localStorage` utilizando a chave `minha-pokedex-theme`.
+- Validação dos valores recuperados do armazenamento antes de sua aplicação.
+- Implementação de tratamento seguro para falhas de acesso ao `localStorage`.
+- Integração do `ThemeProvider` à árvore principal da aplicação.
+- Criação do componente reutilizável `ThemeToggle`.
+- Implementação dos ícones de lua e sol sem utilização de bibliotecas externas.
+- Inclusão dos atributos de acessibilidade no controle de tema:
+
+  - `aria-label`;
+  - `aria-pressed`;
+  - `title`;
+  - `aria-hidden` no ícone decorativo.
+
+- Integração do `ThemeToggle` ao `Header`.
+- Criação de um agrupamento de ações no cabeçalho para acomodar:
+
+  - botão de alternância de tema;
+  - botão do menu mobile.
+
+- Preservação do comportamento existente da navegação responsiva.
+- Preservação do fechamento do menu pela tecla `Escape`.
+- Preservação do retorno do foco ao botão do menu após o fechamento por teclado.
+- Validação da alternância do tema utilizando mouse, tecla `Enter` e barra de espaço.
+- Validação da persistência da escolha após o recarregamento da página.
+- Validação do retorno à preferência automática do sistema após a remoção do valor armazenado.
+- Validação do tratamento de valores inválidos presentes no armazenamento.
+- Validação dos temas nas páginas e estados:
+
+  - Home;
+  - listagem da Pokédex;
+  - detalhes do Pokémon;
+  - carregamento;
+  - estado vazio;
+  - erro.
+
+- Validação da responsividade nas resoluções de `320px`, `375px`, tablet e desktop.
+- Confirmação da ausência de rolagem horizontal.
+- Confirmação do alinhamento correto entre o botão de tema e o menu mobile em telas reduzidas.
+- Confirmação da ausência de erros relacionados ao contexto, ao armazenamento, à preferência do sistema e aos atributos de acessibilidade.
+- Execução bem-sucedida dos comandos:
+
+  - `npm run format`;
+  - `npm run lint`;
+  - `npm run build`;
+  - `git diff --check`.
+
+### Observações
+
+A **Minha Pokédex** passou a oferecer suporte completo aos temas claro e escuro sem dependências externas. A implementação utiliza tokens globais, respeita inicialmente a preferência do sistema operacional e permite que o usuário altere manualmente o tema ativo.
+
+A escolha manual é armazenada no navegador e restaurada nos acessos seguintes. Quando não existe uma preferência salva, a aplicação acompanha automaticamente as alterações realizadas no tema do sistema.
+
+O desenvolvimento foi realizado na branch `sprint/sprint-2`, preservando a responsividade, a navegação por teclado e os comportamentos de acessibilidade existentes. Ao final da sessão, as alterações ainda não haviam passado pelo code review completo nem sido integradas à `main`.
+
+---
