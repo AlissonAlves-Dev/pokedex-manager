@@ -7,13 +7,6 @@ type PokemonAbilitiesProps = {
   abilities: PokemonAbility[];
 };
 
-function formatAbilityName(name: string) {
-  return name
-    .split("-")
-    .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
-    .join(" ");
-}
-
 export function PokemonAbilities({ abilities }: PokemonAbilitiesProps) {
   return (
     <section
@@ -36,7 +29,7 @@ export function PokemonAbilities({ abilities }: PokemonAbilitiesProps) {
             </div>
 
             <strong className="pokemon-abilities__name">
-              {formatAbilityName(ability.name)}
+              {ability.displayName}
             </strong>
 
             <span className="pokemon-abilities__description">

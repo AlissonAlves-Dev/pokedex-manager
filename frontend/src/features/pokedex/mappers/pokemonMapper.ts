@@ -2,6 +2,7 @@ import { isPokemonType } from "../types/pokemon";
 
 import type { PokemonDetails, PokemonSummary } from "../types/pokemon";
 import type { PokemonApiDetailResponse } from "../types/pokemonApi";
+import { getAbilityDisplayName } from "./pokemonAbilityMapper";
 
 function mapPokemonTypes(
   pokemon: PokemonApiDetailResponse,
@@ -43,6 +44,7 @@ export function mapPokemonApiToDetails(
 
     abilities: pokemon.abilities.map(({ ability, is_hidden }) => ({
       name: ability.name,
+      displayName: getAbilityDisplayName(ability.name),
       isHidden: is_hidden,
     })),
 

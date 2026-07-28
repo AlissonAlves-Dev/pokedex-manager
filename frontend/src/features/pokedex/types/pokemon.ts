@@ -34,6 +34,7 @@ export type PokemonSummary = {
 
 export type PokemonAbility = {
   name: string;
+  displayName: string;
   isHidden: boolean;
 };
 

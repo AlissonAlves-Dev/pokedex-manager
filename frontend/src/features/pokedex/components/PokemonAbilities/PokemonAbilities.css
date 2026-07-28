@@ -51,6 +51,8 @@
   align-items: center;
   justify-content: space-between;
   gap: var(--spacing-sm);
+
+  min-height: 1.5rem;
 }
 
 .pokemon-abilities__position {
