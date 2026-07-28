@@ -672,3 +672,79 @@ A escolha manual é armazenada no navegador e restaurada nos acessos seguintes. 
 O desenvolvimento foi realizado na branch `sprint/sprint-2`, preservando a responsividade, a navegação por teclado e os comportamentos de acessibilidade existentes. Ao final da sessão, as alterações ainda não haviam passado pelo code review completo nem sido integradas à `main`.
 
 ---
+
+## 2026/07/27
+
+### Objetivo
+
+Implementar a tradução dos nomes das habilidades dos Pokémon para português brasileiro e realizar o code review completo e final da Sprint 2 da **Minha Pokédex**.
+
+### Atividades realizadas
+
+- Revisão do fluxo das habilidades desde a resposta da PokéAPI até sua exibição no componente `PokemonAbilities`.
+- Identificação de que a formatação dos nomes das habilidades estava sendo realizada diretamente no componente visual.
+- Avaliação das alternativas para obtenção e armazenamento das traduções.
+- Definição da utilização de um dicionário local, evitando novas requisições, dependências externas e aumento de latência.
+- Criação do arquivo `frontend/src/features/pokedex/data/abilityTranslations.ts`.
+- Inclusão de um conjunto inicial de traduções de habilidades para português brasileiro.
+- Criação do mapper `frontend/src/features/pokedex/mappers/pokemonAbilityMapper.ts`.
+- Implementação da normalização dos identificadores das habilidades.
+- Implementação da consulta ao dicionário local de traduções.
+- Implementação de fallback formatado em inglês para habilidades ainda não traduzidas.
+- Atualização do modelo de domínio `PokemonAbility` com a propriedade `displayName`.
+- Preservação da propriedade `name` como identificador original fornecido pela PokéAPI.
+- Integração da resolução dos nomes das habilidades ao mapper `mapPokemonApiToDetails`.
+- Remoção da lógica de formatação dos nomes do componente `PokemonAbilities`.
+- Atualização do componente para exibir diretamente `ability.displayName`.
+- Preservação de `ability.name` como chave estável dos elementos renderizados.
+- Confirmação de que o serviço e o hook permaneceram sem responsabilidades relacionadas à tradução.
+- Confirmação de que não foram adicionadas requisições ao endpoint de habilidades da PokéAPI.
+- Realização de testes com habilidades traduzidas.
+- Realização de testes com habilidades que utilizam o fallback em inglês.
+- Validação da apresentação de habilidades comuns e ocultas.
+- Identificação de um desalinhamento vertical entre os cards quando somente uma habilidade apresentava o badge **“Oculta”**.
+- Correção do alinhamento por meio da definição de uma altura mínima para o cabeçalho dos cards.
+- Envio das alterações para a branch `sprint/sprint-2`.
+- Início do code review completo e final da Sprint 2.
+- Comparação da branch de desenvolvimento com a `main`.
+- Confirmação de que a branch estava atualizada em relação à `main`.
+- Revisão da arquitetura de gerenciamento de temas.
+- Revisão do `ThemeContext`, `ThemeProvider` e `useTheme`.
+- Revisão da aplicação do atributo `data-theme` no elemento `<html>`.
+- Revisão da definição inicial do tema com base na preferência do sistema operacional.
+- Revisão da prioridade da preferência manual do usuário.
+- Revisão da persistência da escolha no `localStorage`.
+- Revisão da acessibilidade do componente `ThemeToggle`.
+- Revisão da navegação desktop e mobile.
+- Revisão dos tokens utilizados nos temas claro e escuro.
+- Revisão dos estados de foco e interação.
+- Revisão da organização do dicionário e dos mappers das habilidades.
+- Confirmação da separação entre as propriedades `name` e `displayName`.
+- Confirmação do funcionamento do fallback em inglês.
+- Confirmação da ausência de novas requisições para tradução das habilidades.
+- Identificação de pontos de contraste que necessitavam de melhorias.
+- Atualização da cor do texto secundário no tema claro.
+- Criação do token `--color-primary-text` para os temas claro e escuro.
+- Aplicação do novo token nos links ativos do `Header`.
+- Aplicação do novo token no `Badge` primário.
+- Alteração do indicador global de foco para utilizar a cor primária sólida.
+- Remoção da sobrescrita translúcida do indicador de foco no tema escuro.
+- Renomeação do arquivo `UseTheme.ts` para `useTheme.ts`.
+- Atualização do import utilizado pelo componente `ThemeToggle`.
+- Criação e envio do commit `fix: improve theme contrast and focus visibility`.
+- Repetição do code review após a aplicação das correções.
+- Confirmação de que os problemas de contraste e visibilidade do foco foram resolvidos.
+- Confirmação de que a branch ficou quatro commits à frente e nenhum commit atrás da `main`.
+- Conclusão do code review sem novos bloqueadores.
+
+### Observações
+
+A arquitetura de gerenciamento dos temas foi aprovada, mantendo responsabilidades bem separadas entre contexto, provider, hook e componente visual.
+
+A tradução das habilidades foi implementada localmente, sem aumentar a quantidade de requisições realizadas pela aplicação. O componente visual passou a receber o nome já preparado para apresentação, enquanto o identificador original da PokéAPI foi preservado no modelo de domínio.
+
+As correções identificadas durante o code review melhoraram o contraste dos textos e dos elementos primários, além de tornar os indicadores de foco mais visíveis e consistentes nos dois temas. Também foi corrigida a nomenclatura do arquivo `useTheme`, mantendo o padrão adotado para hooks.
+
+Ao final da sessão, a branch `sprint/sprint-2` estava tecnicamente aprovada para o encerramento da Sprint 2. A integração das alterações à `main` ainda não havia sido realizada.
+
+---
