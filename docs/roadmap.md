@@ -4,11 +4,11 @@
 
 **Document:** Roadmap
 
-**Version:** 0.1.1
+**Version:** 0.1.2
 
 **Status:** Draft
 
-**Last Updated:** 2026-07-22
+**Last Updated:** 2026-07-27
 
 ---
 
@@ -18,6 +18,7 @@
 | ------- | ---------- | --------------------------------------------------- |
 | 0.1.0   | 2026-07-13 | Initial project roadmap                             |
 | 0.1.1   | 2026-07-22 | Updated Sprint 1 and Milestone 1 development status |
+| 0.1.2   | 2026-07-27 | Completed Sprint 2 and updated Milestone 1 progress |
 
 ---
 
@@ -119,11 +120,11 @@ flowchart TD
 
 ### Sprint Progress
 
-| Sprint   | Scope                    | Status       | Result                                                                                                   |
-| -------- | ------------------------ | ------------ | -------------------------------------------------------------------------------------------------------- |
-| Sprint 0 | Project Setup            | 🟢 Completed | Monorepo, frontend foundation, development tools, code quality standards, and project configuration.     |
-| Sprint 1 | Frontend Foundation      | 🟢 Completed | Routing, application layout, Design System, PokéAPI integration, listing, search, details, and feedback. |
-| Sprint 2 | Milestone 1 Continuation | ⚪ Planned   | UI/UX refinement, navigation restructuring, remaining MVP information, and technical improvements.       |
+| Sprint   | Scope                    | Status       | Result                                                                                                                    |
+| -------- | ------------------------ | ------------ | ------------------------------------------------------------------------------------------------------------------------- |
+| Sprint 0 | Project Setup            | 🟢 Completed | Monorepo, frontend foundation, development tools, code quality standards, and project configuration.                      |
+| Sprint 1 | Frontend Foundation      | 🟢 Completed | Routing, application layout, Design System, PokéAPI integration, listing, search, details, and feedback.                  |
+| Sprint 2 | Milestone 1 Continuation | 🟢 Completed | Responsive navigation, UI refinements, light and dark themes, accessibility improvements, and pt-BR ability translations. |
 
 ---
 
@@ -198,21 +199,21 @@ Deliver a complete Pokédex experience without requiring user authentication or 
 
 ### Current Delivery Status
 
-| Deliverable                      | Status         | Notes                                                                     |
-| -------------------------------- | -------------- | ------------------------------------------------------------------------- |
-| Search Pokémon by name           | 🟢 Completed   | Search is currently applied to the loaded Pokémon list.                   |
-| Search Pokémon by Pokédex number | 🟢 Completed   | Supports numeric searches such as `1`, `001`, and `#001`.                 |
-| Browse available Pokémon         | 🟡 In Progress | The initial set is available; pagination and broader loading are pending. |
-| Display official artwork         | 🟢 Completed   | Official artwork is displayed in listing and details.                     |
-| Display sprites                  | ⚪ Planned     | Not implemented yet.                                                      |
-| Display Pokémon types            | 🟢 Completed   | Types are validated and displayed through TypeBadge.                      |
-| Display base stats               | 🟢 Completed   | Base stats include accessible progress indicators.                        |
-| Display abilities                | 🟢 Completed   | Regular and hidden abilities are displayed.                               |
-| Display evolution chain          | ⚪ Planned     | Not implemented yet.                                                      |
-| Display available forms          | ⚪ Planned     | Not implemented yet.                                                      |
-| Display Pokédex description      | ⚪ Planned     | Not implemented yet.                                                      |
-| Responsive interface             | 🟢 Completed   | Validated from 320px through desktop resolutions.                         |
-| Loading, empty, and error states | 🟢 Completed   | Includes request cancellation and retry support.                          |
+| Deliverable                      | Status         | Notes                                                                                       |
+| -------------------------------- | -------------- | ------------------------------------------------------------------------------------------- |
+| Search Pokémon by name           | 🟢 Completed   | Search is currently applied to the loaded Pokémon list.                                     |
+| Search Pokémon by Pokédex number | 🟢 Completed   | Supports numeric searches such as `1`, `001`, and `#001`.                                   |
+| Browse available Pokémon         | 🟡 In Progress | The initial set is available; pagination and broader loading are pending.                   |
+| Display official artwork         | 🟢 Completed   | Official artwork is displayed in listing and details.                                       |
+| Display sprites                  | ⚪ Planned     | Not implemented yet.                                                                        |
+| Display Pokémon types            | 🟢 Completed   | Types are validated and displayed through TypeBadge.                                        |
+| Display base stats               | 🟢 Completed   | Base stats include accessible progress indicators.                                          |
+| Display abilities                | 🟢 Completed   | Regular and hidden abilities are displayed with pt-BR translations and an English fallback. |
+| Display evolution chain          | ⚪ Planned     | Not implemented yet.                                                                        |
+| Display available forms          | ⚪ Planned     | Not implemented yet.                                                                        |
+| Display Pokédex description      | ⚪ Planned     | Not implemented yet.                                                                        |
+| Responsive interface             | 🟢 Completed   | Validated from 320px through desktop resolutions.                                           |
+| Loading, empty, and error states | 🟢 Completed   | Includes request cancellation and retry support.                                            |
 
 > The search implemented during Sprint 1 operates on the Pokémon currently
 > loaded by the application. Full-dataset search, pagination, or API-driven

@@ -23,7 +23,7 @@
 }
 
 .button--primary {
-  color: var(--color-surface);
+  color: var(--color-on-primary);
   background-color: var(--color-primary);
 }
 
@@ -42,7 +42,7 @@
 }
 
 .button:focus-visible {
-  outline: 3px solid rgb(220 38 38 / 25%);
+  outline: 3px solid var(--color-focus-ring);
   outline-offset: 2px;
 }
 

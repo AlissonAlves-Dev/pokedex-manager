@@ -22,25 +22,25 @@
 }
 
 .badge--primary {
-  color: var(--color-primary);
-  background-color: rgb(220 38 38 / 10%);
-  border-color: rgb(220 38 38 / 20%);
+  color: var(--color-primary-text);
+  background-color: var(--color-primary-soft);
+  border-color: var(--color-primary-soft-border);
 }
 
 .badge--success {
-  color: #166534;
-  background-color: #dcfce7;
-  border-color: #bbf7d0;
+  color: var(--color-success);
+  background-color: var(--color-success-soft);
+  border-color: var(--color-success-border);
 }
 
 .badge--warning {
-  color: #92400e;
-  background-color: #fef3c7;
-  border-color: #fde68a;
+  color: var(--color-warning);
+  background-color: var(--color-warning-soft);
+  border-color: var(--color-warning-border);
 }
 
 .badge--danger {
-  color: #991b1b;
-  background-color: #fee2e2;
-  border-color: #fecaca;
+  color: var(--color-danger);
+  background-color: var(--color-danger-soft);
+  border-color: var(--color-danger-border);
 }

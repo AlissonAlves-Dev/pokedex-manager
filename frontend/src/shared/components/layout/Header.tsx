@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { Link, NavLink } from "react-router";
+import { ThemeToggle } from "../ui/ThemeToggle/ThemeToggle";
 
 import "./Header.css";
 
@@ -50,24 +51,29 @@ export function Header() {
           <span className="app-header__subtitle">Explore o mundo Pokémon</span>
         </Link>
 
-        <button
-          ref={menuButtonRef}
-          className="app-header__menu-button"
-          type="button"
-          aria-expanded={isMenuOpen}
-          aria-controls="primary-navigation"
-          aria-label={
-            isMenuOpen ? "Fechar menu de navegação" : "Abrir menu de navegação"
-          }
-          onClick={handleToggleMenu}
-        >
-          <span className="app-header__menu-icon" aria-hidden="true">
-            <span className="app-header__menu-line" />
-            <span className="app-header__menu-line" />
-            <span className="app-header__menu-line" />
-          </span>
-        </button>
+        <div className="app-header__actions">
+          <ThemeToggle />
 
+          <button
+            ref={menuButtonRef}
+            className="app-header__menu-button"
+            type="button"
+            aria-expanded={isMenuOpen}
+            aria-controls="primary-navigation"
+            aria-label={
+              isMenuOpen
+                ? "Fechar menu de navegação"
+                : "Abrir menu de navegação"
+            }
+            onClick={handleToggleMenu}
+          >
+            <span className="app-header__menu-icon" aria-hidden="true">
+              <span className="app-header__menu-line" />
+              <span className="app-header__menu-line" />
+              <span className="app-header__menu-line" />
+            </span>
+          </button>
+        </div>
         <nav
           id="primary-navigation"
           className={

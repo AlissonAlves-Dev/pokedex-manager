@@ -10,7 +10,7 @@
   display: grid;
   grid-template-columns: auto minmax(0, 1fr) auto;
   align-items: center;
-  gap: var(--spacing-xl);
+  gap: var(--spacing-md);
 
   width: 100%;
   min-height: 4.5rem;
@@ -43,6 +43,13 @@
   outline: 2px solid var(--color-primary);
   outline-offset: 0.25rem;
   border-radius: var(--radius-sm);
+}
+
+.app-header__actions {
+  display: flex;
+  align-items: center;
+  justify-self: end;
+  gap: var(--spacing-sm);
 }
 
 .app-header__navigation {
@@ -82,9 +89,8 @@
 }
 
 .app-header__navigation-link--active {
-  color: var(--color-primary);
-  background-color: rgb(220 38 38 / 10%);
-
+  color: var(--color-primary-text);
+  background-color: var(--color-primary-soft);
   font-weight: 600;
 }
 
