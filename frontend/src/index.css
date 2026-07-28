@@ -20,13 +20,15 @@
   --color-surface-secondary: #f9fafb;
 
   --color-text-primary: #1f2937;
-  --color-text-secondary: #6b7280;
+  --color-text-secondary: #4b5563;
 
   --color-primary: #dc2626;
   --color-primary-hover: #b91c1c;
   --color-on-primary: #ffffff;
   --color-primary-soft: rgb(220 38 38 / 10%);
   --color-primary-soft-border: rgb(220 38 38 / 20%);
+
+  --color-primary-text: #b91c1c;
 
   --color-border: #e5e7eb;
 
@@ -42,7 +44,7 @@
   --color-danger-soft: #fee2e2;
   --color-danger-border: #fecaca;
 
-  --color-focus-ring: rgb(220 38 38 / 25%);
+  --color-focus-ring: var(--color-primary);
   --color-focus-shadow: rgb(220 38 38 / 15%);
 
   --color-stat-track: #dde3ea;
@@ -79,6 +81,8 @@
   --color-primary-soft: rgb(248 113 113 / 16%);
   --color-primary-soft-border: rgb(248 113 113 / 32%);
 
+  --color-primary-text: #fca5a5;
+
   --color-border: #334155;
 
   --color-success: #86efac;
@@ -93,7 +97,6 @@
   --color-danger-soft: rgb(239 68 68 / 16%);
   --color-danger-border: rgb(252 165 165 / 35%);
 
-  --color-focus-ring: rgb(248 113 113 / 40%);
   --color-focus-shadow: rgb(248 113 113 / 24%);
 
   --color-stat-track: #374151;

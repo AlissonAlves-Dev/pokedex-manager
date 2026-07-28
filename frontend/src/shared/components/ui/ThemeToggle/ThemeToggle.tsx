@@ -1,5 +1,4 @@
-import { useTheme } from "../../../../app/providers/theme/UseTheme";
-
+import { useTheme } from "../../../../app/providers/theme/useTheme";
 import "./ThemeToggle.css";
 
 export function ThemeToggle() {
