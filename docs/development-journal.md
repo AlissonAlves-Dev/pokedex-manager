@@ -748,3 +748,119 @@ As correções identificadas durante o code review melhoraram o contraste dos te
 Ao final da sessão, a branch `sprint/sprint-2` estava tecnicamente aprovada para o encerramento da Sprint 2. A integração das alterações à `main` ainda não havia sido realizada.
 
 ---
+
+## 2026/07/28
+
+### Objetivo
+
+Revisar o funcionamento atual da listagem de Pokémon e implementar o carregamento progressivo, preservando os resultados anteriores, tratando o carregamento adicional separadamente e mantendo o estado da Pokédex durante a navegação para a página de detalhes.
+
+### Atividades realizadas
+
+- Revisão do hook `usePokemonList`.
+- Revisão do `PokemonService`.
+- Revisão do modelo `PokemonApiListResponse`.
+- Revisão da página `PokemonList`.
+- Revisão dos comportamentos relacionados ao contador, pesquisa, carregamento, erro e estado vazio.
+- Identificação de que a resposta da PokéAPI já disponibilizava os metadados:
+
+  - `count`;
+  - `next`;
+  - `previous`;
+  - `results`.
+
+- Identificação de que o serviço retornava apenas o array de Pokémon e descartava os metadados necessários para a paginação.
+- Criação do modelo de domínio `PokemonListPage`.
+- Atualização do método `getPokemonList` para retornar:
+
+  - `pokemonList`;
+  - `totalCount`;
+  - `nextOffset`.
+
+- Preservação dos parâmetros `limit`, `offset` e `AbortSignal`.
+- Reformulação do hook `usePokemonList`.
+- Inclusão do estado responsável por armazenar todos os Pokémon carregados.
+- Inclusão do total de Pokémon informado pela PokéAPI.
+- Inclusão do próximo offset disponível para carregamento.
+- Separação entre o carregamento inicial e o carregamento adicional.
+- Separação entre o erro inicial e o erro ocorrido durante o carregamento adicional.
+- Criação da função `loadMore`.
+- Implementação da acumulação das novas páginas na listagem existente.
+- Preservação dos resultados anteriores durante o carregamento adicional.
+- Preservação da listagem quando uma página adicional falha.
+- Manutenção do mesmo offset após uma falha de carregamento.
+- Implementação da repetição da requisição para a página que apresentou erro.
+- Implementação de proteção lógica contra requisições simultâneas.
+- Utilização de `useRef` para bloquear cliques repetidos antes da atualização visual do estado.
+- Implementação de filtragem por ID para impedir a inserção de cards duplicados.
+- Implementação do cancelamento das requisições adicionais durante a desmontagem do hook.
+- Atualização do retorno de `usePokemonList` com:
+
+  - `pokemonList`;
+  - `totalCount`;
+  - `isLoading`;
+  - `isLoadingMore`;
+  - `error`;
+  - `loadMoreError`;
+  - `hasMore`;
+  - `loadMore`;
+  - `retry`.
+
+- Atualização da página `PokemonList`.
+- Alteração do contador para informar quantos Pokémon foram carregados em relação ao total disponível.
+- Manutenção da pesquisa local entre os Pokémon já carregados.
+- Inclusão do botão **“Carregar mais”**.
+- Inclusão de um spinner específico para o carregamento adicional.
+- Inclusão de uma mensagem específica para erros no carregamento adicional.
+- Alteração do botão para **“Tentar novamente”** após uma falha.
+- Inclusão da mensagem **“Todos os Pokémon foram carregados.”** ao final da paginação.
+- Manutenção dos controles de paginação mesmo quando a pesquisa local não encontra resultados.
+- Identificação de que o estado da listagem era perdido ao acessar a página de detalhes.
+- Avaliação das alternativas para preservar a listagem e a posição do usuário durante a navegação.
+- Definição da utilização de um layout persistente para as rotas da Pokédex.
+- Criação do contexto `frontend/src/features/pokedex/contexts/PokemonListRouteContext.ts`.
+- Criação do layout `frontend/src/features/pokedex/layouts/PokemonRoutesLayout.tsx`.
+- Integração do novo layout ao `AppRouter`.
+- Manutenção do provider durante a navegação entre as páginas de listagem e detalhes.
+- Preservação dos Pokémon carregados, total, offset, pesquisa e estados de paginação.
+- Alteração do componente `PokemonCard` para informar qual Pokémon foi selecionado.
+- Alteração do componente `PokemonGrid` para propagar a seleção realizada.
+- Inclusão de `state` na navegação para indicar que a página de detalhes foi acessada a partir da listagem.
+- Ajuste da página `PokemonDetails` para:
+
+  - retornar pelo histórico quando o usuário tiver vindo da listagem;
+  - utilizar `/pokemon` como destino alternativo em acessos diretos.
+
+- Identificação de que a restauração baseada apenas em coordenadas de rolagem não posicionava corretamente o Pokémon selecionado.
+- Substituição da restauração por coordenada pela identificação do card selecionado.
+- Inclusão do atributo `data-pokemon-id` nos links dos cards.
+- Armazenamento do ID do último Pokémon selecionado no contexto persistente.
+- Utilização de `scrollIntoView` ao retornar para a listagem.
+- Posicionamento aproximado do Pokémon selecionado no centro da tela.
+- Limpeza do ID selecionado após a restauração da posição.
+- Validação do retorno por meio do botão **“Voltar para Pokédex”**.
+- Validação do retorno utilizando o botão do navegador.
+- Validação do acesso direto a uma página de detalhes.
+- Validação da preservação da pesquisa.
+- Validação da preservação dos Pokémon carregados.
+- Validação da preservação do estado de paginação.
+- Confirmação da ausência de novas requisições iniciais ao retornar para a listagem.
+- Validação dos fluxos nos temas claro e escuro.
+- Validação da responsividade nas resoluções de `320px`, `375px`, `768px` e desktop.
+- Confirmação da ausência de rolagem horizontal.
+- Execução bem-sucedida dos comandos:
+
+  - `npm run format`;
+  - `npm run lint`;
+  - `npm run build`;
+  - `git diff --check`.
+
+### Observações
+
+A paginação progressiva e a preservação do estado durante a navegação foram concluídas e validadas. A listagem agora mantém os resultados anteriores durante novos carregamentos, diferencia os estados de carregamento e erro iniciais dos adicionais, evita requisições simultâneas e cards duplicados, permite repetir somente a página que falhou e informa quando todos os Pokémon disponíveis foram carregados.
+
+O novo layout persistente mantém os Pokémon carregados, a pesquisa, os metadados de paginação e a referência do último card selecionado durante a navegação entre a listagem e os detalhes. Ao retornar, o usuário é reposicionado próximo ao Pokémon anteriormente acessado, sem reiniciar a listagem ou repetir a requisição inicial.
+
+Durante os testes, foi confirmado que a pesquisa atual considera apenas os Pokémon já presentes em `pokemonList`. A necessidade de uma pesquisa remota por nome ou número exato foi identificada e registrada para continuidade da Sprint 3. O code review completo e a integração das alterações à `main` ainda não haviam sido realizados ao final da sessão.
+
+---

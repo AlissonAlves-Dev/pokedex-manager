@@ -10,3 +10,33 @@
 .pokemon-list__clear-search {
   margin-top: var(--spacing-sm);
 }
+
+.pokemon-list__pagination {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--spacing-md);
+
+  margin-top: var(--spacing-xl);
+}
+
+.pokemon-list__load-more-error {
+  margin: 0;
+
+  color: var(--color-danger);
+
+  font-size: 0.875rem;
+  font-weight: 600;
+  line-height: 1.5;
+  text-align: center;
+}
+
+.pokemon-list__end-message {
+  margin: 0;
+
+  color: var(--color-text-secondary);
+
+  font-size: 0.875rem;
+  line-height: 1.5;
+  text-align: center;
+}

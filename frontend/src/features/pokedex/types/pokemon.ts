@@ -32,6 +32,12 @@ export type PokemonSummary = {
   types: PokemonType[];
 };
 
+export type PokemonListPage = {
+  pokemonList: PokemonSummary[];
+  totalCount: number;
+  nextOffset: number | null;
+};
+
 export type PokemonAbility = {
   name: string;
   displayName: string;

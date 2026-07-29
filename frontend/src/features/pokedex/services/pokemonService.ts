@@ -3,7 +3,11 @@ import {
   mapPokemonApiToSummary,
 } from "../mappers/pokemonMapper";
 
-import type { PokemonDetails, PokemonSummary } from "../types/pokemon";
+import type {
+  PokemonDetails,
+  PokemonListPage,
+  PokemonSummary,
+} from "../types/pokemon";
 
 import type {
   PokemonApiDetailResponse,
@@ -40,7 +44,7 @@ export async function getPokemonList(
   limit = 20,
   offset = 0,
   signal?: AbortSignal,
-): Promise<PokemonSummary[]> {
+): Promise<PokemonListPage> {
   const response = await fetch(
     `${POKE_API_BASE_URL}/pokemon?limit=${limit}&offset=${offset}`,
     { signal },
@@ -52,9 +56,15 @@ export async function getPokemonList(
 
   const data: PokemonApiListResponse = await response.json();
 
-  return Promise.all(
+  const pokemonList = await Promise.all(
     data.results.map((pokemon) => getPokemonSummary(pokemon.url, signal)),
   );
+
+  return {
+    pokemonList,
+    totalCount: data.count,
+    nextOffset: data.next === null ? null : offset + data.results.length,
+  };
 }
 
 export async function getPokemonById(
