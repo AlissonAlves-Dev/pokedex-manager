@@ -67,6 +67,28 @@ export async function getPokemonList(
   };
 }
 
+export async function getPokemonSummaryByIdentifier(
+  identifier: string,
+  signal?: AbortSignal,
+): Promise<PokemonSummary | null> {
+  const response = await fetch(
+    `${POKE_API_BASE_URL}/pokemon/${encodeURIComponent(identifier)}`,
+    { signal },
+  );
+
+  if (response.status === 404) {
+    return null;
+  }
+
+  if (!response.ok) {
+    throw new Error("Não foi possível pesquisar o Pokémon.");
+  }
+
+  const pokemonApi: PokemonApiDetailResponse = await response.json();
+
+  return mapPokemonApiToSummary(pokemonApi);
+}
+
 export async function getPokemonById(
   pokemonId: number,
   signal?: AbortSignal,

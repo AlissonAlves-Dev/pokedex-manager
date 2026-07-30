@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Outlet, useMatch } from "react-router";
 
 import { PokemonListRouteContext } from "../contexts/PokemonListRouterContext";
+import { usePokemonExactSearch } from "../hooks/usePokemonExactSearch";
 import { usePokemonList } from "../hooks/usePokemonList";
 
 export function PokemonRoutesLayout() {
@@ -13,6 +14,8 @@ export function PokemonRoutesLayout() {
 
   const pokemonListState = usePokemonList(20, 0, isPokemonListRoute);
 
+  const pokemonExactSearchState = usePokemonExactSearch();
+
   const [searchInput, setSearchInput] = useState("");
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedPokemonId, setSelectedPokemonId] = useState<number | null>(
@@ -23,6 +26,7 @@ export function PokemonRoutesLayout() {
     <PokemonListRouteContext.Provider
       value={{
         ...pokemonListState,
+        ...pokemonExactSearchState,
         searchInput,
         searchQuery,
         selectedPokemonId,

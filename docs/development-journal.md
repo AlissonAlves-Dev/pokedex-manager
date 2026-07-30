@@ -864,3 +864,199 @@ O novo layout persistente mantém os Pokémon carregados, a pesquisa, os metadad
 Durante os testes, foi confirmado que a pesquisa atual considera apenas os Pokémon já presentes em `pokemonList`. A necessidade de uma pesquisa remota por nome ou número exato foi identificada e registrada para continuidade da Sprint 3. O code review completo e a integração das alterações à `main` ainda não haviam sido realizados ao final da sessão.
 
 ---
+
+## 2026/07/29
+
+### Objetivo
+
+Dar continuidade à Sprint 3 da **Minha Pokédex**, implementando uma pesquisa global exata por nome ou número, sem misturar o resultado remoto com a listagem paginada e preservando todos os estados durante a navegação para a página de detalhes.
+
+### Atividades realizadas
+
+- Revisão do estado atual da pesquisa na página `PokemonList`.
+- Revisão das responsabilidades do hook `usePokemonList`.
+- Revisão do contexto persistente das rotas da Pokédex.
+- Revisão dos métodos disponíveis no `PokemonService`.
+- Revisão das regras existentes para normalização de nomes e números.
+- Revisão dos estados de carregamento, erro e resultado vazio.
+- Confirmação da existência da branch remota `sprint/sprint-3`.
+- Manutenção do `usePokemonList` como responsável exclusivamente por:
+
+  - listagem inicial;
+  - paginação;
+  - total de Pokémon;
+  - próximo offset;
+  - carregamento adicional;
+  - erros da listagem;
+  - prevenção de páginas duplicadas.
+
+- Definição de um fluxo independente para a pesquisa global, com estados e responsabilidades próprios.
+- Manutenção da filtragem local durante a digitação.
+- Definição de que a consulta remota seria executada apenas após a confirmação da pesquisa.
+- Definição de que a PokéAPI somente seria consultada quando não existisse uma correspondência exata entre os Pokémon já carregados.
+- Criação do método `getPokemonSummaryByIdentifier`.
+- Implementação da consulta direta à PokéAPI por nome ou número.
+- Definição do retorno do serviço como `PokemonSummary | null`.
+- Tratamento de respostas `404` como Pokémon inexistente.
+- Manutenção de erros de rede ou servidor como exceções técnicas independentes.
+- Garantia de que a pesquisa remota não alterasse:
+
+  - `pokemonList`;
+  - `totalCount`;
+  - `nextOffset`;
+  - `hasMore`;
+  - estado de finalização da listagem.
+
+- Criação do utilitário `frontend/src/features/pokedex/utils/pokemonSearch.ts`.
+- Implementação da função `normalizePokemonSearchQuery`.
+- Implementação da normalização de:
+
+  - espaços no início e no final;
+  - letras maiúsculas e minúsculas;
+  - acentuação;
+  - prefixo `#`;
+  - zeros à esquerda;
+  - espaços em nomes compostos;
+  - pontuação;
+  - símbolos de gênero.
+
+- Validação das seguintes normalizações:
+
+  - `"  Pikachu  "` para `"pikachu"`;
+  - `"#025"` para `"25"`;
+  - `"Mr. Mime"` para `"mr-mime"`;
+  - `"Ho Oh"` para `"ho-oh"`;
+  - `"Nidoran♀"` para `"nidoran-f"`;
+  - `"Nidoran♂"` para `"nidoran-m"`.
+
+- Criação da função `findExactPokemonMatch`.
+- Implementação da verificação exata por nome normalizado e número do Pokémon.
+- Criação do hook `usePokemonExactSearch`.
+- Inclusão dos estados:
+
+  - `remotePokemon`;
+  - `isSearchingPokemon`;
+  - `exactSearchError`;
+  - `hasSearchedRemotely`.
+
+- Inclusão das funções:
+
+  - `searchExactPokemon`;
+  - `clearExactSearch`.
+
+- Implementação do cancelamento da pesquisa anterior utilizando `AbortController`.
+- Implementação de proteção contra respostas antigas sobrescreverem uma pesquisa mais recente.
+- Separação dos estados de:
+
+  - Pokémon encontrado;
+  - Pokémon inexistente;
+  - erro técnico;
+  - pesquisa em andamento.
+
+- Integração do `usePokemonExactSearch` ao `PokemonRoutesLayout`.
+- Inclusão do estado da pesquisa global no `PokemonListRouteContext`.
+- Preservação da pesquisa global durante a navegação entre:
+
+  - `/pokemon`;
+  - `/pokemon/:pokemonId`.
+
+- Alteração da pesquisa local para acompanhar o texto durante a digitação.
+- Manutenção de `searchQuery` como a última pesquisa confirmada.
+- Limpeza do resultado remoto quando o usuário altera o texto da pesquisa.
+- Cancelamento da requisição remota ao limpar ou modificar a consulta.
+- Implementação do fluxo de confirmação da pesquisa:
+
+  - normalização da consulta;
+  - busca por correspondência exata em `pokemonList`;
+  - utilização do resultado local quando encontrado;
+  - consulta à PokéAPI quando não existisse uma correspondência exata local.
+
+- Manutenção das correspondências parciais exclusivamente no filtro local.
+- Implementação da pesquisa global exata para consultas como:
+
+  - `pikachu`;
+  - `25`;
+  - `#25`;
+  - `025`;
+  - `mewtwo`;
+  - `150`;
+  - `#150`;
+  - `0150`.
+
+- Implementação de uma seção visual dedicada ao resultado exato.
+- Inclusão de um estado de carregamento específico para a pesquisa remota.
+- Inclusão de um estado de erro específico para a pesquisa remota.
+- Implementação da tentativa novamente sem interferir na listagem paginada.
+- Inclusão de um estado vazio para pesquisas exatas sem resultado.
+- Exibição do Pokémon remoto utilizando o componente `PokemonGrid`.
+- Limitação da largura do único card exibido na seção de resultado remoto.
+- Manutenção do resultado remoto separado de `pokemonList`.
+- Preservação do contador referente apenas aos Pokémon carregados pela paginação.
+- Implementação de uma verificação para impedir a exibição duplicada do resultado remoto caso o Pokémon fosse posteriormente alcançado pela paginação.
+- Manutenção do botão **“Carregar mais”** durante a pesquisa global.
+- Preservação de `totalCount`, `nextOffset` e `hasMore`.
+- Manutenção dos resultados locais parciais mesmo quando a pesquisa global exata retornasse `404`.
+- Ajuste para impedir a exibição simultânea de dois estados vazios.
+- Preservação do resultado remoto ao acessar os detalhes e retornar para a Pokédex.
+- Preservação do card pesquisado e restauração de sua posição na tela.
+- Atualização do componente `SearchBar` com a propriedade `isSubmitting`.
+- Alteração temporária do texto do botão para **“Pesquisando...”** durante a consulta.
+- Desabilitação temporária do botão de envio durante a pesquisa remota.
+- Manutenção do campo de pesquisa editável durante o carregamento.
+- Prevenção de múltiplas confirmações consecutivas por clique ou pela tecla `Enter`.
+- Inclusão de `aria-busy` no formulário de pesquisa.
+- Inclusão de `aria-live="polite"` na seção de resultado exato.
+- Inclusão de `aria-busy` na seção durante o carregamento.
+- Ajuste para impedir que pesquisas compostas apenas por espaços gerassem requisições.
+- Identificação e remoção do texto indevido `tSelectedPokemonId,`, que estava sendo renderizado acima do conteúdo da página.
+- Identificação do aviso de depreciação de `FormEvent` nas tipagens utilizadas pelo React.
+- Substituição de `FormEvent<HTMLFormElement>` por `SubmitEvent<HTMLFormElement>`.
+- Preservação do comportamento de `preventDefault` e do envio do formulário.
+- Validação dos seguintes comportamentos:
+
+  - filtragem local durante a digitação;
+  - pesquisa local parcial;
+  - pesquisa exata por nome;
+  - pesquisa exata por número;
+  - pesquisa utilizando `#`;
+  - pesquisa utilizando zeros à esquerda;
+  - pesquisa de nomes compostos;
+  - ausência de requisição remota quando o Pokémon exato já estava carregado;
+  - consulta remota quando o Pokémon ainda não estava carregado;
+  - exibição separada do resultado global;
+  - preservação da lista paginada;
+  - preservação do contador;
+  - preservação de `nextOffset`;
+  - preservação do botão **“Carregar mais”**;
+  - tratamento de Pokémon inexistente;
+  - tratamento de erro de rede;
+  - tentativa novamente da pesquisa;
+  - cancelamento da pesquisa anterior;
+  - prevenção de consultas duplicadas;
+  - limpeza da pesquisa;
+  - pesquisa contendo somente espaços;
+  - persistência ao navegar para os detalhes;
+  - retorno correto ao card pesquisado;
+  - funcionamento nos temas claro e escuro;
+  - funcionamento responsivo.
+
+- Confirmação da remoção do texto indevido no layout.
+- Confirmação da ausência do aviso de depreciação de `FormEvent`.
+- Execução bem-sucedida dos comandos:
+
+  - `npm run format`;
+  - `npm run lint`;
+  - `npm run build`;
+  - `git diff --check`.
+
+### Observações
+
+A **Minha Pokédex** passou a permitir a pesquisa global exata de Pokémon por nome ou número, mesmo quando o resultado ainda não está presente entre os itens carregados pela paginação.
+
+O resultado obtido remotamente permanece isolado da listagem principal, preservando o total de Pokémon, o próximo offset, o estado de paginação e o indicador de finalização da lista. A filtragem parcial continua funcionando localmente durante a digitação, enquanto a consulta à PokéAPI é realizada somente após a confirmação da pesquisa e quando não existe uma correspondência exata entre os Pokémon já carregados.
+
+A pesquisa global também passou a ser preservada durante a navegação para os detalhes, mantendo o resultado encontrado e restaurando a posição do card ao retornar para a listagem.
+
+Ao final da sessão, a implementação funcional estava concluída e validada na branch `sprint/sprint-3`. O code review completo e a integração das alterações à `main` ainda não haviam sido realizados.
+
+---

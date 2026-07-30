@@ -5,16 +5,18 @@ import {
   type SetStateAction,
 } from "react";
 
+import type { UsePokemonExactSearchResult } from "../hooks/usePokemonExactSearch";
 import type { UsePokemonListResult } from "../hooks/usePokemonList";
 
-export type PokemonListRouteContextValue = UsePokemonListResult & {
-  searchInput: string;
-  searchQuery: string;
-  selectedPokemonId: number | null;
-  setSearchInput: Dispatch<SetStateAction<string>>;
-  setSearchQuery: Dispatch<SetStateAction<string>>;
-  setSelectedPokemonId: Dispatch<SetStateAction<number | null>>;
-};
+export type PokemonListRouteContextValue = UsePokemonListResult &
+  UsePokemonExactSearchResult & {
+    searchInput: string;
+    searchQuery: string;
+    selectedPokemonId: number | null;
+    setSearchInput: Dispatch<SetStateAction<string>>;
+    setSearchQuery: Dispatch<SetStateAction<string>>;
+    setSelectedPokemonId: Dispatch<SetStateAction<number | null>>;
+  };
 
 export const PokemonListRouteContext = createContext<
   PokemonListRouteContextValue | undefined
