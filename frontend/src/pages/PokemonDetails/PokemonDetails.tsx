@@ -10,6 +10,7 @@ import { Spinner } from "../../shared/components/ui/Spinner/Spinner";
 import { PokemonAbilities } from "../../features/pokedex/components/PokemonAbilities/PokemonAbilities";
 import { PokemonStats } from "../../features/pokedex/components/PokemonStats/PokemonStats";
 import { BackButton } from "../../shared/components/BackButton/BackButton";
+import { PokemonDescription } from "../../features/pokedex/components/PokemonDescription/PokemonDescription";
 
 import "./PokemonDetails.css";
 
@@ -73,6 +74,8 @@ export function PokemonDetails() {
       {!isLoading && !error && pokemon && (
         <div className="pokemon-details">
           <PokemonDetailsHeader pokemon={pokemon} />
+
+          <PokemonDescription description={pokemon.description} />
 
           <div className="pokemon-details__overview">
             <PokemonPhysicalInfo

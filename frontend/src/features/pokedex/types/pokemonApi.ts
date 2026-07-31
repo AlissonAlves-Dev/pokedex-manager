@@ -10,11 +10,17 @@ export type PokemonApiListResponse = {
   results: PokemonApiListItem[];
 };
 
+export type PokemonApiNamedResource = {
+  name: string;
+  url: string;
+};
+
 export type PokemonApiDetailResponse = {
   id: number;
   name: string;
   height: number;
   weight: number;
+  species: PokemonApiNamedResource;
 
   sprites: {
     other: {
@@ -46,4 +52,15 @@ export type PokemonApiDetailResponse = {
       name: string;
     };
   }[];
+};
+
+export type PokemonApiFlavorTextEntry = {
+  flavor_text: string;
+  language: PokemonApiNamedResource;
+  version: PokemonApiNamedResource;
+};
+
+export type PokemonApiSpeciesResponse = {
+  id: number;
+  flavor_text_entries: PokemonApiFlavorTextEntry[];
 };

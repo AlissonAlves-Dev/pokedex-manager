@@ -2,6 +2,7 @@ import {
   mapPokemonApiToDetails,
   mapPokemonApiToSummary,
 } from "../mappers/pokemonMapper";
+import { mapPokemonSpeciesToDescription } from "../mappers/pokemonSpeciesMapper";
 
 import type {
   PokemonDetails,
@@ -12,6 +13,7 @@ import type {
 import type {
   PokemonApiDetailResponse,
   PokemonApiListResponse,
+  PokemonApiSpeciesResponse,
 } from "../types/pokemonApi";
 
 const POKE_API_BASE_URL = "https://pokeapi.co/api/v2";
@@ -27,6 +29,21 @@ async function fetchPokemonDetails(
   }
 
   const data: PokemonApiDetailResponse = await response.json();
+
+  return data;
+}
+
+async function fetchPokemonSpecies(
+  url: string,
+  signal?: AbortSignal,
+): Promise<PokemonApiSpeciesResponse> {
+  const response = await fetch(url, { signal });
+
+  if (!response.ok) {
+    throw new Error("Não foi possível carregar a descrição do Pokémon.");
+  }
+
+  const data: PokemonApiSpeciesResponse = await response.json();
 
   return data;
 }
@@ -98,5 +115,12 @@ export async function getPokemonById(
     signal,
   );
 
-  return mapPokemonApiToDetails(pokemonApi);
+  const pokemonSpeciesApi = await fetchPokemonSpecies(
+    pokemonApi.species.url,
+    signal,
+  );
+
+  const description = mapPokemonSpeciesToDescription(pokemonSpeciesApi);
+
+  return mapPokemonApiToDetails(pokemonApi, description);
 }

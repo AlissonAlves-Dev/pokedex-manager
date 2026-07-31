@@ -1060,3 +1060,156 @@ A pesquisa global também passou a ser preservada durante a navegação para os 
 Ao final da sessão, a implementação funcional estava concluída e validada na branch `sprint/sprint-3`. O code review completo e a integração das alterações à `main` ainda não haviam sido realizados.
 
 ---
+
+## 2026/07/30
+
+### Objetivo
+
+Dar continuidade à Sprint 3 da **Minha Pokédex**, implementando a descrição da Pokédex na página de detalhes, com prioridade para textos em português brasileiro, fallback em inglês, normalização do conteúdo recebido da PokéAPI e preservação do fluxo existente de carregamento, erro, repetição e cancelamento.
+
+### Atividades realizadas
+
+- Revisão do fluxo atual da página de detalhes.
+- Revisão das responsabilidades da página `PokemonDetails`.
+- Revisão do hook `usePokemonDetails`.
+- Revisão dos métodos disponíveis no `PokemonService`.
+- Revisão do mapper responsável pela conversão dos dados da API para o domínio.
+- Revisão dos modelos `PokemonDetails` e `PokemonApiDetailResponse`.
+- Estudo da resposta do endpoint de espécie da PokéAPI:
+
+  - `/pokemon-species/{id-ou-nome}`.
+
+- Identificação de que as descrições da Pokédex estão disponíveis em `flavor_text_entries`.
+- Identificação de que cada descrição possui referências para:
+
+  - idioma;
+  - versão do jogo.
+
+- Identificação de que o conteúdo é fornecido sem tratamento e pode apresentar quebras de linha, tabulações, espaços especiais e caracteres utilizados nos textos dos jogos antigos.
+- Definição de que a página e o componente visual não seriam responsáveis por selecionar o idioma ou normalizar o texto.
+- Manutenção do `usePokemonDetails` como responsável somente por:
+
+  - carregamento;
+  - erro;
+  - repetição da requisição;
+  - cancelamento;
+  - controle da requisição atual.
+
+- Definição de que o `PokemonService` coordenaria as consultas dos dados principais e da espécie.
+- Definição de que a URL da espécie seria obtida por meio de `pokemonApi.species.url`.
+- Decisão de não montar diretamente a URL da espécie utilizando o ID da rota, preservando compatibilidade futura com formas e variações.
+- Definição de que as duas consultas utilizariam o mesmo `AbortSignal`.
+- Manutenção de um único ciclo de carregamento, erro e repetição para os detalhes completos.
+- Definição de que uma falha técnica ao carregar a espécie seria tratada como erro no carregamento dos detalhes.
+- Definição de que a ausência de uma descrição válida seria representada por `description: null`.
+- Criação do tipo reutilizável `PokemonApiNamedResource`.
+- Inclusão da referência de espécie no modelo `PokemonApiDetailResponse`.
+- Criação dos modelos:
+
+  - `PokemonApiFlavorTextEntry`;
+  - `PokemonApiSpeciesResponse`.
+
+- Criação do mapper `frontend/src/features/pokedex/mappers/pokemonSpeciesMapper.ts`.
+- Implementação da seguinte prioridade de idiomas:
+
+  - português brasileiro;
+  - português genérico, quando disponível;
+  - inglês;
+  - ausência de descrição.
+
+- Implementação da normalização do código de idioma.
+- Implementação da seleção da primeira descrição válida de acordo com a prioridade definida.
+- Implementação do descarte de entradas vazias ou compostas somente por espaços e caracteres invisíveis.
+- Implementação da normalização das descrições recebidas.
+- Tratamento de:
+
+  - quebras de linha;
+  - retorno de carro;
+  - tabulações;
+  - `form feed`;
+  - espaços duplicados;
+  - espaços não separáveis;
+  - hífens condicionais;
+  - caracteres de largura zero;
+  - caracteres invisíveis.
+
+- Preservação de acentos, pontuação, nomes próprios e caracteres legítimos do texto.
+- Identificação da grafia antiga `POKéMON`.
+- Implementação da normalização das variações de capitalização para `Pokémon`.
+- Atualização do modelo `PokemonDetails` com a propriedade `description: string | null`.
+- Atualização do `mapPokemonApiToDetails` para receber a descrição previamente processada.
+- Manutenção das regras de idioma e normalização fora do mapper principal.
+- Criação da função de serviço responsável pela consulta dos dados da espécie.
+- Atualização do método `getPokemonById` para:
+
+  - buscar os dados principais do Pokémon;
+  - obter a URL da espécie;
+  - buscar os dados da espécie;
+  - selecionar e normalizar a descrição;
+  - montar o objeto `PokemonDetails` completo.
+
+- Validação das duas requisições na aba Network:
+
+  - `/pokemon/{id}`;
+  - `/pokemon-species/{id-ou-nome}`.
+
+- Confirmação de respostas HTTP `200` para os dois endpoints.
+- Criação do componente `PokemonDescription`.
+- Criação do arquivo de estilos `PokemonDescription.css`.
+- Utilização do componente compartilhado `Card` para manter a consistência visual com a aplicação.
+- Inclusão do título **“Descrição da Pokédex”**.
+- Implementação da mensagem de fallback visual **“Descrição indisponível para este Pokémon.”**
+- Integração da descrição entre o cabeçalho do Pokémon e as informações físicas.
+- Preservação da responsabilidade exclusivamente visual do componente, que recebe apenas `string | null`.
+- Validação de que as espécies testadas não possuíam descrições em português brasileiro na resposta atual da PokéAPI.
+- Confirmação do uso correto da descrição em inglês como fallback.
+- Identificação de que a ausência de textos em português é uma limitação da fonte de dados, e não uma falha da implementação.
+- Registro de que traduções completas em português brasileiro poderão exigir futuramente:
+
+  - catálogo local;
+  - outra fonte de dados;
+  - backend próprio;
+  - serviço de tradução.
+
+- Validação da consulta dos dados principais do Pokémon.
+- Validação da consulta dos dados da espécie.
+- Validação da utilização da URL de espécie retornada pela API.
+- Validação do compartilhamento do mesmo `AbortSignal`.
+- Validação do cancelamento ao sair da página durante o carregamento.
+- Confirmação de que o estado de carregamento aguarda a conclusão das duas consultas.
+- Validação do tratamento de erro na consulta principal.
+- Validação do tratamento de erro na consulta de espécie.
+- Validação da repetição de todo o fluxo por meio da função de retry.
+- Validação do uso da descrição em português brasileiro quando disponível.
+- Validação do uso do inglês como fallback.
+- Validação do tratamento da ausência de descrição.
+- Validação da remoção de quebras e caracteres especiais indevidos.
+- Validação da normalização da grafia `POKéMON` para `Pokémon`.
+- Validação da preservação da listagem ao retornar da página de detalhes.
+- Validação do funcionamento nos temas claro e escuro.
+- Validação do funcionamento nas resoluções de:
+
+  - `320px`;
+  - `375px`;
+  - `768px`;
+  - desktop.
+
+- Confirmação da ausência de transbordamento do texto.
+- Confirmação da ausência de rolagem horizontal.
+- Validação da legibilidade da descrição e da mensagem de indisponibilidade.
+- Execução bem-sucedida dos comandos:
+
+  - `npm run format`;
+  - `npm run lint`;
+  - `npm run build`;
+  - `git diff --check`.
+
+### Observações
+
+A página de detalhes da **Minha Pokédex** passou a consultar o endpoint de espécie e exibir uma descrição da Pokédex previamente normalizada. A aplicação procura inicialmente uma descrição em português e utiliza o inglês como fallback quando a PokéAPI não fornece uma entrada compatível.
+
+As regras de seleção de idioma, fallback e tratamento do texto permaneceram isoladas no mapper da espécie, enquanto o componente visual recebe somente a descrição pronta para apresentação. O fluxo existente de carregamento, erro, repetição, cancelamento, navegação, temas e responsividade foi preservado.
+
+As espécies validadas não apresentaram descrições em português brasileiro na resposta atual da PokéAPI, fazendo com que o fallback em inglês fosse utilizado corretamente. Ao final da sessão, não havia sido realizado o code review completo nem a integração das alterações à `main`.
+
+---

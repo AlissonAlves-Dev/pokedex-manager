@@ -1,0 +1,33 @@
+import { Card } from "../../../../shared/components/ui/Card/Card";
+
+import "./PokemonDescription.css";
+
+type PokemonDescriptionProps = {
+  description: string | null;
+};
+
+export function PokemonDescription({ description }: PokemonDescriptionProps) {
+  const descriptionText =
+    description ?? "Descrição indisponível para este Pokémon.";
+
+  return (
+    <section
+      className="pokemon-description"
+      aria-labelledby="pokemon-description-title"
+    >
+      <h2 className="pokemon-description__title" id="pokemon-description-title">
+        Descrição da Pokédex
+      </h2>
+
+      <Card className="pokemon-description__card">
+        <p
+          className={`pokemon-description__text ${
+            description === null ? "pokemon-description__text--unavailable" : ""
+          }`.trim()}
+        >
+          {descriptionText}
+        </p>
+      </Card>
+    </section>
+  );
+}

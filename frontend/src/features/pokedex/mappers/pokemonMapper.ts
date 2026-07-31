@@ -31,13 +31,15 @@ export function mapPokemonApiToSummary(
 
 export function mapPokemonApiToDetails(
   pokemon: PokemonApiDetailResponse,
+  description: string | null = null,
 ): PokemonDetails {
   return {
     id: pokemon.id,
     name: pokemon.name,
     imageUrl: pokemon.sprites.other["official-artwork"].front_default ?? "",
-
     types: mapPokemonTypes(pokemon),
+
+    description,
 
     height: pokemon.height,
     weight: pokemon.weight,

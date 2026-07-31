@@ -50,6 +50,7 @@ export type PokemonStat = {
 };
 
 export type PokemonDetails = PokemonSummary & {
+  description: string | null;
   height: number;
   weight: number;
   abilities: PokemonAbility[];
