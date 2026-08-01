@@ -23,6 +23,9 @@ export type PokemonApiDetailResponse = {
   species: PokemonApiNamedResource;
 
   sprites: {
+    front_default: string | null;
+    front_shiny: string | null;
+
     other: {
       "official-artwork": {
         front_default: string | null;

@@ -1213,3 +1213,108 @@ As regras de seleção de idioma, fallback e tratamento do texto permaneceram is
 As espécies validadas não apresentaram descrições em português brasileiro na resposta atual da PokéAPI, fazendo com que o fallback em inglês fosse utilizado corretamente. Ao final da sessão, não havia sido realizado o code review completo nem a integração das alterações à `main`.
 
 ---
+
+## 2026/07/31
+
+### Objetivo
+
+Dar continuidade à Sprint 3 da **Minha Pokédex**, implementando uma seção na página de detalhes para exibir os sprites frontais padrão e shiny disponibilizados pela resposta principal da PokéAPI, sem realizar novas consultas de dados e preservando a arquitetura, os temas, a acessibilidade e a responsividade da aplicação.
+
+### Atividades realizadas
+
+- Revisão dos campos já tipados em `PokemonApiDetailResponse`.
+- Revisão da estrutura `sprites` retornada pelo endpoint `/pokemon/{id}`.
+- Revisão do mapper `pokemonMapper`.
+- Revisão dos modelos `PokemonSummary` e `PokemonDetails`.
+- Revisão da página `PokemonDetails`.
+- Revisão do componente compartilhado `Card`.
+- Revisão dos tokens visuais existentes para os temas claro e escuro.
+- Definição da utilização dos campos:
+
+  - `sprites.front_default`;
+  - `sprites.front_shiny`.
+
+- Preservação da arte oficial existente em `sprites.other["official-artwork"].front_default`.
+- Manutenção da separação entre:
+
+  - `imageUrl`, utilizado pela listagem e pelo cabeçalho;
+  - `sprites`, utilizado pela nova seção de imagens frontais padrão e shiny.
+
+- Criação do modelo de domínio `PokemonSprites` com:
+
+  - `frontDefaultUrl: string | null`;
+  - `frontShinyUrl: string | null`.
+
+- Inclusão da propriedade `sprites` no modelo `PokemonDetails`.
+- Inclusão dos campos `front_default` e `front_shiny` em `PokemonApiDetailResponse`.
+- Criação de uma função para normalizar as URLs dos sprites.
+- Implementação da conversão de URLs vazias ou compostas somente por espaços para `null`.
+- Criação do mapper responsável pela transformação dos sprites.
+- Implementação do mapeamento:
+
+  - `front_default` para `frontDefaultUrl`;
+  - `front_shiny` para `frontShinyUrl`.
+
+- Manutenção da transformação dos dados fora do componente visual.
+- Confirmação de que nenhuma nova responsabilidade foi adicionada ao serviço ou ao hook de detalhes.
+- Criação dos arquivos:
+
+  - `PokemonSprites.tsx`;
+  - `PokemonSprites.css`.
+
+- Criação de um componente interno reutilizável para representar cada card de sprite.
+- Inclusão dos cards:
+
+  - **Padrão**;
+  - **Shiny**.
+
+- Inclusão das mensagens de indisponibilidade:
+
+  - **“Sprite padrão indisponível.”**;
+  - **“Sprite shiny indisponível.”**
+
+- Inclusão de textos alternativos específicos para cada imagem.
+- Inclusão de `loading="lazy"` nas imagens.
+- Inclusão de `decoding="async"` nas imagens.
+- Aplicação de `image-rendering: pixelated` para preservar a aparência dos sprites.
+- Criação de um layout com duas colunas para desktop.
+- Criação de um layout empilhado para dispositivos móveis.
+- Integração da seção de sprites após a descrição da Pokédex na página de detalhes.
+- Manutenção das responsabilidades da estrutura:
+
+  - `PokemonApiDetailResponse` representa os campos originais da PokéAPI;
+  - `pokemonMapper` normaliza e transforma as URLs;
+  - `PokemonDetails` disponibiliza os sprites no domínio;
+  - `PokemonSprites` apresenta as imagens ou mensagens de indisponibilidade;
+  - `PokemonDetails.tsx` organiza a seção junto aos demais detalhes.
+
+- Validação da exibição do sprite frontal padrão.
+- Validação da exibição do sprite frontal shiny.
+- Validação do tratamento independente da ausência de cada sprite.
+- Validação da conversão de strings vazias para ausência de imagem.
+- Confirmação de que nenhum novo endpoint de dados foi consultado.
+- Validação do carregamento normal dos arquivos de imagem.
+- Confirmação da preservação da arte oficial já utilizada pela aplicação.
+- Validação da consistência das dimensões dos cards.
+- Validação da acessibilidade dos títulos e das imagens.
+- Validação da seção nos temas claro e escuro.
+- Validação do layout em duas colunas no desktop.
+- Validação do layout em uma coluna em dispositivos móveis.
+- Confirmação da ausência de rolagem horizontal.
+- Confirmação da preservação dos fluxos de carregamento, erro, repetição e cancelamento.
+- Execução bem-sucedida dos comandos:
+
+  - `npm run format`;
+  - `npm run lint`;
+  - `npm run build`;
+  - `git diff --check`.
+
+### Observações
+
+A página de detalhes da **Minha Pokédex** passou a apresentar os sprites frontais padrão e shiny em uma seção própria, mantendo consistência com os cards, os temas e a estrutura visual existente.
+
+Os dados são extraídos da resposta principal da PokéAPI já utilizada pela aplicação, sem a necessidade de novas consultas. As URLs são normalizadas e transformadas no mapper, enquanto o componente visual recebe somente os valores preparados para apresentação.
+
+A implementação foi realizada na branch `sprint/sprint-3`. Ao final da sessão, o code review completo e o merge ainda não haviam sido realizados. O commit e o push também não foram registrados como concluídos.
+
+---

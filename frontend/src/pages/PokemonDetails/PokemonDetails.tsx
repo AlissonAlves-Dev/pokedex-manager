@@ -11,6 +11,7 @@ import { PokemonAbilities } from "../../features/pokedex/components/PokemonAbili
 import { PokemonStats } from "../../features/pokedex/components/PokemonStats/PokemonStats";
 import { BackButton } from "../../shared/components/BackButton/BackButton";
 import { PokemonDescription } from "../../features/pokedex/components/PokemonDescription/PokemonDescription";
+import { PokemonSprites } from "../../features/pokedex/components/PokemonSprites/PokemonSprites";
 
 import "./PokemonDetails.css";
 
@@ -76,6 +77,11 @@ export function PokemonDetails() {
           <PokemonDetailsHeader pokemon={pokemon} />
 
           <PokemonDescription description={pokemon.description} />
+
+          <PokemonSprites
+            pokemonName={pokemon.name}
+            sprites={pokemon.sprites}
+          />
 
           <div className="pokemon-details__overview">
             <PokemonPhysicalInfo

@@ -1,6 +1,10 @@
 import { isPokemonType } from "../types/pokemon";
 
-import type { PokemonDetails, PokemonSummary } from "../types/pokemon";
+import type {
+  PokemonDetails,
+  PokemonSprites,
+  PokemonSummary,
+} from "../types/pokemon";
 import type { PokemonApiDetailResponse } from "../types/pokemonApi";
 import { getAbilityDisplayName } from "./pokemonAbilityMapper";
 
@@ -16,6 +20,19 @@ function mapPokemonTypes(
 
       return type.name;
     });
+}
+
+function normalizeSpriteUrl(url: string | null): string | null {
+  const normalizedUrl = url?.trim() ?? "";
+
+  return normalizedUrl || null;
+}
+
+function mapPokemonSprites(pokemon: PokemonApiDetailResponse): PokemonSprites {
+  return {
+    frontDefaultUrl: normalizeSpriteUrl(pokemon.sprites.front_default),
+    frontShinyUrl: normalizeSpriteUrl(pokemon.sprites.front_shiny),
+  };
 }
 
 export function mapPokemonApiToSummary(
@@ -40,6 +57,7 @@ export function mapPokemonApiToDetails(
     types: mapPokemonTypes(pokemon),
 
     description,
+    sprites: mapPokemonSprites(pokemon),
 
     height: pokemon.height,
     weight: pokemon.weight,

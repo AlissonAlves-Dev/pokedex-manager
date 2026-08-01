@@ -49,8 +49,14 @@ export type PokemonStat = {
   baseValue: number;
 };
 
+export type PokemonSprites = {
+  frontDefaultUrl: string | null;
+  frontShinyUrl: string | null;
+};
+
 export type PokemonDetails = PokemonSummary & {
   description: string | null;
+  sprites: PokemonSprites;
   height: number;
   weight: number;
   abilities: PokemonAbility[];
