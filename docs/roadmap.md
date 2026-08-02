@@ -1,614 +1,277 @@
 # Roadmap
 
-**Project:** Minha Pokédex
+Este documento acompanha a evolução da Minha Pokédex, registrando o que já foi entregue, o que está em desenvolvimento e quais são as próximas etapas do produto.
+
+O Roadmap apresenta direções de desenvolvimento. O escopo pode ser ajustado conforme novas necessidades e decisões técnicas surgirem.
+
+## Status
+
+| Status          | Significado                                           |
+| --------------- | ----------------------------------------------------- |
+| Planejado       | Ainda não iniciado                                    |
+| Em andamento    | Desenvolvimento ativo                                 |
+| Em encerramento | Escopo implementado, aguardando revisão ou integração |
+| Concluído       | Revisado, validado e integrado à `main`               |
+
+## Progresso geral
+
+| Milestone                | Objetivo                                           | Status       |
+| ------------------------ | -------------------------------------------------- | ------------ |
+| Milestone 1 — Pokédex    | Consulta e exploração de informações sobre Pokémon | Em andamento |
+| Milestone 2 — Coleção    | Autenticação e gerenciamento da coleção pessoal    | Planejado    |
+| Milestone 3 — Pokémon GO | Dados individuais e recursos específicos do jogo   | Planejado    |
+| Milestone 4 — Análises   | PvP, PvE, raids e recomendações                    | Planejado    |
+| Milestone 5 — Expansão   | Recursos comunitários e novas integrações          | Planejado    |
+
+## Histórico de Sprints
+
+| Sprint   | Escopo principal                                                            | Status          |
+| -------- | --------------------------------------------------------------------------- | --------------- |
+| Sprint 0 | Configuração inicial, monorepo e ferramentas de desenvolvimento             | Concluído       |
+| Sprint 1 | Rotas, estrutura do frontend, integração com a PokéAPI, listagem e detalhes | Concluído       |
+| Sprint 2 | Navegação responsiva, melhorias visuais, temas e traduções de habilidades   | Concluído       |
+| Sprint 3 | Paginação, pesquisa global exata, descrição, sprites e documentação         | Em encerramento |
+
+## Milestone 1 — Pokédex MVP
+
+### Objetivo
+
+Entregar uma Pokédex responsiva que permita:
+
+- navegar por uma lista de Pokémon;
+- pesquisar por nome ou número;
+- acessar informações detalhadas;
+- compreender os principais dados de cada Pokémon;
+- utilizar a aplicação sem autenticação ou cadastro.
+
+### Entregas concluídas
+
+#### Estrutura da aplicação
+
+- monorepo com npm Workspaces;
+- frontend com React, TypeScript e Vite;
+- organização baseada em features;
+- React Router;
+- componentes compartilhados;
+- ESLint, Prettier e EditorConfig.
+
+#### Navegação e interface
+
+- página inicial;
+- listagem de Pokémon;
+- página de detalhes;
+- página para rotas inexistentes;
+- navegação responsiva no Header;
+- temas claro e escuro;
+- persistência da preferência de tema;
+- suporte à preferência do sistema;
+- interface validada a partir de 320px;
+- melhorias de acessibilidade e navegação por teclado.
+
+#### Listagem
+
+- carregamento inicial de Pokémon;
+- carregamento progressivo;
+- preservação das páginas anteriores;
+- prevenção de resultados duplicados;
+- contador de Pokémon carregados;
+- loading inicial e adicional separados;
+- erro adicional sem perda da listagem;
+- tentativa novamente para páginas com falha;
+- indicação de fim dos resultados.
+
+#### Pesquisa
+
+- filtragem local durante a digitação;
+- pesquisa global exata por nome;
+- pesquisa global exata por número;
+- suporte a formatos como `25`, `025` e `#025`;
+- normalização de nomes compostos, pontuação e símbolos;
+- prioridade para correspondências locais;
+- resultado remoto separado da paginação;
+- tratamento específico para Pokémon inexistente;
+- retry para erros técnicos;
+- cancelamento e proteção contra respostas antigas.
+
+#### Preservação de navegação
+
+- manutenção dos Pokémon carregados ao abrir os detalhes;
+- preservação do termo de pesquisa;
+- preservação do resultado remoto;
+- preservação do próximo offset;
+- restauração do Pokémon selecionado ao retornar;
+- suporte ao botão da aplicação e ao histórico do navegador.
+
+#### Detalhes do Pokémon
+
+- número e nome;
+- arte oficial;
+- tipos;
+- altura e peso;
+- habilidades comuns e ocultas;
+- traduções de habilidades em português quando disponíveis;
+- fallback formatado em inglês;
+- estatísticas base;
+- descrição da Pokédex;
+- prioridade para descrição em português;
+- fallback da descrição para inglês;
+- tratamento de descrição indisponível;
+- sprite frontal padrão;
+- sprite frontal shiny;
+- fallback individual para sprites ausentes.
 
-**Document:** Roadmap
+#### Estados da aplicação
+
+- carregamento;
+- conteúdo vazio;
+- erro;
+- tentativa novamente;
+- cancelamento de requisições;
+- tratamento de dados opcionais;
+- ausência de imagens quebradas.
 
-**Version:** 0.1.2
+### Entregas pendentes
 
-**Status:** Draft
+Para concluir o Milestone 1:
 
-**Last Updated:** 2026-07-27
+- cadeia de evolução;
+- formas e variações;
+- refinamentos finais da experiência;
+- testes automatizados;
+- preparação para publicação.
 
----
+### Limitações atuais
+
+- a pesquisa parcial utiliza somente os Pokémon já carregados;
+- a busca global funciona apenas para nome ou número exato;
+- algumas descrições não estão disponíveis em português na PokéAPI;
+- nem todas as habilidades possuem tradução local;
+- o frontend consulta diretamente a PokéAPI;
+- ainda não existe backend ou banco de dados.
 
-## Revision History
+### Critério de conclusão
 
-| Version | Date       | Description                                         |
-| ------- | ---------- | --------------------------------------------------- |
-| 0.1.0   | 2026-07-13 | Initial project roadmap                             |
-| 0.1.1   | 2026-07-22 | Updated Sprint 1 and Milestone 1 development status |
-| 0.1.2   | 2026-07-27 | Completed Sprint 2 and updated Milestone 1 progress |
+O Milestone 1 será concluído quando:
 
----
+- evoluções e formas estiverem implementadas ou formalmente movidas para uma versão posterior;
+- o fluxo completo da Pokédex estiver validado;
+- testes automatizados cobrirem os comportamentos mais importantes;
+- não existirem erros bloqueadores;
+- a aplicação estiver preparada para publicação.
 
-## 1. Purpose
+## Sprint 3 — Expansão da Pokédex
 
-The purpose of this roadmap is to define the planned evolution of the Minha Pokédex project.
+### Objetivo
 
-Rather than serving as a simple task list, this roadmap represents the long-term product vision, organizing development into milestones that deliver meaningful value to users.
+Expandir a listagem e a página de detalhes, corrigindo limitações de navegação e permitindo consultas globais exatas.
 
-Each milestone introduces a new capability while preserving the project's architectural consistency and incremental development strategy.
+### Entregas implementadas
 
----
+- paginação progressiva;
+- preservação da listagem entre rotas;
+- restauração do Pokémon selecionado;
+- pesquisa global exata por nome ou número;
+- normalização avançada dos termos de pesquisa;
+- descrição obtida pelo endpoint de espécie;
+- fallback de idioma;
+- normalização das descrições;
+- sprites padrão e shiny;
+- tratamento individual de dados indisponíveis;
+- reorganização da documentação em português.
 
-## 2. Development Strategy
+### Pendências para encerramento
 
-The project follows an iterative and incremental development approach.
+- concluir a revisão documental;
+- atualizar o Development Journal;
+- executar as validações finais;
+- realizar o code review consolidado;
+- corrigir eventuais bloqueadores;
+- integrar `sprint/sprint-3` à `main`;
+- remover a branch da Sprint.
 
-Each milestone focuses on delivering a complete, usable feature set rather than isolated technical tasks.
+A Sprint somente será marcada como concluída após o code review e o merge.
 
-Every version should provide measurable value to the end user and serve as a stable foundation for future development.
+## Próxima Sprint
 
-The roadmap is expected to evolve over time as the project grows and new requirements emerge.
+A próxima Sprint deverá continuar o Milestone 1.
 
----
+Escopo previsto:
 
-## 3. Development Philosophy
+- cadeia de evolução;
+- formas e variações;
+- revisão do uso do endpoint de espécie;
+- reutilização dos dados já disponíveis;
+- tratamento de formas que compartilham a mesma espécie;
+- acessibilidade e responsividade das novas seções.
 
-The development of Minha Pokédex is guided by the following principles:
+O escopo definitivo será definido no Planejamento antes da criação da próxima branch.
 
-- Deliver value incrementally.
-- Maintain architectural consistency.
-- Prioritize code quality over development speed.
-- Document architectural decisions.
-- Keep the project modular and scalable.
-- Continuously improve through small iterations.
-- Avoid unnecessary complexity.
-- Build with future expansion in mind.
+## Milestone 2 — Coleção pessoal
 
----
+### Objetivo
 
-## 4. Roadmap Overview
+Transformar a Pokédex pública em uma experiência personalizada.
 
-The following roadmap presents the planned evolution of the Minha Pokédex project.
+Entregas planejadas:
 
-Each milestone represents a significant product increment, delivering a complete set of features that provide value to the end user.
+- backend próprio;
+- API interna;
+- banco de dados;
+- autenticação;
+- contas de usuário;
+- coleção pessoal;
+- favoritos;
+- acompanhamento da Pokédex do usuário.
 
-Development follows an incremental approach, allowing the project to evolve while maintaining architectural consistency and software quality.
+## Milestone 3 — Pokémon GO
 
-```mermaid
-flowchart TD
+### Objetivo
 
-    A["📋 Planning"]
+Permitir que o usuário registre e acompanhe seus Pokémon capturados.
 
-    B["🟡 Milestone 1<br/>🔍 Discover<br/>Pokédex MVP"]
+Entregas planejadas:
 
-    C["⚪ Milestone 2<br/>📦 Collect<br/>Personal Collection"]
+- IV de ataque, defesa e stamina;
+- CP;
+- nível;
+- shiny;
+- sortudo;
+- sombra e purificado;
+- formas e fundos especiais;
+- movesets;
+- observações pessoais;
+- filtros da coleção.
 
-    D["⚪ Milestone 3<br/>⚙️ Manage<br/>Pokémon GO Integration"]
+## Milestone 4 — Análises
 
-    E["⚪ Milestone 4<br/>🧠 Analyze<br/>Battle Intelligence"]
+### Objetivo
 
-    F["⚪ Milestone 5<br/>🌎 Connect<br/>Community Platform"]
+Ajudar o usuário a decidir quais Pokémon utilizar ou receber investimento.
 
-    G["🚀 Future Releases"]
+Entregas planejadas:
 
-    A --> B
-    B --> C
-    C --> D
-    D --> E
-    E --> F
-    F --> G
-```
+- análises de PvP;
+- análises de PvE;
+- recomendações para raids;
+- avaliação de movesets;
+- comparação entre Pokémon;
+- montagem de times;
+- indicação de prioridade de investimento.
 
----
+## Milestone 5 — Expansão
 
-## 5. Project Progress
+### Objetivo
 
-### Milestone Status
+Adicionar recursos que ampliem o uso da plataforma.
 
-| Icon | Status      | Description                                                 |
-| ---- | ----------- | ----------------------------------------------------------- |
-| ⚪   | Planned     | The milestone is planned but development has not started.   |
-| 🟡   | In Progress | The milestone is currently under development.               |
-| 🟢   | Completed   | The milestone has been successfully completed and released. |
+Possibilidades futuras:
 
----
+- calendário de eventos;
+- notícias;
+- compartilhamento de coleções;
+- notificações;
+- recursos comunitários;
+- suporte a outros jogos da franquia;
+- aplicação móvel ou PWA.
 
-### Current Progress
-
-| Milestone   | Theme       | Status         |
-| ----------- | ----------- | -------------- |
-| Milestone 1 | 🔍 Discover | 🟡 In Progress |
-| Milestone 2 | 📦 Collect  | ⚪ Planned     |
-| Milestone 3 | ⚙️ Manage   | ⚪ Planned     |
-| Milestone 4 | 🧠 Analyze  | ⚪ Planned     |
-| Milestone 5 | 🌎 Connect  | ⚪ Planned     |
-
----
-
-### Sprint Progress
-
-| Sprint   | Scope                    | Status       | Result                                                                                                                    |
-| -------- | ------------------------ | ------------ | ------------------------------------------------------------------------------------------------------------------------- |
-| Sprint 0 | Project Setup            | 🟢 Completed | Monorepo, frontend foundation, development tools, code quality standards, and project configuration.                      |
-| Sprint 1 | Frontend Foundation      | 🟢 Completed | Routing, application layout, Design System, PokéAPI integration, listing, search, details, and feedback.                  |
-| Sprint 2 | Milestone 1 Continuation | 🟢 Completed | Responsive navigation, UI refinements, light and dark themes, accessibility improvements, and pt-BR ability translations. |
-
----
-
-## 6. Milestone Structure
-
-Each project milestone follows the same structure to ensure consistency throughout the development lifecycle.
-
-Every milestone represents a meaningful product increment rather than a collection of isolated technical tasks.
-
-The objective is to deliver complete user-facing capabilities while preserving the project's architectural integrity and long-term vision.
-
-Each milestone contains the following sections:
-
-| Section          | Description                                            |
-| ---------------- | ------------------------------------------------------ |
-| Goal             | Defines the primary objective of the milestone.        |
-| Versions         | Lists the project versions included in the milestone.  |
-| Features         | Describes the major functionality introduced.          |
-| Deliverables     | Specifies the expected outcome of the milestone.       |
-| Success Criteria | Defines when the milestone can be considered complete. |
-
----
-
-## 7. Milestone 1 — Pokédex MVP
-
-**Status:** 🟡 In Progress
-
----
-
-### Overview
-
-The first milestone focuses on delivering a complete Pokédex experience.
-
-This milestone establishes the foundation of the application by allowing users to search for Pokémon and explore their core information through a responsive and intuitive interface.
-
----
-
-### Goal
-
-Deliver a complete Pokédex experience without requiring user authentication or personal data management.
-
----
-
-### Versions
-
-- v0.1.0
-
----
-
-### Features
-
-- Pokémon Search
-- Pokémon Details
-- Responsive Interface
-
----
-
-### Deliverables
-
-- Search Pokémon by name.
-- Search Pokémon by Pokédex number.
-- Browse available Pokémon.
-- Display official artwork and sprites.
-- Display Pokémon types.
-- Display base stats.
-- Display abilities.
-- Display evolution chain.
-- Display available forms.
-- Display Pokédex description.
-
----
-
-### Current Delivery Status
-
-| Deliverable                      | Status         | Notes                                                                                       |
-| -------------------------------- | -------------- | ------------------------------------------------------------------------------------------- |
-| Search Pokémon by name           | 🟢 Completed   | Search is currently applied to the loaded Pokémon list.                                     |
-| Search Pokémon by Pokédex number | 🟢 Completed   | Supports numeric searches such as `1`, `001`, and `#001`.                                   |
-| Browse available Pokémon         | 🟡 In Progress | The initial set is available; pagination and broader loading are pending.                   |
-| Display official artwork         | 🟢 Completed   | Official artwork is displayed in listing and details.                                       |
-| Display sprites                  | ⚪ Planned     | Not implemented yet.                                                                        |
-| Display Pokémon types            | 🟢 Completed   | Types are validated and displayed through TypeBadge.                                        |
-| Display base stats               | 🟢 Completed   | Base stats include accessible progress indicators.                                          |
-| Display abilities                | 🟢 Completed   | Regular and hidden abilities are displayed with pt-BR translations and an English fallback. |
-| Display evolution chain          | ⚪ Planned     | Not implemented yet.                                                                        |
-| Display available forms          | ⚪ Planned     | Not implemented yet.                                                                        |
-| Display Pokédex description      | ⚪ Planned     | Not implemented yet.                                                                        |
-| Responsive interface             | 🟢 Completed   | Validated from 320px through desktop resolutions.                                           |
-| Loading, empty, and error states | 🟢 Completed   | Includes request cancellation and retry support.                                            |
-
-> The search implemented during Sprint 1 operates on the Pokémon currently
-> loaded by the application. Full-dataset search, pagination, or API-driven
-> search will be addressed during the continuation of Milestone 1.
-
----
-
-### Success Criteria
-
-The milestone is considered complete when users can search for Pokémon and access all planned information through a responsive interface.
-
----
-
-### Dependencies
-
-None.
-
----
-
-### Notes
-
-This milestone intentionally excludes user authentication, personal collections, and Pokémon GO-specific features.
-
-These capabilities will be introduced in future milestones.
-
----
-
-### User Value
-
-At the end of this milestone, users will be able to explore Pokémon information quickly and intuitively through a modern web application.
-
----
-
-## 8. Milestone 2 — Personal Collection
-
-**Status:** ⚪ Planned
-
----
-
-### Overview
-
-The second milestone introduces user accounts and personal collection management.
-
-This milestone transforms the application from a public Pokédex into a personalized platform where users can build and manage their own Pokémon collection.
-
----
-
-### Goal
-
-Enable users to securely manage their personal Pokémon collection.
-
----
-
-### Versions
-
-- v0.2.0
-
----
-
-### Features
-
-- User Authentication
-- User Registration
-- Personal Collection
-- Favorites
-
----
-
-### Deliverables
-
-- User registration.
-- User authentication.
-- Secure login and logout.
-- Personal Pokémon collection.
-- Add Pokémon to the collection.
-- Edit collection entries.
-- Remove Pokémon from the collection.
-- Mark Pokémon as favorites.
-
----
-
-### Success Criteria
-
-The milestone is considered complete when authenticated users can create and manage their own Pokémon collection.
-
----
-
-### Dependencies
-
-- Milestone 1 — Pokédex MVP
-
----
-
-### Notes
-
-This milestone introduces the first persistent user data stored in the application's database.
-
----
-
-### User Value
-
-At the end of this milestone, users will be able to create an account and maintain their own personalized Pokémon collection.
-
----
-
-## 9. Milestone 3 — Pokémon GO Integration
-
-**Theme:** Analyze
-
-**Status:** ⚪ Planned
-
----
-
-### Overview
-
-The third milestone introduces Pokémon GO-specific features, transforming the application from a traditional Pokédex into a companion platform for Pokémon GO players.
-
-Users will be able to register game-specific information, analyze their Pokémon, and make more informed decisions about which Pokémon to keep and invest in.
-
----
-
-### Goal
-
-Provide tools to manage and analyze Pokémon GO data through a personalized and intuitive experience.
-
----
-
-### Versions
-
-- v0.3.0
-
----
-
-### Features
-
-- Pokémon GO Data
-- IV Management
-- CP Management
-- Level Tracking
-- Pokémon Status
-- GO Availability
-
----
-
-### Deliverables
-
-- Register Pokémon IVs.
-- Register Combat Power (CP).
-- Register Pokémon Level.
-- Mark Pokémon as Shiny.
-- Mark Pokémon as Lucky.
-- Mark Pokémon as Shadow.
-- Mark Pokémon as Purified.
-- Display Pokémon GO availability.
-- Display Mega Evolution availability.
-- Display Pokémon GO exclusive information.
-
----
-
-### Success Criteria
-
-The milestone is considered complete when users can register and manage Pokémon GO-specific information for their personal collection.
-
----
-
-### Dependencies
-
-- Milestone 1 — Pokédex MVP
-- Milestone 2 — Personal Collection
-
----
-
-### Notes
-
-This milestone marks the transition from a general Pokémon encyclopedia to a dedicated Pokémon GO companion application.
-
-Future competitive analysis features will build upon the data introduced in this milestone.
-
----
-
-### User Value
-
-At the end of this milestone, users will be able to organize and analyze their Pokémon GO collection using information specific to the game.
-
----
-
-## 10. Milestone 4 — Competitive Analysis
-
-**Theme:** Analyze
-
-**Status:** ⚪ Planned
-
----
-
-### Overview
-
-The fourth milestone introduces competitive analysis features, enabling users to evaluate their Pokémon for different gameplay scenarios.
-
-The application evolves from a collection manager into a decision-support platform, helping players determine where each Pokémon performs best.
-
----
-
-### Goal
-
-Provide intelligent analysis and recommendations for Pokémon GO gameplay.
-
----
-
-### Versions
-
-- v0.4.0
-
----
-
-### Features
-
-- PvP Analysis
-- PvE Analysis
-- Raid Analysis
-- Gym Analysis
-- Team GO Rocket Analysis
-- Move Recommendations
-
----
-
-### Deliverables
-
-- Display PvP rankings.
-- Display recommended PvP leagues.
-- Display PvE effectiveness.
-- Display raid performance.
-- Display gym performance.
-- Display Team GO Rocket recommendations.
-- Display recommended movesets.
-- Compare Pokémon performance.
-- Display strengths and weaknesses for different game modes.
-
----
-
-### Success Criteria
-
-The milestone is considered complete when users can evaluate their Pokémon and receive recommendations for the main Pokémon GO game modes.
-
----
-
-### Dependencies
-
-- Milestone 1 — Pokédex MVP
-- Milestone 2 — Personal Collection
-- Milestone 3 — Pokémon GO Integration
-
----
-
-### Notes
-
-This milestone introduces decision-support features based on Pokémon GO data.
-
-The recommendations should help users optimize resource investment and team composition.
-
----
-
-### User Value
-
-At the end of this milestone, users will be able to make informed decisions about which Pokémon to power up, evolve, and use in different Pokémon GO activities.
-
----
-
-## 11. Milestone 5 — Community Platform
-
-**Theme:** Connect
-
-**Status:** ⚪ Planned
-
----
-
-### Overview
-
-The fifth milestone transforms Minha Pokédex into a collaborative platform, enabling users to interact with the community, share information, and stay informed about Pokémon GO events and updates.
-
-This milestone extends the application beyond personal collection management, fostering engagement and collaboration among players.
-
----
-
-### Goal
-
-Provide community-driven features that enhance collaboration, communication, and knowledge sharing among Pokémon GO players.
-
----
-
-### Versions
-
-- v0.5.0
-
----
-
-### Features
-
-- Event Calendar
-- News
-- Notifications
-- Community Features
-- Collection Sharing
-
----
-
-### Deliverables
-
-- Display upcoming Pokémon GO events.
-- Display game news and announcements.
-- Notify users about relevant events.
-- Share personal collections.
-- Generate shareable Pokémon profiles.
-- Support community-driven content.
-- Enable future social features.
-
----
-
-### Success Criteria
-
-The milestone is considered complete when users can access community content, stay informed about Pokémon GO events, and share their collections with others.
-
----
-
-### Dependencies
-
-- Milestone 1 — Pokédex MVP
-- Milestone 2 — Personal Collection
-- Milestone 3 — Pokémon GO Integration
-- Milestone 4 — Battle Intelligence
-
----
-
-### Notes
-
-This milestone marks the transition from a personal management tool to a community-oriented platform.
-
-Additional collaborative features may be introduced in future versions.
-
----
-
-### User Value
-
-At the end of this milestone, users will be able to connect with the Pokémon GO community, stay informed about game updates, and share their progress with other players.
-
----
-
-## 12. User Journey
-
-The roadmap follows the natural progression of a Pokémon GO player's experience.
-
-```text
-Discover
-     ↓
-Collect
-     ↓
-Manage
-     ↓
-Analyze
-     ↓
-Connect
-```
-
-Each milestone builds upon the previous one, gradually transforming Minha Pokédex from a Pokémon encyclopedia into a complete companion platform for Pokémon GO players.
-
----
-
-## 13. Future Releases
-
-The roadmap presented in this document represents the current long-term vision for the Minha Pokédex project.
-
-As the project evolves, additional milestones, modules, and features may be introduced based on user feedback, technical improvements, and new Pokémon GO mechanics.
-
-Future releases should continue to follow the project's architectural principles, documentation standards, and incremental development strategy.
-
-Potential future areas include:
-
-- AI-assisted recommendations.
-- Trading management.
-- Achievement tracking.
-- Advanced statistics and analytics.
-- Multi-platform support.
-- Third-party integrations.
-- Offline functionality.
-- Performance optimizations.
-
-The roadmap is a living document and should be reviewed and updated as the project evolves.
-
----
-
-## 14. Approval
-
-This document defines the official development roadmap of the Minha Pokédex project.
-
-The roadmap should be used as a strategic guide for planning, prioritizing, and tracking the project's evolution.
-
-Future revisions should preserve the project's long-term vision while remaining flexible enough to accommodate new opportunities and changing requirements.
-
----
+Essas funcionalidades representam possibilidades futuras e não compromissos da versão atual.

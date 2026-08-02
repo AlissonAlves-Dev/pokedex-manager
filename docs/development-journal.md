@@ -1318,3 +1318,206 @@ Os dados são extraídos da resposta principal da PokéAPI já utilizada pela ap
 A implementação foi realizada na branch `sprint/sprint-3`. Ao final da sessão, o code review completo e o merge ainda não haviam sido realizados. O commit e o push também não foram registrados como concluídos.
 
 ---
+
+## 2026/08/01
+
+### Objetivo
+
+Revisar e reorganizar a documentação da **Minha Pokédex**, tornando-a mais enxuta, objetiva, atualizada e escrita em português brasileiro, com separação clara entre o estado atual do projeto e o planejamento futuro.
+
+### Atividades realizadas
+
+- Revisão dos documentos:
+
+  - `README.md`;
+  - `docs/vision.md`;
+  - `docs/requirements.md`;
+  - `docs/architecture.md`;
+  - `docs/database.md`;
+  - `docs/roadmap.md`;
+  - `docs/contributing.md`;
+  - `docs/development-journal.md`;
+  - `docs/standards/documentation-standards.md`;
+  - `docs/api.md`;
+  - `docs/changelog.md`.
+
+- Identificação de que grande parte da documentação ainda estava escrita em inglês.
+- Identificação de que o `README.md` estava desatualizado em relação às funcionalidades implementadas.
+- Identificação de informações repetidas entre `README.md`, `vision.md`, `requirements.md` e `roadmap.md`.
+- Identificação de que a documentação de arquitetura descrevia extensamente backend, banco de dados e infraestrutura ainda não implementados.
+- Identificação de decisões futuras apresentadas em `database.md` como se já fizessem parte do projeto.
+- Identificação de que `contributing.md` ainda documentava o fluxo antigo de uma branch por alteração.
+- Identificação de regras desatualizadas em `documentation-standards.md`, incluindo a exigência de documentação em inglês e cabeçalhos extensos.
+- Identificação de que o Roadmap não registrava as entregas realizadas durante a Sprint 3.
+- Identificação de que `api.md` e `changelog.md` estavam vazios.
+- Definição do português brasileiro como idioma oficial da documentação textual.
+- Manutenção de nomes de código, arquivos, comandos, branches e identificadores técnicos em inglês.
+- Definição de uma responsabilidade específica para cada documento.
+- Separação clara entre o estado atual do projeto e o planejamento futuro.
+- Definição de que informações não devem ser repetidas entre diferentes documentos.
+- Definição do Git como histórico oficial de versões.
+- Remoção de tabelas de revisão e cabeçalhos extensos dos documentos vivos.
+- Manutenção do Development Journal como histórico detalhado das sessões.
+- Preservação das entradas antigas do Journal sem reescrita retroativa.
+- Definição de que diagramas serão mantidos somente quando contribuírem para a compreensão.
+- Definição da nova estrutura documental:
+
+  - `README.md`;
+  - `docs/README.md`;
+  - `docs/vision.md`;
+  - `docs/requirements.md`;
+  - `docs/architecture.md`;
+  - `docs/database.md`;
+  - `docs/roadmap.md`;
+  - `docs/contributing.md`;
+  - `docs/development-journal.md`.
+
+- Criação do arquivo `docs/README.md` como índice central da documentação.
+- Inclusão no índice da finalidade de cada documento.
+- Inclusão do estado atual do projeto e das regras de manutenção da documentação.
+- Definição de uma ordem recomendada de leitura.
+- Separação entre documentação do estado atual e planejamento futuro.
+- Reescrita do `README.md` em português brasileiro.
+- Atualização do `README.md` com:
+
+  - apresentação do projeto;
+  - funcionalidades atuais;
+  - paginação progressiva;
+  - pesquisa global exata;
+  - descrição da Pokédex;
+  - sprites padrão e shiny;
+  - temas claro e escuro;
+  - tecnologias atuais;
+  - tecnologias planejadas;
+  - instruções de instalação e execução;
+  - scripts disponíveis;
+  - estrutura do projeto;
+  - links para a documentação;
+  - entregas pendentes do MVP.
+
+- Redução do `docs/vision.md` para tratar exclusivamente de:
+
+  - problema;
+  - proposta;
+  - público inicial;
+  - objetivos do produto;
+  - objetivos técnicos e de aprendizagem;
+  - estado atual;
+  - direção futura;
+  - critérios de sucesso.
+
+- Atualização do `docs/requirements.md` para representar o comportamento real da versão `v0.1`.
+- Documentação dos requisitos relacionados a:
+
+  - paginação progressiva;
+  - pesquisa local;
+  - pesquisa global exata;
+  - normalização dos termos pesquisados;
+  - detalhes dos Pokémon;
+  - descrição da Pokédex;
+  - sprites;
+  - preservação do estado;
+  - navegação;
+  - temas;
+  - acessibilidade;
+  - responsividade;
+  - carregamento;
+  - erros;
+  - repetição de requisições;
+  - cancelamento.
+
+- Registro das regras de comportamento e restrições atuais.
+- Registro das funcionalidades ainda pendentes.
+- Registro da ausência atual de testes automatizados.
+- Registro da pendência de validação ampla entre navegadores.
+- Reescrita do `docs/roadmap.md` como documento de acompanhamento da evolução do projeto.
+- Atualização dos status dos milestones.
+- Atualização do histórico das Sprints.
+- Registro das entregas atuais do Milestone 1.
+- Registro das limitações conhecidas e das pendências do MVP.
+- Inclusão das entregas da Sprint 3.
+- Atualização do estado da Sprint 3 para **Em encerramento**.
+- Atualização dos próximos milestones e da próxima Sprint prevista.
+- Reescrita do `docs/architecture.md` com separação entre arquitetura atual e arquitetura futura.
+- Documentação da arquitetura atual do monorepositório.
+- Documentação da organização baseada em features.
+- Definição das responsabilidades de `app`, `features`, `pages`, `shared` e `styles`.
+- Documentação do fluxo entre PokéAPI, serviços, tipos da API, mappers, domínio, hooks e componentes.
+- Documentação das implementações de:
+
+  - paginação;
+  - pesquisa;
+  - página de detalhes;
+  - preservação de estado entre rotas;
+  - temas;
+  - traduções;
+  - cancelamento de requisições;
+  - estados da interface;
+  - acessibilidade;
+  - responsividade.
+
+- Manutenção de backend, Prisma e PostgreSQL somente na seção de arquitetura planejada.
+- Redução do `docs/database.md`.
+- Inclusão de um aviso inicial informando que o banco de dados ainda não foi implementado.
+- Manutenção das informações sobre:
+
+  - objetivo futuro;
+  - tecnologias planejadas;
+  - arquitetura prevista;
+  - domínios preliminares;
+  - modelo conceitual;
+  - entidades iniciais;
+  - convenções;
+  - migrations;
+  - seeds;
+  - ambientes;
+  - segurança;
+  - pendências anteriores à implementação.
+
+- Definição de `app_user` como nome físico planejado para a tabela de usuários.
+- Atualização do `docs/contributing.md` para representar o fluxo atual de desenvolvimento.
+- Documentação do fluxo de uma branch por Sprint.
+- Documentação da criação de commits por entrega.
+- Documentação do push ao final das sessões.
+- Documentação da atualização diária do Development Journal.
+- Documentação das validações realizadas antes dos commits.
+- Documentação do code review consolidado ao final da Sprint.
+- Documentação do merge na `main` e da remoção da branch após a integração.
+- Incorporação das regras documentais relevantes ao arquivo de contribuição.
+- Remoção dos arquivos:
+
+  - `docs/standards/documentation-standards.md`;
+  - `docs/api.md`;
+  - `docs/changelog.md`.
+
+- Remoção do diretório `docs/standards`.
+- Remoção do padrão documental antigo por conflito com a nova política em português brasileiro.
+- Remoção de `api.md` por ainda não existir uma API própria.
+- Remoção de `changelog.md`, mantendo o histórico por meio do Git, Roadmap e Development Journal.
+- Realização de buscas por:
+
+  - nome antigo do projeto;
+  - trechos de documentação em inglês;
+  - estados antigos;
+  - referências aos arquivos removidos;
+  - referências ao fluxo antigo de branches;
+  - funcionalidades incorretamente marcadas como planejadas;
+  - termos desatualizados.
+
+- Preservação das referências antigas existentes no Development Journal para manter o contexto histórico.
+- Verificação de referências quebradas.
+- Verificação dos arquivos e diretórios removidos.
+- Verificação da nova estrutura documental.
+- Revisão da formatação Markdown.
+- Revisão das diferenças entre os arquivos alterados.
+- Revisão da integridade do diff.
+
+### Observações
+
+A documentação da **Minha Pokédex** foi reorganizada para representar com maior precisão o estado atual do projeto. Os documentos passaram a possuir responsabilidades mais claras, com menor repetição de conteúdo e separação explícita entre funcionalidades implementadas e planejamento futuro.
+
+A documentação textual passou a adotar oficialmente o português brasileiro, enquanto os termos diretamente relacionados ao código e às ferramentas permaneceram em inglês. A arquitetura futura, incluindo backend e banco de dados, foi preservada somente como planejamento, sem transmitir que essas estruturas já estão implementadas.
+
+Os documentos vazios ou redundantes foram removidos, e o novo `docs/README.md` passou a funcionar como índice e ponto inicial para consulta. As entradas históricas do Development Journal foram preservadas sem alterações retroativas.
+
+---
