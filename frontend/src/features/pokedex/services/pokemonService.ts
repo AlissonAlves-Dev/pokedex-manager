@@ -2,12 +2,18 @@ import {
   mapPokemonApiToDetails,
   mapPokemonApiToSummary,
 } from "../mappers/pokemonMapper";
+import { mapPokemonSpeciesToDescription } from "../mappers/pokemonSpeciesMapper";
 
-import type { PokemonDetails, PokemonSummary } from "../types/pokemon";
+import type {
+  PokemonDetails,
+  PokemonListPage,
+  PokemonSummary,
+} from "../types/pokemon";
 
 import type {
   PokemonApiDetailResponse,
   PokemonApiListResponse,
+  PokemonApiSpeciesResponse,
 } from "../types/pokemonApi";
 
 const POKE_API_BASE_URL = "https://pokeapi.co/api/v2";
@@ -27,6 +33,38 @@ async function fetchPokemonDetails(
   return data;
 }
 
+async function fetchPokemonSpecies(
+  url: string,
+  signal?: AbortSignal,
+): Promise<PokemonApiSpeciesResponse> {
+  const response = await fetch(url, { signal });
+
+  if (!response.ok) {
+    throw new Error("Não foi possível carregar a descrição do Pokémon.");
+  }
+
+  const data: PokemonApiSpeciesResponse = await response.json();
+
+  return data;
+}
+
+async function getPokemonDescription(
+  speciesUrl: string,
+  signal?: AbortSignal,
+): Promise<string | null> {
+  try {
+    const pokemonSpeciesApi = await fetchPokemonSpecies(speciesUrl, signal);
+
+    return mapPokemonSpeciesToDescription(pokemonSpeciesApi);
+  } catch (error) {
+    if (signal?.aborted) {
+      throw error;
+    }
+
+    return null;
+  }
+}
+
 async function getPokemonSummary(
   url: string,
   signal?: AbortSignal,
@@ -40,7 +78,7 @@ export async function getPokemonList(
   limit = 20,
   offset = 0,
   signal?: AbortSignal,
-): Promise<PokemonSummary[]> {
+): Promise<PokemonListPage> {
   const response = await fetch(
     `${POKE_API_BASE_URL}/pokemon?limit=${limit}&offset=${offset}`,
     { signal },
@@ -52,9 +90,37 @@ export async function getPokemonList(
 
   const data: PokemonApiListResponse = await response.json();
 
-  return Promise.all(
+  const pokemonList = await Promise.all(
     data.results.map((pokemon) => getPokemonSummary(pokemon.url, signal)),
   );
+
+  return {
+    pokemonList,
+    totalCount: data.count,
+    nextOffset: data.next === null ? null : offset + data.results.length,
+  };
+}
+
+export async function getPokemonSummaryByIdentifier(
+  identifier: string,
+  signal?: AbortSignal,
+): Promise<PokemonSummary | null> {
+  const response = await fetch(
+    `${POKE_API_BASE_URL}/pokemon/${encodeURIComponent(identifier)}`,
+    { signal },
+  );
+
+  if (response.status === 404) {
+    return null;
+  }
+
+  if (!response.ok) {
+    throw new Error("Não foi possível pesquisar o Pokémon.");
+  }
+
+  const pokemonApi: PokemonApiDetailResponse = await response.json();
+
+  return mapPokemonApiToSummary(pokemonApi);
 }
 
 export async function getPokemonById(
@@ -66,5 +132,10 @@ export async function getPokemonById(
     signal,
   );
 
-  return mapPokemonApiToDetails(pokemonApi);
+  const description = await getPokemonDescription(
+    pokemonApi.species.url,
+    signal,
+  );
+
+  return mapPokemonApiToDetails(pokemonApi, description);
 }

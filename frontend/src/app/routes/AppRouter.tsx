@@ -5,6 +5,7 @@ import { Home } from "../../pages/Home/Home";
 import { PokemonList } from "../../pages/PokemonList/PokemonList";
 import { PokemonDetails } from "../../pages/PokemonDetails/PokemonDetails";
 import { NotFound } from "../../pages/NotFound/NotFound";
+import { PokemonRoutesLayout } from "../../features/pokedex/layouts/PokemonRoutesLayout";
 
 export function AppRouter() {
   return (
@@ -12,7 +13,7 @@ export function AppRouter() {
       <Route element={<MainLayout />}>
         <Route index element={<Home />} />
 
-        <Route path="pokemon">
+        <Route path="pokemon" element={<PokemonRoutesLayout />}>
           <Route index element={<PokemonList />} />
           <Route path=":pokemonId" element={<PokemonDetails />} />
         </Route>

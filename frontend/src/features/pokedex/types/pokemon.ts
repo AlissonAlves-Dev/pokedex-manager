@@ -32,6 +32,12 @@ export type PokemonSummary = {
   types: PokemonType[];
 };
 
+export type PokemonListPage = {
+  pokemonList: PokemonSummary[];
+  totalCount: number;
+  nextOffset: number | null;
+};
+
 export type PokemonAbility = {
   name: string;
   displayName: string;
@@ -43,7 +49,14 @@ export type PokemonStat = {
   baseValue: number;
 };
 
+export type PokemonSprites = {
+  frontDefaultUrl: string | null;
+  frontShinyUrl: string | null;
+};
+
 export type PokemonDetails = PokemonSummary & {
+  description: string | null;
+  sprites: PokemonSprites;
   height: number;
   weight: number;
   abilities: PokemonAbility[];

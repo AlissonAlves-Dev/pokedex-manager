@@ -748,3 +748,776 @@ As correções identificadas durante o code review melhoraram o contraste dos te
 Ao final da sessão, a branch `sprint/sprint-2` estava tecnicamente aprovada para o encerramento da Sprint 2. A integração das alterações à `main` ainda não havia sido realizada.
 
 ---
+
+## 2026/07/28
+
+### Objetivo
+
+Revisar o funcionamento atual da listagem de Pokémon e implementar o carregamento progressivo, preservando os resultados anteriores, tratando o carregamento adicional separadamente e mantendo o estado da Pokédex durante a navegação para a página de detalhes.
+
+### Atividades realizadas
+
+- Revisão do hook `usePokemonList`.
+- Revisão do `PokemonService`.
+- Revisão do modelo `PokemonApiListResponse`.
+- Revisão da página `PokemonList`.
+- Revisão dos comportamentos relacionados ao contador, pesquisa, carregamento, erro e estado vazio.
+- Identificação de que a resposta da PokéAPI já disponibilizava os metadados:
+
+  - `count`;
+  - `next`;
+  - `previous`;
+  - `results`.
+
+- Identificação de que o serviço retornava apenas o array de Pokémon e descartava os metadados necessários para a paginação.
+- Criação do modelo de domínio `PokemonListPage`.
+- Atualização do método `getPokemonList` para retornar:
+
+  - `pokemonList`;
+  - `totalCount`;
+  - `nextOffset`.
+
+- Preservação dos parâmetros `limit`, `offset` e `AbortSignal`.
+- Reformulação do hook `usePokemonList`.
+- Inclusão do estado responsável por armazenar todos os Pokémon carregados.
+- Inclusão do total de Pokémon informado pela PokéAPI.
+- Inclusão do próximo offset disponível para carregamento.
+- Separação entre o carregamento inicial e o carregamento adicional.
+- Separação entre o erro inicial e o erro ocorrido durante o carregamento adicional.
+- Criação da função `loadMore`.
+- Implementação da acumulação das novas páginas na listagem existente.
+- Preservação dos resultados anteriores durante o carregamento adicional.
+- Preservação da listagem quando uma página adicional falha.
+- Manutenção do mesmo offset após uma falha de carregamento.
+- Implementação da repetição da requisição para a página que apresentou erro.
+- Implementação de proteção lógica contra requisições simultâneas.
+- Utilização de `useRef` para bloquear cliques repetidos antes da atualização visual do estado.
+- Implementação de filtragem por ID para impedir a inserção de cards duplicados.
+- Implementação do cancelamento das requisições adicionais durante a desmontagem do hook.
+- Atualização do retorno de `usePokemonList` com:
+
+  - `pokemonList`;
+  - `totalCount`;
+  - `isLoading`;
+  - `isLoadingMore`;
+  - `error`;
+  - `loadMoreError`;
+  - `hasMore`;
+  - `loadMore`;
+  - `retry`.
+
+- Atualização da página `PokemonList`.
+- Alteração do contador para informar quantos Pokémon foram carregados em relação ao total disponível.
+- Manutenção da pesquisa local entre os Pokémon já carregados.
+- Inclusão do botão **“Carregar mais”**.
+- Inclusão de um spinner específico para o carregamento adicional.
+- Inclusão de uma mensagem específica para erros no carregamento adicional.
+- Alteração do botão para **“Tentar novamente”** após uma falha.
+- Inclusão da mensagem **“Todos os Pokémon foram carregados.”** ao final da paginação.
+- Manutenção dos controles de paginação mesmo quando a pesquisa local não encontra resultados.
+- Identificação de que o estado da listagem era perdido ao acessar a página de detalhes.
+- Avaliação das alternativas para preservar a listagem e a posição do usuário durante a navegação.
+- Definição da utilização de um layout persistente para as rotas da Pokédex.
+- Criação do contexto `frontend/src/features/pokedex/contexts/PokemonListRouteContext.ts`.
+- Criação do layout `frontend/src/features/pokedex/layouts/PokemonRoutesLayout.tsx`.
+- Integração do novo layout ao `AppRouter`.
+- Manutenção do provider durante a navegação entre as páginas de listagem e detalhes.
+- Preservação dos Pokémon carregados, total, offset, pesquisa e estados de paginação.
+- Alteração do componente `PokemonCard` para informar qual Pokémon foi selecionado.
+- Alteração do componente `PokemonGrid` para propagar a seleção realizada.
+- Inclusão de `state` na navegação para indicar que a página de detalhes foi acessada a partir da listagem.
+- Ajuste da página `PokemonDetails` para:
+
+  - retornar pelo histórico quando o usuário tiver vindo da listagem;
+  - utilizar `/pokemon` como destino alternativo em acessos diretos.
+
+- Identificação de que a restauração baseada apenas em coordenadas de rolagem não posicionava corretamente o Pokémon selecionado.
+- Substituição da restauração por coordenada pela identificação do card selecionado.
+- Inclusão do atributo `data-pokemon-id` nos links dos cards.
+- Armazenamento do ID do último Pokémon selecionado no contexto persistente.
+- Utilização de `scrollIntoView` ao retornar para a listagem.
+- Posicionamento aproximado do Pokémon selecionado no centro da tela.
+- Limpeza do ID selecionado após a restauração da posição.
+- Validação do retorno por meio do botão **“Voltar para Pokédex”**.
+- Validação do retorno utilizando o botão do navegador.
+- Validação do acesso direto a uma página de detalhes.
+- Validação da preservação da pesquisa.
+- Validação da preservação dos Pokémon carregados.
+- Validação da preservação do estado de paginação.
+- Confirmação da ausência de novas requisições iniciais ao retornar para a listagem.
+- Validação dos fluxos nos temas claro e escuro.
+- Validação da responsividade nas resoluções de `320px`, `375px`, `768px` e desktop.
+- Confirmação da ausência de rolagem horizontal.
+- Execução bem-sucedida dos comandos:
+
+  - `npm run format`;
+  - `npm run lint`;
+  - `npm run build`;
+  - `git diff --check`.
+
+### Observações
+
+A paginação progressiva e a preservação do estado durante a navegação foram concluídas e validadas. A listagem agora mantém os resultados anteriores durante novos carregamentos, diferencia os estados de carregamento e erro iniciais dos adicionais, evita requisições simultâneas e cards duplicados, permite repetir somente a página que falhou e informa quando todos os Pokémon disponíveis foram carregados.
+
+O novo layout persistente mantém os Pokémon carregados, a pesquisa, os metadados de paginação e a referência do último card selecionado durante a navegação entre a listagem e os detalhes. Ao retornar, o usuário é reposicionado próximo ao Pokémon anteriormente acessado, sem reiniciar a listagem ou repetir a requisição inicial.
+
+Durante os testes, foi confirmado que a pesquisa atual considera apenas os Pokémon já presentes em `pokemonList`. A necessidade de uma pesquisa remota por nome ou número exato foi identificada e registrada para continuidade da Sprint 3. O code review completo e a integração das alterações à `main` ainda não haviam sido realizados ao final da sessão.
+
+---
+
+## 2026/07/29
+
+### Objetivo
+
+Dar continuidade à Sprint 3 da **Minha Pokédex**, implementando uma pesquisa global exata por nome ou número, sem misturar o resultado remoto com a listagem paginada e preservando todos os estados durante a navegação para a página de detalhes.
+
+### Atividades realizadas
+
+- Revisão do estado atual da pesquisa na página `PokemonList`.
+- Revisão das responsabilidades do hook `usePokemonList`.
+- Revisão do contexto persistente das rotas da Pokédex.
+- Revisão dos métodos disponíveis no `PokemonService`.
+- Revisão das regras existentes para normalização de nomes e números.
+- Revisão dos estados de carregamento, erro e resultado vazio.
+- Confirmação da existência da branch remota `sprint/sprint-3`.
+- Manutenção do `usePokemonList` como responsável exclusivamente por:
+
+  - listagem inicial;
+  - paginação;
+  - total de Pokémon;
+  - próximo offset;
+  - carregamento adicional;
+  - erros da listagem;
+  - prevenção de páginas duplicadas.
+
+- Definição de um fluxo independente para a pesquisa global, com estados e responsabilidades próprios.
+- Manutenção da filtragem local durante a digitação.
+- Definição de que a consulta remota seria executada apenas após a confirmação da pesquisa.
+- Definição de que a PokéAPI somente seria consultada quando não existisse uma correspondência exata entre os Pokémon já carregados.
+- Criação do método `getPokemonSummaryByIdentifier`.
+- Implementação da consulta direta à PokéAPI por nome ou número.
+- Definição do retorno do serviço como `PokemonSummary | null`.
+- Tratamento de respostas `404` como Pokémon inexistente.
+- Manutenção de erros de rede ou servidor como exceções técnicas independentes.
+- Garantia de que a pesquisa remota não alterasse:
+
+  - `pokemonList`;
+  - `totalCount`;
+  - `nextOffset`;
+  - `hasMore`;
+  - estado de finalização da listagem.
+
+- Criação do utilitário `frontend/src/features/pokedex/utils/pokemonSearch.ts`.
+- Implementação da função `normalizePokemonSearchQuery`.
+- Implementação da normalização de:
+
+  - espaços no início e no final;
+  - letras maiúsculas e minúsculas;
+  - acentuação;
+  - prefixo `#`;
+  - zeros à esquerda;
+  - espaços em nomes compostos;
+  - pontuação;
+  - símbolos de gênero.
+
+- Validação das seguintes normalizações:
+
+  - `"  Pikachu  "` para `"pikachu"`;
+  - `"#025"` para `"25"`;
+  - `"Mr. Mime"` para `"mr-mime"`;
+  - `"Ho Oh"` para `"ho-oh"`;
+  - `"Nidoran♀"` para `"nidoran-f"`;
+  - `"Nidoran♂"` para `"nidoran-m"`.
+
+- Criação da função `findExactPokemonMatch`.
+- Implementação da verificação exata por nome normalizado e número do Pokémon.
+- Criação do hook `usePokemonExactSearch`.
+- Inclusão dos estados:
+
+  - `remotePokemon`;
+  - `isSearchingPokemon`;
+  - `exactSearchError`;
+  - `hasSearchedRemotely`.
+
+- Inclusão das funções:
+
+  - `searchExactPokemon`;
+  - `clearExactSearch`.
+
+- Implementação do cancelamento da pesquisa anterior utilizando `AbortController`.
+- Implementação de proteção contra respostas antigas sobrescreverem uma pesquisa mais recente.
+- Separação dos estados de:
+
+  - Pokémon encontrado;
+  - Pokémon inexistente;
+  - erro técnico;
+  - pesquisa em andamento.
+
+- Integração do `usePokemonExactSearch` ao `PokemonRoutesLayout`.
+- Inclusão do estado da pesquisa global no `PokemonListRouteContext`.
+- Preservação da pesquisa global durante a navegação entre:
+
+  - `/pokemon`;
+  - `/pokemon/:pokemonId`.
+
+- Alteração da pesquisa local para acompanhar o texto durante a digitação.
+- Manutenção de `searchQuery` como a última pesquisa confirmada.
+- Limpeza do resultado remoto quando o usuário altera o texto da pesquisa.
+- Cancelamento da requisição remota ao limpar ou modificar a consulta.
+- Implementação do fluxo de confirmação da pesquisa:
+
+  - normalização da consulta;
+  - busca por correspondência exata em `pokemonList`;
+  - utilização do resultado local quando encontrado;
+  - consulta à PokéAPI quando não existisse uma correspondência exata local.
+
+- Manutenção das correspondências parciais exclusivamente no filtro local.
+- Implementação da pesquisa global exata para consultas como:
+
+  - `pikachu`;
+  - `25`;
+  - `#25`;
+  - `025`;
+  - `mewtwo`;
+  - `150`;
+  - `#150`;
+  - `0150`.
+
+- Implementação de uma seção visual dedicada ao resultado exato.
+- Inclusão de um estado de carregamento específico para a pesquisa remota.
+- Inclusão de um estado de erro específico para a pesquisa remota.
+- Implementação da tentativa novamente sem interferir na listagem paginada.
+- Inclusão de um estado vazio para pesquisas exatas sem resultado.
+- Exibição do Pokémon remoto utilizando o componente `PokemonGrid`.
+- Limitação da largura do único card exibido na seção de resultado remoto.
+- Manutenção do resultado remoto separado de `pokemonList`.
+- Preservação do contador referente apenas aos Pokémon carregados pela paginação.
+- Implementação de uma verificação para impedir a exibição duplicada do resultado remoto caso o Pokémon fosse posteriormente alcançado pela paginação.
+- Manutenção do botão **“Carregar mais”** durante a pesquisa global.
+- Preservação de `totalCount`, `nextOffset` e `hasMore`.
+- Manutenção dos resultados locais parciais mesmo quando a pesquisa global exata retornasse `404`.
+- Ajuste para impedir a exibição simultânea de dois estados vazios.
+- Preservação do resultado remoto ao acessar os detalhes e retornar para a Pokédex.
+- Preservação do card pesquisado e restauração de sua posição na tela.
+- Atualização do componente `SearchBar` com a propriedade `isSubmitting`.
+- Alteração temporária do texto do botão para **“Pesquisando...”** durante a consulta.
+- Desabilitação temporária do botão de envio durante a pesquisa remota.
+- Manutenção do campo de pesquisa editável durante o carregamento.
+- Prevenção de múltiplas confirmações consecutivas por clique ou pela tecla `Enter`.
+- Inclusão de `aria-busy` no formulário de pesquisa.
+- Inclusão de `aria-live="polite"` na seção de resultado exato.
+- Inclusão de `aria-busy` na seção durante o carregamento.
+- Ajuste para impedir que pesquisas compostas apenas por espaços gerassem requisições.
+- Identificação e remoção do texto indevido `tSelectedPokemonId,`, que estava sendo renderizado acima do conteúdo da página.
+- Identificação do aviso de depreciação de `FormEvent` nas tipagens utilizadas pelo React.
+- Substituição de `FormEvent<HTMLFormElement>` por `SubmitEvent<HTMLFormElement>`.
+- Preservação do comportamento de `preventDefault` e do envio do formulário.
+- Validação dos seguintes comportamentos:
+
+  - filtragem local durante a digitação;
+  - pesquisa local parcial;
+  - pesquisa exata por nome;
+  - pesquisa exata por número;
+  - pesquisa utilizando `#`;
+  - pesquisa utilizando zeros à esquerda;
+  - pesquisa de nomes compostos;
+  - ausência de requisição remota quando o Pokémon exato já estava carregado;
+  - consulta remota quando o Pokémon ainda não estava carregado;
+  - exibição separada do resultado global;
+  - preservação da lista paginada;
+  - preservação do contador;
+  - preservação de `nextOffset`;
+  - preservação do botão **“Carregar mais”**;
+  - tratamento de Pokémon inexistente;
+  - tratamento de erro de rede;
+  - tentativa novamente da pesquisa;
+  - cancelamento da pesquisa anterior;
+  - prevenção de consultas duplicadas;
+  - limpeza da pesquisa;
+  - pesquisa contendo somente espaços;
+  - persistência ao navegar para os detalhes;
+  - retorno correto ao card pesquisado;
+  - funcionamento nos temas claro e escuro;
+  - funcionamento responsivo.
+
+- Confirmação da remoção do texto indevido no layout.
+- Confirmação da ausência do aviso de depreciação de `FormEvent`.
+- Execução bem-sucedida dos comandos:
+
+  - `npm run format`;
+  - `npm run lint`;
+  - `npm run build`;
+  - `git diff --check`.
+
+### Observações
+
+A **Minha Pokédex** passou a permitir a pesquisa global exata de Pokémon por nome ou número, mesmo quando o resultado ainda não está presente entre os itens carregados pela paginação.
+
+O resultado obtido remotamente permanece isolado da listagem principal, preservando o total de Pokémon, o próximo offset, o estado de paginação e o indicador de finalização da lista. A filtragem parcial continua funcionando localmente durante a digitação, enquanto a consulta à PokéAPI é realizada somente após a confirmação da pesquisa e quando não existe uma correspondência exata entre os Pokémon já carregados.
+
+A pesquisa global também passou a ser preservada durante a navegação para os detalhes, mantendo o resultado encontrado e restaurando a posição do card ao retornar para a listagem.
+
+Ao final da sessão, a implementação funcional estava concluída e validada na branch `sprint/sprint-3`. O code review completo e a integração das alterações à `main` ainda não haviam sido realizados.
+
+---
+
+## 2026/07/30
+
+### Objetivo
+
+Dar continuidade à Sprint 3 da **Minha Pokédex**, implementando a descrição da Pokédex na página de detalhes, com prioridade para textos em português brasileiro, fallback em inglês, normalização do conteúdo recebido da PokéAPI e preservação do fluxo existente de carregamento, erro, repetição e cancelamento.
+
+### Atividades realizadas
+
+- Revisão do fluxo atual da página de detalhes.
+- Revisão das responsabilidades da página `PokemonDetails`.
+- Revisão do hook `usePokemonDetails`.
+- Revisão dos métodos disponíveis no `PokemonService`.
+- Revisão do mapper responsável pela conversão dos dados da API para o domínio.
+- Revisão dos modelos `PokemonDetails` e `PokemonApiDetailResponse`.
+- Estudo da resposta do endpoint de espécie da PokéAPI:
+
+  - `/pokemon-species/{id-ou-nome}`.
+
+- Identificação de que as descrições da Pokédex estão disponíveis em `flavor_text_entries`.
+- Identificação de que cada descrição possui referências para:
+
+  - idioma;
+  - versão do jogo.
+
+- Identificação de que o conteúdo é fornecido sem tratamento e pode apresentar quebras de linha, tabulações, espaços especiais e caracteres utilizados nos textos dos jogos antigos.
+- Definição de que a página e o componente visual não seriam responsáveis por selecionar o idioma ou normalizar o texto.
+- Manutenção do `usePokemonDetails` como responsável somente por:
+
+  - carregamento;
+  - erro;
+  - repetição da requisição;
+  - cancelamento;
+  - controle da requisição atual.
+
+- Definição de que o `PokemonService` coordenaria as consultas dos dados principais e da espécie.
+- Definição de que a URL da espécie seria obtida por meio de `pokemonApi.species.url`.
+- Decisão de não montar diretamente a URL da espécie utilizando o ID da rota, preservando compatibilidade futura com formas e variações.
+- Definição de que as duas consultas utilizariam o mesmo `AbortSignal`.
+- Manutenção de um único ciclo de carregamento, erro e repetição para os detalhes completos.
+- Definição de que uma falha técnica ao carregar a espécie seria tratada como erro no carregamento dos detalhes.
+- Definição de que a ausência de uma descrição válida seria representada por `description: null`.
+- Criação do tipo reutilizável `PokemonApiNamedResource`.
+- Inclusão da referência de espécie no modelo `PokemonApiDetailResponse`.
+- Criação dos modelos:
+
+  - `PokemonApiFlavorTextEntry`;
+  - `PokemonApiSpeciesResponse`.
+
+- Criação do mapper `frontend/src/features/pokedex/mappers/pokemonSpeciesMapper.ts`.
+- Implementação da seguinte prioridade de idiomas:
+
+  - português brasileiro;
+  - português genérico, quando disponível;
+  - inglês;
+  - ausência de descrição.
+
+- Implementação da normalização do código de idioma.
+- Implementação da seleção da primeira descrição válida de acordo com a prioridade definida.
+- Implementação do descarte de entradas vazias ou compostas somente por espaços e caracteres invisíveis.
+- Implementação da normalização das descrições recebidas.
+- Tratamento de:
+
+  - quebras de linha;
+  - retorno de carro;
+  - tabulações;
+  - `form feed`;
+  - espaços duplicados;
+  - espaços não separáveis;
+  - hífens condicionais;
+  - caracteres de largura zero;
+  - caracteres invisíveis.
+
+- Preservação de acentos, pontuação, nomes próprios e caracteres legítimos do texto.
+- Identificação da grafia antiga `POKéMON`.
+- Implementação da normalização das variações de capitalização para `Pokémon`.
+- Atualização do modelo `PokemonDetails` com a propriedade `description: string | null`.
+- Atualização do `mapPokemonApiToDetails` para receber a descrição previamente processada.
+- Manutenção das regras de idioma e normalização fora do mapper principal.
+- Criação da função de serviço responsável pela consulta dos dados da espécie.
+- Atualização do método `getPokemonById` para:
+
+  - buscar os dados principais do Pokémon;
+  - obter a URL da espécie;
+  - buscar os dados da espécie;
+  - selecionar e normalizar a descrição;
+  - montar o objeto `PokemonDetails` completo.
+
+- Validação das duas requisições na aba Network:
+
+  - `/pokemon/{id}`;
+  - `/pokemon-species/{id-ou-nome}`.
+
+- Confirmação de respostas HTTP `200` para os dois endpoints.
+- Criação do componente `PokemonDescription`.
+- Criação do arquivo de estilos `PokemonDescription.css`.
+- Utilização do componente compartilhado `Card` para manter a consistência visual com a aplicação.
+- Inclusão do título **“Descrição da Pokédex”**.
+- Implementação da mensagem de fallback visual **“Descrição indisponível para este Pokémon.”**
+- Integração da descrição entre o cabeçalho do Pokémon e as informações físicas.
+- Preservação da responsabilidade exclusivamente visual do componente, que recebe apenas `string | null`.
+- Validação de que as espécies testadas não possuíam descrições em português brasileiro na resposta atual da PokéAPI.
+- Confirmação do uso correto da descrição em inglês como fallback.
+- Identificação de que a ausência de textos em português é uma limitação da fonte de dados, e não uma falha da implementação.
+- Registro de que traduções completas em português brasileiro poderão exigir futuramente:
+
+  - catálogo local;
+  - outra fonte de dados;
+  - backend próprio;
+  - serviço de tradução.
+
+- Validação da consulta dos dados principais do Pokémon.
+- Validação da consulta dos dados da espécie.
+- Validação da utilização da URL de espécie retornada pela API.
+- Validação do compartilhamento do mesmo `AbortSignal`.
+- Validação do cancelamento ao sair da página durante o carregamento.
+- Confirmação de que o estado de carregamento aguarda a conclusão das duas consultas.
+- Validação do tratamento de erro na consulta principal.
+- Validação do tratamento de erro na consulta de espécie.
+- Validação da repetição de todo o fluxo por meio da função de retry.
+- Validação do uso da descrição em português brasileiro quando disponível.
+- Validação do uso do inglês como fallback.
+- Validação do tratamento da ausência de descrição.
+- Validação da remoção de quebras e caracteres especiais indevidos.
+- Validação da normalização da grafia `POKéMON` para `Pokémon`.
+- Validação da preservação da listagem ao retornar da página de detalhes.
+- Validação do funcionamento nos temas claro e escuro.
+- Validação do funcionamento nas resoluções de:
+
+  - `320px`;
+  - `375px`;
+  - `768px`;
+  - desktop.
+
+- Confirmação da ausência de transbordamento do texto.
+- Confirmação da ausência de rolagem horizontal.
+- Validação da legibilidade da descrição e da mensagem de indisponibilidade.
+- Execução bem-sucedida dos comandos:
+
+  - `npm run format`;
+  - `npm run lint`;
+  - `npm run build`;
+  - `git diff --check`.
+
+### Observações
+
+A página de detalhes da **Minha Pokédex** passou a consultar o endpoint de espécie e exibir uma descrição da Pokédex previamente normalizada. A aplicação procura inicialmente uma descrição em português e utiliza o inglês como fallback quando a PokéAPI não fornece uma entrada compatível.
+
+As regras de seleção de idioma, fallback e tratamento do texto permaneceram isoladas no mapper da espécie, enquanto o componente visual recebe somente a descrição pronta para apresentação. O fluxo existente de carregamento, erro, repetição, cancelamento, navegação, temas e responsividade foi preservado.
+
+As espécies validadas não apresentaram descrições em português brasileiro na resposta atual da PokéAPI, fazendo com que o fallback em inglês fosse utilizado corretamente. Ao final da sessão, não havia sido realizado o code review completo nem a integração das alterações à `main`.
+
+---
+
+## 2026/07/31
+
+### Objetivo
+
+Dar continuidade à Sprint 3 da **Minha Pokédex**, implementando uma seção na página de detalhes para exibir os sprites frontais padrão e shiny disponibilizados pela resposta principal da PokéAPI, sem realizar novas consultas de dados e preservando a arquitetura, os temas, a acessibilidade e a responsividade da aplicação.
+
+### Atividades realizadas
+
+- Revisão dos campos já tipados em `PokemonApiDetailResponse`.
+- Revisão da estrutura `sprites` retornada pelo endpoint `/pokemon/{id}`.
+- Revisão do mapper `pokemonMapper`.
+- Revisão dos modelos `PokemonSummary` e `PokemonDetails`.
+- Revisão da página `PokemonDetails`.
+- Revisão do componente compartilhado `Card`.
+- Revisão dos tokens visuais existentes para os temas claro e escuro.
+- Definição da utilização dos campos:
+
+  - `sprites.front_default`;
+  - `sprites.front_shiny`.
+
+- Preservação da arte oficial existente em `sprites.other["official-artwork"].front_default`.
+- Manutenção da separação entre:
+
+  - `imageUrl`, utilizado pela listagem e pelo cabeçalho;
+  - `sprites`, utilizado pela nova seção de imagens frontais padrão e shiny.
+
+- Criação do modelo de domínio `PokemonSprites` com:
+
+  - `frontDefaultUrl: string | null`;
+  - `frontShinyUrl: string | null`.
+
+- Inclusão da propriedade `sprites` no modelo `PokemonDetails`.
+- Inclusão dos campos `front_default` e `front_shiny` em `PokemonApiDetailResponse`.
+- Criação de uma função para normalizar as URLs dos sprites.
+- Implementação da conversão de URLs vazias ou compostas somente por espaços para `null`.
+- Criação do mapper responsável pela transformação dos sprites.
+- Implementação do mapeamento:
+
+  - `front_default` para `frontDefaultUrl`;
+  - `front_shiny` para `frontShinyUrl`.
+
+- Manutenção da transformação dos dados fora do componente visual.
+- Confirmação de que nenhuma nova responsabilidade foi adicionada ao serviço ou ao hook de detalhes.
+- Criação dos arquivos:
+
+  - `PokemonSprites.tsx`;
+  - `PokemonSprites.css`.
+
+- Criação de um componente interno reutilizável para representar cada card de sprite.
+- Inclusão dos cards:
+
+  - **Padrão**;
+  - **Shiny**.
+
+- Inclusão das mensagens de indisponibilidade:
+
+  - **“Sprite padrão indisponível.”**;
+  - **“Sprite shiny indisponível.”**
+
+- Inclusão de textos alternativos específicos para cada imagem.
+- Inclusão de `loading="lazy"` nas imagens.
+- Inclusão de `decoding="async"` nas imagens.
+- Aplicação de `image-rendering: pixelated` para preservar a aparência dos sprites.
+- Criação de um layout com duas colunas para desktop.
+- Criação de um layout empilhado para dispositivos móveis.
+- Integração da seção de sprites após a descrição da Pokédex na página de detalhes.
+- Manutenção das responsabilidades da estrutura:
+
+  - `PokemonApiDetailResponse` representa os campos originais da PokéAPI;
+  - `pokemonMapper` normaliza e transforma as URLs;
+  - `PokemonDetails` disponibiliza os sprites no domínio;
+  - `PokemonSprites` apresenta as imagens ou mensagens de indisponibilidade;
+  - `PokemonDetails.tsx` organiza a seção junto aos demais detalhes.
+
+- Validação da exibição do sprite frontal padrão.
+- Validação da exibição do sprite frontal shiny.
+- Validação do tratamento independente da ausência de cada sprite.
+- Validação da conversão de strings vazias para ausência de imagem.
+- Confirmação de que nenhum novo endpoint de dados foi consultado.
+- Validação do carregamento normal dos arquivos de imagem.
+- Confirmação da preservação da arte oficial já utilizada pela aplicação.
+- Validação da consistência das dimensões dos cards.
+- Validação da acessibilidade dos títulos e das imagens.
+- Validação da seção nos temas claro e escuro.
+- Validação do layout em duas colunas no desktop.
+- Validação do layout em uma coluna em dispositivos móveis.
+- Confirmação da ausência de rolagem horizontal.
+- Confirmação da preservação dos fluxos de carregamento, erro, repetição e cancelamento.
+- Execução bem-sucedida dos comandos:
+
+  - `npm run format`;
+  - `npm run lint`;
+  - `npm run build`;
+  - `git diff --check`.
+
+### Observações
+
+A página de detalhes da **Minha Pokédex** passou a apresentar os sprites frontais padrão e shiny em uma seção própria, mantendo consistência com os cards, os temas e a estrutura visual existente.
+
+Os dados são extraídos da resposta principal da PokéAPI já utilizada pela aplicação, sem a necessidade de novas consultas. As URLs são normalizadas e transformadas no mapper, enquanto o componente visual recebe somente os valores preparados para apresentação.
+
+A implementação foi realizada na branch `sprint/sprint-3`. Ao final da sessão, o code review completo e o merge ainda não haviam sido realizados. O commit e o push também não foram registrados como concluídos.
+
+---
+
+## 2026/08/01
+
+### Objetivo
+
+Revisar e reorganizar a documentação da **Minha Pokédex**, tornando-a mais enxuta, objetiva, atualizada e escrita em português brasileiro, com separação clara entre o estado atual do projeto e o planejamento futuro.
+
+### Atividades realizadas
+
+- Revisão dos documentos:
+
+  - `README.md`;
+  - `docs/vision.md`;
+  - `docs/requirements.md`;
+  - `docs/architecture.md`;
+  - `docs/database.md`;
+  - `docs/roadmap.md`;
+  - `docs/contributing.md`;
+  - `docs/development-journal.md`;
+  - `docs/standards/documentation-standards.md`;
+  - `docs/api.md`;
+  - `docs/changelog.md`.
+
+- Identificação de que grande parte da documentação ainda estava escrita em inglês.
+- Identificação de que o `README.md` estava desatualizado em relação às funcionalidades implementadas.
+- Identificação de informações repetidas entre `README.md`, `vision.md`, `requirements.md` e `roadmap.md`.
+- Identificação de que a documentação de arquitetura descrevia extensamente backend, banco de dados e infraestrutura ainda não implementados.
+- Identificação de decisões futuras apresentadas em `database.md` como se já fizessem parte do projeto.
+- Identificação de que `contributing.md` ainda documentava o fluxo antigo de uma branch por alteração.
+- Identificação de regras desatualizadas em `documentation-standards.md`, incluindo a exigência de documentação em inglês e cabeçalhos extensos.
+- Identificação de que o Roadmap não registrava as entregas realizadas durante a Sprint 3.
+- Identificação de que `api.md` e `changelog.md` estavam vazios.
+- Definição do português brasileiro como idioma oficial da documentação textual.
+- Manutenção de nomes de código, arquivos, comandos, branches e identificadores técnicos em inglês.
+- Definição de uma responsabilidade específica para cada documento.
+- Separação clara entre o estado atual do projeto e o planejamento futuro.
+- Definição de que informações não devem ser repetidas entre diferentes documentos.
+- Definição do Git como histórico oficial de versões.
+- Remoção de tabelas de revisão e cabeçalhos extensos dos documentos vivos.
+- Manutenção do Development Journal como histórico detalhado das sessões.
+- Preservação das entradas antigas do Journal sem reescrita retroativa.
+- Definição de que diagramas serão mantidos somente quando contribuírem para a compreensão.
+- Definição da nova estrutura documental:
+
+  - `README.md`;
+  - `docs/README.md`;
+  - `docs/vision.md`;
+  - `docs/requirements.md`;
+  - `docs/architecture.md`;
+  - `docs/database.md`;
+  - `docs/roadmap.md`;
+  - `docs/contributing.md`;
+  - `docs/development-journal.md`.
+
+- Criação do arquivo `docs/README.md` como índice central da documentação.
+- Inclusão no índice da finalidade de cada documento.
+- Inclusão do estado atual do projeto e das regras de manutenção da documentação.
+- Definição de uma ordem recomendada de leitura.
+- Separação entre documentação do estado atual e planejamento futuro.
+- Reescrita do `README.md` em português brasileiro.
+- Atualização do `README.md` com:
+
+  - apresentação do projeto;
+  - funcionalidades atuais;
+  - paginação progressiva;
+  - pesquisa global exata;
+  - descrição da Pokédex;
+  - sprites padrão e shiny;
+  - temas claro e escuro;
+  - tecnologias atuais;
+  - tecnologias planejadas;
+  - instruções de instalação e execução;
+  - scripts disponíveis;
+  - estrutura do projeto;
+  - links para a documentação;
+  - entregas pendentes do MVP.
+
+- Redução do `docs/vision.md` para tratar exclusivamente de:
+
+  - problema;
+  - proposta;
+  - público inicial;
+  - objetivos do produto;
+  - objetivos técnicos e de aprendizagem;
+  - estado atual;
+  - direção futura;
+  - critérios de sucesso.
+
+- Atualização do `docs/requirements.md` para representar o comportamento real da versão `v0.1`.
+- Documentação dos requisitos relacionados a:
+
+  - paginação progressiva;
+  - pesquisa local;
+  - pesquisa global exata;
+  - normalização dos termos pesquisados;
+  - detalhes dos Pokémon;
+  - descrição da Pokédex;
+  - sprites;
+  - preservação do estado;
+  - navegação;
+  - temas;
+  - acessibilidade;
+  - responsividade;
+  - carregamento;
+  - erros;
+  - repetição de requisições;
+  - cancelamento.
+
+- Registro das regras de comportamento e restrições atuais.
+- Registro das funcionalidades ainda pendentes.
+- Registro da ausência atual de testes automatizados.
+- Registro da pendência de validação ampla entre navegadores.
+- Reescrita do `docs/roadmap.md` como documento de acompanhamento da evolução do projeto.
+- Atualização dos status dos milestones.
+- Atualização do histórico das Sprints.
+- Registro das entregas atuais do Milestone 1.
+- Registro das limitações conhecidas e das pendências do MVP.
+- Inclusão das entregas da Sprint 3.
+- Atualização do estado da Sprint 3 para **Em encerramento**.
+- Atualização dos próximos milestones e da próxima Sprint prevista.
+- Reescrita do `docs/architecture.md` com separação entre arquitetura atual e arquitetura futura.
+- Documentação da arquitetura atual do monorepositório.
+- Documentação da organização baseada em features.
+- Definição das responsabilidades de `app`, `features`, `pages`, `shared` e `styles`.
+- Documentação do fluxo entre PokéAPI, serviços, tipos da API, mappers, domínio, hooks e componentes.
+- Documentação das implementações de:
+
+  - paginação;
+  - pesquisa;
+  - página de detalhes;
+  - preservação de estado entre rotas;
+  - temas;
+  - traduções;
+  - cancelamento de requisições;
+  - estados da interface;
+  - acessibilidade;
+  - responsividade.
+
+- Manutenção de backend, Prisma e PostgreSQL somente na seção de arquitetura planejada.
+- Redução do `docs/database.md`.
+- Inclusão de um aviso inicial informando que o banco de dados ainda não foi implementado.
+- Manutenção das informações sobre:
+
+  - objetivo futuro;
+  - tecnologias planejadas;
+  - arquitetura prevista;
+  - domínios preliminares;
+  - modelo conceitual;
+  - entidades iniciais;
+  - convenções;
+  - migrations;
+  - seeds;
+  - ambientes;
+  - segurança;
+  - pendências anteriores à implementação.
+
+- Definição de `app_user` como nome físico planejado para a tabela de usuários.
+- Atualização do `docs/contributing.md` para representar o fluxo atual de desenvolvimento.
+- Documentação do fluxo de uma branch por Sprint.
+- Documentação da criação de commits por entrega.
+- Documentação do push ao final das sessões.
+- Documentação da atualização diária do Development Journal.
+- Documentação das validações realizadas antes dos commits.
+- Documentação do code review consolidado ao final da Sprint.
+- Documentação do merge na `main` e da remoção da branch após a integração.
+- Incorporação das regras documentais relevantes ao arquivo de contribuição.
+- Remoção dos arquivos:
+
+  - `docs/standards/documentation-standards.md`;
+  - `docs/api.md`;
+  - `docs/changelog.md`.
+
+- Remoção do diretório `docs/standards`.
+- Remoção do padrão documental antigo por conflito com a nova política em português brasileiro.
+- Remoção de `api.md` por ainda não existir uma API própria.
+- Remoção de `changelog.md`, mantendo o histórico por meio do Git, Roadmap e Development Journal.
+- Realização de buscas por:
+
+  - nome antigo do projeto;
+  - trechos de documentação em inglês;
+  - estados antigos;
+  - referências aos arquivos removidos;
+  - referências ao fluxo antigo de branches;
+  - funcionalidades incorretamente marcadas como planejadas;
+  - termos desatualizados.
+
+- Preservação das referências antigas existentes no Development Journal para manter o contexto histórico.
+- Verificação de referências quebradas.
+- Verificação dos arquivos e diretórios removidos.
+- Verificação da nova estrutura documental.
+- Revisão da formatação Markdown.
+- Revisão das diferenças entre os arquivos alterados.
+- Revisão da integridade do diff.
+
+### Observações
+
+A documentação da **Minha Pokédex** foi reorganizada para representar com maior precisão o estado atual do projeto. Os documentos passaram a possuir responsabilidades mais claras, com menor repetição de conteúdo e separação explícita entre funcionalidades implementadas e planejamento futuro.
+
+A documentação textual passou a adotar oficialmente o português brasileiro, enquanto os termos diretamente relacionados ao código e às ferramentas permaneceram em inglês. A arquitetura futura, incluindo backend e banco de dados, foi preservada somente como planejamento, sem transmitir que essas estruturas já estão implementadas.
+
+Os documentos vazios ou redundantes foram removidos, e o novo `docs/README.md` passou a funcionar como índice e ponto inicial para consulta. As entradas históricas do Development Journal foram preservadas sem alterações retroativas.
+
+---

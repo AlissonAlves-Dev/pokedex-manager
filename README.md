@@ -1,109 +1,115 @@
 # Minha Pokédex
 
-A modern Full Stack application for Pokémon GO players to search, organize, analyze, and manage their Pokémon collection.
+Aplicação web para consultar Pokémon, explorar informações detalhadas e, futuramente, gerenciar uma coleção pessoal voltada principalmente para jogadores de Pokémon GO.
 
-> **Status:** 🚧 Under Development
+> O projeto está em desenvolvimento. A versão atual está concentrada na experiência de Pokédex no frontend.
 
----
+## Funcionalidades atuais
 
-## 💡 Why this project?
+### Listagem
 
-Managing Pokémon in Pokémon GO often requires using multiple websites and tools.
+- carregamento progressivo de Pokémon;
+- preservação dos resultados já carregados;
+- contador de resultados;
+- tratamento separado para carregamento inicial e adicional;
+- tentativa novamente em falhas de paginação;
+- indicação de fim da listagem.
 
-Minha Pokédex aims to provide a single platform where players can search Pokémon, analyze their collection, and make better decisions about where to invest their resources.
+### Pesquisa
 
-At the same time, this project serves as a practical Full Stack Software Engineering portfolio.
+- filtro local durante a digitação;
+- pesquisa global exata por nome;
+- pesquisa global exata por número da Pokédex;
+- suporte a formatos como `25`, `025` e `#025`;
+- normalização de nomes compostos e símbolos;
+- resultado remoto separado da paginação.
 
----
+A pesquisa parcial considera apenas os Pokémon já carregados. Consultas globais são realizadas somente para nomes ou números exatos.
 
-## 📖 About
+### Detalhes do Pokémon
 
-Minha Pokédex is a web application designed to centralize Pokémon GO information and collection management in one place.
+- número e nome;
+- arte oficial;
+- tipos;
+- altura e peso;
+- habilidades comuns e ocultas;
+- traduções de habilidades em português quando disponíveis;
+- estatísticas base;
+- descrição da Pokédex;
+- fallback da descrição para inglês;
+- sprite frontal padrão;
+- sprite frontal shiny;
+- mensagens individuais para dados indisponíveis.
 
-The project was created both as a portfolio project and as a real-world application that can continue evolving over time.
+### Interface
 
-Players will be able to:
+- navegação responsiva;
+- temas claro e escuro;
+- persistência da preferência de tema;
+- suporte à preferência do sistema;
+- estados de loading, erro, retry e conteúdo vazio;
+- cancelamento de requisições com `AbortController`;
+- preservação da listagem ao navegar para os detalhes;
+- restauração do Pokémon selecionado ao retornar;
+- interface validada a partir de 320px.
 
-- Search Pokémon information
-- Analyze Pokémon for PvE and PvP
-- Manage their personal collection
-- Compare Pokémon
-- Track important Pokémon data
-- Build teams and strategies (future)
-
----
-
-## ✨ Features
-
-### Current
-
-- Project planning and technical documentation
-- Monorepo and frontend development environment
-- React Router navigation
-- Responsive application layout
-- Reusable frontend Design System
-- PokéAPI integration
-- Pokémon listing
-- Search by Pokémon name and Pokédex number
-- Pokémon details
-- Official artwork, types, abilities, and base stats
-- Loading, empty, error, retry, and invalid-route states
-- Request cancellation with AbortController
-- Responsive interface for mobile and desktop
-
-### In Progress
-
-- Complete Pokédex MVP
-- Pagination and broader Pokémon loading
-- Full-dataset Pokémon search
-- Pokémon sprites
-- Evolution chains
-- Pokémon forms
-- Pokédex descriptions
-
-### Planned
-
-- Backend API
-- User authentication
-- Personal collection
-- Favorites
-- Pokémon GO data
-- PvP and PvE analysis
-- Raid recommendations
-- Dark mode
-
----
-
-## 🛠 Tech Stack
+## Tecnologias atuais
 
 ### Frontend
 
-- React
-- TypeScript
-- Vite
+- React;
+- TypeScript;
+- Vite;
+- React Router;
+- CSS;
+- Fetch API.
 
-### Backend
+### Ferramentas
 
-- Node.js
-- Express
-- TypeScript
-- Prisma ORM
+- npm Workspaces;
+- ESLint;
+- Prettier;
+- Vitest;
+- EditorConfig;
+- Git;
+- GitHub.
 
-### Database
+## Tecnologias planejadas
 
-- PostgreSQL
+As tecnologias abaixo ainda não fazem parte da aplicação em funcionamento:
 
----
+- Node.js;
+- Express;
+- Prisma;
+- PostgreSQL;
+- Docker;
+- GitHub Actions.
 
-## 📂 Project Structure
+O backend e o banco de dados serão introduzidos em versões futuras.
+
+## Fonte de dados
+
+O frontend consulta atualmente a [PokéAPI](https://pokeapi.co/).
+
+Os dados recebidos são transformados antes de chegarem aos componentes visuais:
+
+```text
+PokéAPI
+→ services
+→ API types
+→ mappers
+→ domain models
+→ hooks
+→ pages and components
+```
+
+## Estrutura do projeto
 
 ```text
 pokedex-manager/
-│
 ├── frontend/
 ├── backend/
 ├── docs/
-│
 ├── .vscode/
 ├── .editorconfig
 ├── .gitignore
@@ -114,59 +120,100 @@ pokedex-manager/
 └── README.md
 ```
 
----
+O frontend utiliza uma organização baseada em features:
 
-## 📚 Documentation
+```text
+frontend/src/
+├── app/
+├── assets/
+├── features/
+├── pages/
+├── shared/
+└── styles/
+```
 
-Project documentation can be found in the `docs` folder.
+## Como executar
 
-- Vision
-- Requirements
-- Architecture
-- Database
-- Development Journal
-- Roadmap
+### Pré-requisitos
 
----
+- Node.js;
+- npm;
+- Git.
 
-## 🚀 Roadmap
+### Instalação
 
-- [x] Project planning
-- [x] Technical documentation
-- [x] Database design
-- [x] Project and monorepo setup
-- [x] Frontend foundation
-- [x] Sprint 1 code review
-- [ ] Complete Pokédex MVP
-- [ ] Backend API
-- [ ] Authentication
-- [ ] Personal Collection
-- [ ] Deployment
+Clone o repositório:
 
----
+```bash
+git clone https://github.com/AlissonAlves-Dev/pokedex-manager.git
+```
 
-## 🎯 Project Goals
+Entre na pasta:
 
-- Practice Full Stack Development
-- Build a professional portfolio
-- Learn software architecture
-- Apply Software Engineering concepts
-- Create a useful tool for Pokémon GO players
+```bash
+cd pokedex-manager
+```
 
----
+Instale as dependências:
 
-## 📸 Screenshots
+```bash
+npm install
+```
 
-Coming soon.
+Inicie o frontend:
 
----
+```bash
+npm run dev:frontend
+```
 
-## 🤝 Contributing
+O Vite exibirá no terminal o endereço local da aplicação.
 
-Contributions, suggestions, and feedback are welcome.
+## Scripts
 
----
+```bash
+npm run dev:frontend
+npm run format
+npm run lint
+npm run build
+npm test
+npm run test:watch
+```
 
-## 📄 License
+| Script         | Finalidade                                   |
+| -------------- | -------------------------------------------- |
+| `dev:frontend` | Inicia o frontend em modo de desenvolvimento |
+| `format`       | Formata os arquivos com Prettier             |
+| `lint`         | Executa as verificações do ESLint            |
+| `build`        | Gera a versão de produção                    |
+| `test`         | Executa os testes automatizados uma vez      |
+| `test:watch`   | Executa os testes em modo de observação      |
 
-This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
+## Documentação
+
+A documentação completa está disponível em [`docs/README.md`](docs/README.md).
+
+Principais documentos:
+
+- [Visão do produto](docs/vision.md);
+- [Requisitos](docs/requirements.md);
+- [Arquitetura](docs/architecture.md);
+- [Banco de dados](docs/database.md);
+- [Roadmap](docs/roadmap.md);
+- [Guia de contribuição](docs/contributing.md);
+- [Development Journal](docs/development-journal.md).
+
+## Próximas entregas do MVP
+
+- cadeia de evolução;
+- formas e variações;
+- refinamentos finais da experiência de Pokédex;
+- ampliação da cobertura de testes automatizados;
+- preparação para publicação.
+
+O progresso detalhado está registrado no [Roadmap](docs/roadmap.md).
+
+## Licença
+
+Este projeto é distribuído sob a licença MIT.
+
+Consulte o arquivo [LICENSE](LICENSE).

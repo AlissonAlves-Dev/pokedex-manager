@@ -1,6 +1,10 @@
 import { isPokemonType } from "../types/pokemon";
 
-import type { PokemonDetails, PokemonSummary } from "../types/pokemon";
+import type {
+  PokemonDetails,
+  PokemonSprites,
+  PokemonSummary,
+} from "../types/pokemon";
 import type { PokemonApiDetailResponse } from "../types/pokemonApi";
 import { getAbilityDisplayName } from "./pokemonAbilityMapper";
 
@@ -18,26 +22,50 @@ function mapPokemonTypes(
     });
 }
 
+function normalizeImageUrl(url: string | null): string | null {
+  const normalizedUrl = url?.trim() ?? "";
+
+  return normalizedUrl || null;
+}
+
+function mapPokemonSprites(pokemon: PokemonApiDetailResponse): PokemonSprites {
+  return {
+    frontDefaultUrl: normalizeImageUrl(pokemon.sprites.front_default),
+    frontShinyUrl: normalizeImageUrl(pokemon.sprites.front_shiny),
+  };
+}
+
+function mapOfficialArtworkUrl(pokemon: PokemonApiDetailResponse): string {
+  return (
+    normalizeImageUrl(
+      pokemon.sprites.other["official-artwork"].front_default,
+    ) ?? ""
+  );
+}
+
 export function mapPokemonApiToSummary(
   pokemon: PokemonApiDetailResponse,
 ): PokemonSummary {
   return {
     id: pokemon.id,
     name: pokemon.name,
-    imageUrl: pokemon.sprites.other["official-artwork"].front_default ?? "",
+    imageUrl: mapOfficialArtworkUrl(pokemon),
     types: mapPokemonTypes(pokemon),
   };
 }
 
 export function mapPokemonApiToDetails(
   pokemon: PokemonApiDetailResponse,
+  description: string | null = null,
 ): PokemonDetails {
   return {
     id: pokemon.id,
     name: pokemon.name,
-    imageUrl: pokemon.sprites.other["official-artwork"].front_default ?? "",
-
+    imageUrl: mapOfficialArtworkUrl(pokemon),
     types: mapPokemonTypes(pokemon),
+
+    description,
+    sprites: mapPokemonSprites(pokemon),
 
     height: pokemon.height,
     weight: pokemon.weight,

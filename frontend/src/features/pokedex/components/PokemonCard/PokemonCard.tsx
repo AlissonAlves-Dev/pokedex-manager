@@ -7,13 +7,20 @@ import "./PokemonCard.css";
 
 type PokemonCardProps = {
   pokemon: PokemonSummary;
+  onSelect?: (pokemonId: number) => void;
 };
 
-export function PokemonCard({ pokemon }: PokemonCardProps) {
+export function PokemonCard({ pokemon, onSelect }: PokemonCardProps) {
   const formattedId = String(pokemon.id).padStart(3, "0");
 
   return (
-    <Link className="pokemon-card__link" to={`/pokemon/${pokemon.id}`}>
+    <Link
+      className="pokemon-card__link"
+      to={`/pokemon/${pokemon.id}`}
+      state={{ fromPokemonList: true }}
+      data-pokemon-id={pokemon.id}
+      onClick={() => onSelect?.(pokemon.id)}
+    >
       <Card className="pokemon-card">
         <div className="pokemon-card__header">
           <span className="pokemon-card__number">#{formattedId}</span>

@@ -1,105 +1,134 @@
-# Vision
+# Visão do produto
 
-**Project:** Minha Pokédex
+A Minha Pokédex é uma aplicação criada para centralizar informações sobre Pokémon e, futuramente, ajudar jogadores a organizar e analisar sua coleção pessoal.
 
-**Document:** Vision
+O projeto começa como uma Pokédex moderna e evoluirá gradualmente para uma ferramenta voltada principalmente ao universo de Pokémon GO.
 
-**Version:** 0.1.0
+## Problema
 
-**Status:** Draft
+Jogadores de Pokémon GO costumam utilizar diferentes sites, aplicativos e planilhas para:
 
-**Last Updated:** 2026-07-12
+- consultar informações sobre Pokémon;
+- verificar tipos, atributos e habilidades;
+- avaliar Pokémon para batalhas;
+- acompanhar sua coleção;
+- decidir onde investir recursos;
+- organizar times e estratégias.
 
----
+Essa fragmentação dificulta consultas rápidas e torna o gerenciamento da coleção mais trabalhoso.
 
-## Vision Statement
+## Proposta
 
-Create a modern platform that helps Pokémon GO players organize, analyze, and better understand their Pokémon collection through detailed information, powerful search tools, and personalized collection management.
+A Minha Pokédex pretende reunir essas informações em uma única aplicação, com uma interface simples, responsiva e organizada.
 
-The long-term vision is to evolve the application into a complete Pokémon companion platform, supporting additional Pokémon games and features beyond Pokémon GO.
+A evolução do produto será incremental:
 
----
+```text
+Pokédex
+→ coleção pessoal
+→ dados de Pokémon GO
+→ análises e recomendações
+```
 
-## Problem Statement
+Cada etapa deve entregar valor próprio sem depender da implementação completa das etapas futuras.
 
-Pokémon GO players often rely on multiple websites, spreadsheets, and applications to:
+## Público inicial
 
-- Search Pokémon information.
-- Check PvP rankings.
-- Find Raid counters.
-- Analyze IVs.
-- Manage their personal collection.
+O público inicial é formado por jogadores de Pokémon GO que desejam:
 
-This fragmented experience makes it difficult to quickly decide which Pokémon are worth investing in.
+- consultar Pokémon rapidamente;
+- entender seus tipos, atributos e habilidades;
+- conhecer formas, evoluções e variações;
+- acompanhar informações relevantes para sua coleção;
+- tomar decisões melhores sobre evolução e investimento.
 
-Minha Pokédex aims to centralize these features into a single, intuitive platform.
+A Pokédex também pode ser utilizada por pessoas interessadas na franquia Pokémon de forma geral.
 
----
+## Objetivos do produto
 
-## Target Audience
+- oferecer uma consulta clara e confiável de Pokémon;
+- centralizar informações atualmente espalhadas entre diferentes ferramentas;
+- permitir o gerenciamento de uma coleção pessoal;
+- adicionar dados específicos de Pokémon GO;
+- apoiar decisões relacionadas a PvP, PvE, raids e investimento de recursos;
+- evoluir sem comprometer a simplicidade da experiência.
 
-### Initial Audience
+## Objetivos técnicos e de aprendizagem
 
-Pokémon GO players looking to:
+O projeto também funciona como um produto de portfólio e uma aplicação prática de Engenharia de Software.
 
-- Manage their Pokémon collection.
-- Track important Pokémon data.
-- Evaluate Pokémon for Raids, PvP, Gyms, and Team GO Rocket.
-- Quickly find the best Pokémon for each situation.
+Ele deve demonstrar:
 
-### Future Audience
+- desenvolvimento frontend com React e TypeScript;
+- arquitetura organizada por responsabilidades;
+- integração com APIs externas;
+- desenvolvimento futuro de uma API própria;
+- modelagem e persistência de dados;
+- autenticação e autorização;
+- testes;
+- acessibilidade;
+- responsividade;
+- documentação;
+- versionamento e fluxo de desenvolvimento.
 
-Players of other Pokémon games as new modules are added to the platform.
+As escolhas técnicas devem atender às necessidades reais do produto, evitando complexidade apenas para demonstrar tecnologias.
 
----
+## Estado atual
 
-## Objectives
+A versão atual está concentrada no frontend e na experiência de Pokédex.
 
-### Learning
+Atualmente, o usuário pode:
 
-Develop practical experience with modern Full Stack development technologies and software engineering best practices.
+- navegar por uma lista progressiva de Pokémon;
+- pesquisar por nome ou número;
+- acessar informações detalhadas;
+- visualizar arte oficial, tipos, atributos, habilidades, descrição e sprites;
+- utilizar a aplicação em temas claro e escuro;
+- navegar em dispositivos móveis e desktop.
 
-### Portfolio
+O frontend consulta diretamente a PokéAPI.
 
-Build a complete project demonstrating architecture, clean code, database design, authentication, API development, testing, and deployment.
+Ainda não existem:
 
-### Product
+- backend próprio;
+- banco de dados;
+- autenticação;
+- coleção pessoal;
+- dados individuais de Pokémon capturados;
+- análises de PvP e PvE.
 
-Create a platform that can continue evolving after the portfolio is complete, becoming a useful tool for the Pokémon community.
+## Direção futura
 
----
+A evolução planejada inclui:
 
-## Core Features (MVP)
+1. concluir a experiência da Pokédex;
+2. implementar backend e banco de dados;
+3. adicionar autenticação;
+4. permitir o cadastro da coleção pessoal;
+5. integrar informações específicas de Pokémon GO;
+6. oferecer análises e recomendações;
+7. expandir a aplicação conforme as necessidades dos usuários.
 
-- Pokémon search
-- Pokémon details
-- Pokémon GO information
-- Personal collection management
-- Powerful filters
-- Future user authentication
+Funcionalidades futuras podem incluir:
 
----
+- favoritos;
+- acompanhamento da Pokédex pessoal;
+- IV, CP e nível;
+- avaliação de Pokémon;
+- recomendações para raids;
+- análises de PvP e PvE;
+- montagem de times;
+- comparação entre Pokémon;
+- acompanhamento de eventos.
 
-## Future Vision
+Essas funcionalidades representam a direção do produto, não compromissos da versão atual.
 
-Possible future expansions include:
+## Critério de sucesso
 
-- Team Builder
-- Raid Counter
-- Battle Simulator
-- Event Calendar
-- News
-- Achievements
-- Community features
-- Support for additional Pokémon games
+A Minha Pokédex será considerada bem-sucedida quando oferecer uma experiência útil e confiável para que o usuário possa:
 
----
-
-## Success Criteria
-
-The project will be considered successful when users can:
-
-- Easily find Pokémon information.
-- Organize their own collection.
-- Decide whether a Pokémon is worth investing in.
-- Access all relevant Pokémon GO information from a single application.
+- encontrar informações rapidamente;
+- compreender melhor cada Pokémon;
+- registrar sua própria coleção;
+- identificar quais Pokémon merecem investimento;
+- consultar dados relevantes sem depender de várias ferramentas diferentes.

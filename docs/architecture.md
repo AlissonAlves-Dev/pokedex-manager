@@ -1,765 +1,667 @@
-# Architecture
+# Arquitetura
 
-**Project:** Minha Pokédex
+> Estado atual: o frontend está implementado e consulta diretamente a PokéAPI. Backend e banco de dados ainda estão planejados.
 
-**Document:** Architecture
+Este documento descreve como a Minha Pokédex está organizada, como os dados percorrem a aplicação e quais decisões devem orientar sua evolução.
 
-**Version:** 0.1.1
+## Visão geral
 
-**Status:** Draft
+O projeto utiliza um monorepo com npm Workspaces.
 
-**Last Updated:** 2026-07-22
+Atualmente, somente o frontend participa do funcionamento da aplicação:
 
----
-
-## Revision History
-
-| Version | Date       | Description                                                                                                  |
-| ------- | ---------- | ------------------------------------------------------------------------------------------------------------ |
-| 0.1.0   | 2026-07-13 | Initial architecture document                                                                                |
-| 0.1.1   | 2026-07-22 | Aligned current implementation with the target architecture and documented the temporary PokéAPI integration |
-
----
-
-## 1. Overview
-
-### Purpose
-
-This document describes the architecture of the Minha Pokédex project, providing a high-level view of the system, its components, and how they interact.
-
-Its purpose is to establish a clear architectural foundation that guides development decisions, promotes consistency, and supports the project's long-term evolution.
-
----
-
-### Goals
-
-The architecture has been designed to achieve the following goals:
-
-- Maintain a clear separation of responsibilities.
-- Support scalability as new features are introduced.
-- Encourage code reusability and maintainability.
-- Simplify testing and debugging.
-- Follow modern Full Stack development practices.
-- Provide a solid foundation for future project expansion.
-- Promote feature isolation through a modular architecture.
-
----
-
-### Architectural Principles
-
-The Minha Pokédex architecture is based on the following principles:
-
-- **Separation of Concerns (SoC):** Each layer has a well-defined responsibility.
-- **Modularity:** Features are organized into independent modules whenever possible.
-- **Maintainability:** The project should be easy to understand, modify, and extend.
-- **Scalability:** The architecture should support future growth without major restructuring.
-- **Consistency:** Coding standards, project structure, and documentation should remain uniform throughout the project.
-- **Simplicity:** Prefer simple and readable solutions over unnecessary complexity.
-- **API First:** The frontend and backend communicate exclusively through a well-defined REST API, allowing both applications to evolve independently.
-- **Feature-Based Organization:** The application is organized into independent feature modules, each encapsulating its own responsibilities.
-
----
-
-## 2. System Architecture
-
-### High-Level Architecture
-
-Minha Pokédex follows a layered Client-Server architecture.
-
-The frontend is responsible for the user interface and user interactions, while the backend centralizes business logic, data processing, and communication with external services.
-
-Data persistence is handled by a relational database, allowing the application to evolve independently from third-party APIs.
-
-The target architecture establishes that the frontend communicates exclusively with the backend through a REST API.
-
-During the initial development of Milestone 1, the frontend temporarily consumes the PokéAPI directly. This approach allows the Pokédex interface, domain models, mapping layer, loading states, and error handling to be validated before the project backend is introduced.
-
-When the backend API becomes available, external API communication will be centralized in the backend, and the frontend will consume only the application's internal REST API.
-
-```mermaid
-flowchart LR
-
-    U[User]
-
-    F[Frontend<br/>React + TypeScript]
-
-    B[Backend<br/>Node.js + Express]
-
-    DB[(PostgreSQL)]
-
-    API[PokéAPI]
-
-    U --> F
-
-    F -->|REST API| B
-
-    B --> DB
-
-    B --> API
+```text
+Usuário
+→ Frontend
+→ PokéAPI
 ```
 
----
+O frontend é responsável por:
 
-### Client
+- navegação;
+- apresentação da interface;
+- gerenciamento de estado;
+- consulta à PokéAPI;
+- transformação das respostas externas;
+- tratamento de loading, erro e cancelamento.
 
-The client application provides the user interface and is responsible for presenting Pokémon data and handling user interactions.
+O backend e o banco de dados serão introduzidos quando o produto precisar de autenticação, coleção pessoal, persistência ou regras de negócio próprias.
 
-During the initial development of Milestone 1, the frontend temporarily communicates directly with the PokéAPI through its service layer.
+## Tecnologias atuais
 
-In the target architecture, the frontend will communicate exclusively with the Minha Pokédex backend through REST API requests and will not access the database or external services directly.
+| Tecnologia     | Responsabilidade                |
+| -------------- | ------------------------------- |
+| React          | Construção da interface         |
+| TypeScript     | Tipagem estática                |
+| Vite           | Desenvolvimento e build         |
+| React Router   | Navegação entre páginas         |
+| CSS            | Estilos, temas e responsividade |
+| Fetch API      | Requisições HTTP                |
+| npm Workspaces | Organização do monorepo         |
+| ESLint         | Análise de código               |
+| Prettier       | Formatação                      |
+| EditorConfig   | Padronização dos editores       |
+| Vitest         | Testes automatizados            |
 
----
-
-### Server
-
-The backend acts as the central layer of the application.
-
-Its responsibilities include:
-
-- Processing business logic.
-- Validating requests.
-- Communicating with external APIs.
-- Managing application data.
-- Providing REST endpoints for the frontend.
-
----
-
-### Database
-
-The application stores its own data in a PostgreSQL database.
-
-Initially, version 0.1 focuses on read-only Pokémon information obtained from external services.
-
-Future versions will introduce persistent user data, including personal collections, authentication, and Pokémon GO information.
-
----
-
-### External Services
-
-Minha Pokédex integrates with external services to retrieve Pokémon data.
-
-The primary external data source is the PokéAPI.
-
-External data is intended to synchronize with the local database, reducing dependency on third-party availability and improving response times.
-
-Future versions may introduce additional external services as needed.
-
----
-
-## 3. Technology Stack
-
-The Minha Pokédex technology stack was selected to provide a modern, scalable, and maintainable Full Stack architecture while leveraging widely adopted technologies and best development practices.
-
----
-
-### Frontend
-
-| Technology   | Status  | Purpose                                                                    |
-| ------------ | ------- | -------------------------------------------------------------------------- |
-| React        | Current | Build a modern, component-based user interface.                            |
-| TypeScript   | Current | Provide static typing, improve maintainability, and reduce runtime errors. |
-| Vite         | Current | Offer a fast development environment and optimized production builds.      |
-| React Router | Current | Handle client-side navigation.                                             |
-| Native CSS   | Current | Implement the Design System, responsive layouts, and component styling.    |
-| Fetch API    | Current | Perform HTTP requests during the initial PokéAPI integration.              |
-
----
-
-### Backend
-
-> The backend technologies below represent the target architecture and have not been implemented yet.
-
-| Technology | Purpose                                                       |
-| ---------- | ------------------------------------------------------------- |
-| Node.js    | JavaScript runtime for server-side development.               |
-| Express    | Build a lightweight and scalable REST API.                    |
-| TypeScript | Improve code quality through static typing.                   |
-| Prisma ORM | Provide type-safe database access and simplify data modeling. |
-
----
-
-### Database
-
-| Technology | Purpose                                                                           |
-| ---------- | --------------------------------------------------------------------------------- |
-| PostgreSQL | Store relational application data with reliability, consistency, and scalability. |
-
-> PostgreSQL and Prisma are part of the planned persistence architecture and have not been implemented yet.
-
----
-
-### External Services
-
-| Service | Purpose                                       |
-| ------- | --------------------------------------------- |
-| PokéAPI | Provide Pokémon data used by the application. |
-
----
-
-### DevOps
-
-| Technology     | Status  | Purpose                                                          |
-| -------------- | ------- | ---------------------------------------------------------------- |
-| Git            | Current | Version control.                                                 |
-| GitHub         | Current | Source code hosting and collaboration.                           |
-| Docker         | Planned | Standardize the development environment and simplify deployment. |
-| GitHub Actions | Planned | Automate testing, builds, and continuous integration.            |
-
----
-
-### Technology Selection Criteria
-
-The technologies used in this project were selected based on the following criteria:
-
-- Strong community support.
-- Long-term maintainability.
-- Scalability.
-- Type safety.
-- Performance.
-- Industry adoption.
-- Learning opportunities aligned with modern Full Stack development.
-
----
-
-## 4. Project Structure
-
-The project is organized as a monorepository, separating frontend, backend, database, and documentation into independent modules.
-
-This structure promotes maintainability, scalability, and a clear separation of responsibilities.
-
----
-
-### Root Structure
+## Estrutura do repositório
 
 ```text
 pokedex-manager/
-│
+├── frontend/
 ├── backend/
 ├── docs/
-├── frontend/
+├── .vscode/
+├── .editorconfig
 ├── .gitignore
+├── .prettierignore
+├── LICENSE
+├── package.json
+├── package-lock.json
 └── README.md
 ```
 
----
+### `frontend`
 
-### Frontend Structure
+Contém a aplicação React atualmente em funcionamento.
 
-The frontend follows a feature-based architecture combined with shared reusable components and application-level configuration.
+### `backend`
 
-```text
-frontend/
-│
-├── public/
-│
-├── src/
-│   ├── app/
-│   │   ├── layouts/
-│   │   └── routes/
-│   │
-│   ├── features/
-│   │   └── pokedex/
-│   │       ├── components/
-│   │       ├── hooks/
-│   │       ├── mappers/
-│   │       ├── services/
-│   │       └── types/
-│   │
-│   ├── pages/
-│   │
-│   ├── shared/
-│   │   └── components/
-│   │       ├── feedback/
-│   │       ├── layout/
-│   │       └── ui/
-│   │
-│   ├── App.tsx
-│   ├── index.css
-│   └── main.tsx
-│
-├── index.html
-├── package.json
-└── vite.config.ts
-```
+Está reservado para a futura API da Minha Pokédex.
 
----
+A existência da pasta não significa que o backend já esteja implementado.
 
-### Backend Structure
+### `docs`
 
-The backend follows a feature-based modular architecture, organizing the application into independent modules that encapsulate their own business logic, routes, and data access.
+Contém a documentação funcional, técnica, histórica e de planejamento.
 
-Shared resources such as configuration, middleware, utilities, and database access are centralized in a dedicated `shared` directory, promoting code reuse and consistency across the application.
+## Organização do frontend
+
+O frontend utiliza uma arquitetura baseada em features.
 
 ```text
-backend/
-│
-├── prisma/
-│
-├── src/
-│   ├── modules/
-│   │   ├── pokemon/
-│   │   ├── search/
-│   │   ├── auth/
-│   │   ├── collection/
-│   │   └── health/
-│   │
-│   ├── shared/
-│   │   ├── config/
-│   │   ├── database/
-│   │   ├── middlewares/
-│   │   ├── types/
-│   │   └── utils/
-│   │
-│   ├── app.ts
-│   └── server.ts
-│
-├── package.json
-└── tsconfig.json
+frontend/src/
+├── app/
+│   ├── contexts/
+│   ├── layouts/
+│   ├── providers/
+│   └── routes/
+├── assets/
+├── features/
+│   └── pokedex/
+│       ├── components/
+│       ├── data/
+│       ├── hooks/
+│       ├── mappers/
+│       ├── services/
+│       ├── types/
+│       └── utils/
+├── pages/
+├── shared/
+│   └── components/
+├── styles/
+├── App.tsx
+├── index.css
+└── main.tsx
 ```
 
----
+A estrutura pode receber novos diretórios conforme o projeto evoluir. O objetivo não é seguir uma árvore rígida, mas manter responsabilidades claras.
 
-### Database Structure
+## Responsabilidades
 
-Database-related resources will be maintained inside the backend workspace, keeping the persistence implementation close to the application layer responsible for accessing it.
+### `app`
+
+Reúne estruturas que afetam toda a aplicação:
+
+- providers;
+- contextos globais;
+- layouts;
+- configuração de rotas.
+
+Exemplos:
+
+- provider de tema;
+- layout principal;
+- rotas da aplicação;
+- layout persistente das rotas da Pokédex.
+
+### `features`
+
+Contém funcionalidades ligadas a um domínio específico.
+
+A feature `pokedex` concentra:
+
+- componentes próprios da Pokédex;
+- modelos da API;
+- modelos de domínio;
+- serviços;
+- mappers;
+- hooks;
+- utilitários;
+- dados locais de apoio.
+
+Novas funcionalidades devem ser criadas como features quando possuírem comportamento e responsabilidades próprias.
+
+### `pages`
+
+As páginas realizam a composição da interface.
+
+Elas podem utilizar:
+
+- componentes da feature;
+- componentes compartilhados;
+- hooks;
+- dados fornecidos pelas rotas.
+
+As páginas não devem concentrar transformações de respostas externas.
+
+### `shared`
+
+Contém recursos reutilizáveis que não pertencem exclusivamente a uma feature.
+
+Exemplos:
+
+- `Button`;
+- `Card`;
+- `Badge`;
+- componentes de feedback;
+- componentes de layout.
+
+Um componente somente deve ser movido para `shared` quando possuir utilidade real em mais de um contexto.
+
+### `styles`
+
+Contém tokens e estilos globais, incluindo:
+
+- cores;
+- espaçamentos;
+- tipografia;
+- temas;
+- estilos base.
+
+## Fluxo de dados
+
+O fluxo principal separa os dados externos dos dados utilizados pela interface:
 
 ```text
-backend/
-│
-├── prisma/
-│   ├── migrations/
-│   ├── schema.prisma
-│   └── seed.ts
-│
-└── src/
-    └── shared/
-        └── database/
+PokéAPI
+→ service
+→ API types
+→ mapper
+→ domain model
+→ hook
+→ page
+→ component
 ```
 
----
+### Services
 
-### Documentation Structure
+Os services concentram a comunicação com fontes externas.
 
-Project documentation is organized independently from the source code.
+Responsabilidades:
+
+- montar requisições;
+- executar chamadas HTTP;
+- utilizar `AbortSignal`;
+- interpretar status HTTP;
+- coordenar consultas relacionadas;
+- entregar dados para transformação.
+
+Os componentes não devem executar requisições diretamente.
+
+### API types
+
+Representam a estrutura recebida da PokéAPI.
+
+Esses tipos podem conter:
+
+- nomes diferentes dos utilizados no domínio;
+- campos opcionais;
+- URLs vazias;
+- estruturas aninhadas;
+- informações que não serão exibidas.
+
+Eles não devem ser utilizados diretamente pelos componentes visuais.
+
+### Mappers
+
+Transformam os dados externos em modelos adequados para a aplicação.
+
+Responsabilidades:
+
+- selecionar campos;
+- normalizar valores;
+- converter estruturas;
+- aplicar fallback;
+- validar tipos;
+- separar regras de transformação da apresentação.
+
+Exemplos:
+
+- transformar uma resposta em `PokemonSummary`;
+- montar `PokemonDetails`;
+- selecionar e normalizar a descrição da espécie;
+- traduzir ou formatar nomes de habilidades;
+- converter URLs ausentes em `null`.
+
+### Domain models
+
+Representam os dados utilizados internamente pela aplicação.
+
+Exemplos:
+
+- `PokemonSummary`;
+- `PokemonDetails`;
+- `PokemonAbility`;
+- `PokemonStat`;
+- `PokemonSprites`;
+- `PokemonListPage`.
+
+Os modelos de domínio devem ser mais simples e previsíveis que as respostas externas.
+
+### Hooks
+
+Os hooks controlam estado e ciclo de vida.
+
+Responsabilidades:
+
+- loading;
+- erros;
+- retry;
+- cancelamento;
+- paginação;
+- pesquisa;
+- prevenção de requisições duplicadas;
+- proteção contra respostas antigas;
+- exposição de ações para a interface.
+
+Os hooks não devem conhecer detalhes visuais dos componentes.
+
+### Components
+
+Os componentes recebem dados já preparados.
+
+Responsabilidades:
+
+- apresentação;
+- interação;
+- acessibilidade;
+- responsividade.
+
+Componentes visuais não devem:
+
+- acessar estruturas brutas da PokéAPI;
+- selecionar idiomas;
+- normalizar URLs;
+- interpretar códigos HTTP;
+- montar regras de paginação.
+
+## Fluxo da listagem
 
 ```text
-docs/
-│
-├── standards/
-│   └── documentation-standards.md
-│
-├── api.md
-├── architecture.md
-├── changelog.md
-├── contributing.md
-├── database.md
-├── development-journal.md
-├── requirements.md
-├── roadmap.md
-└── vision.md
+PokemonList
+→ usePokemonList
+→ pokemonService.getPokemonList
+→ PokemonApiListResponse
+→ pokemonMapper
+→ PokemonListPage
+→ PokemonGrid
 ```
 
----
+O `usePokemonList` controla:
 
-## 5. Module Architecture
+- Pokémon carregados;
+- próximo offset;
+- total informado pela API;
+- carregamento inicial;
+- carregamento adicional;
+- erro inicial;
+- erro adicional;
+- prevenção de páginas repetidas;
+- fim dos resultados.
 
-Each feature module follows the same internal structure to ensure consistency across the application.
+Novas páginas são acumuladas sem substituir os resultados anteriores.
+
+## Fluxo da pesquisa
+
+A pesquisa possui dois comportamentos.
+
+### Filtro local
+
+Durante a digitação:
 
 ```text
-module-name/
-│
-├── controllers/
-├── services/
-├── repositories/
-├── routes/
-├── dto/
-├── schemas/
-├── types/
-└── index.ts
+termo
+→ normalização
+→ filtro sobre os Pokémon carregados
 ```
 
-### Responsibilities
+### Pesquisa global exata
 
-| Folder       | Responsibility                          |
-| ------------ | --------------------------------------- |
-| controllers  | Handle HTTP requests and responses.     |
-| services     | Contain business logic.                 |
-| repositories | Access data sources.                    |
-| routes       | Define API endpoints.                   |
-| dto          | Define request and response objects.    |
-| schemas      | Validate input data.                    |
-| types        | Store module-specific TypeScript types. |
-| index.ts     | Export the module's public interface.   |
-
----
-
-## 6. Data Flow
-
-The following request-response workflow represents the target architecture of the Minha Pokédex application.
-
-In this architecture, the frontend communicates exclusively with the backend through REST API endpoints. The backend centralizes business rules, persistence, and communication with external services.
-
-During the initial implementation of Milestone 1, the temporary flow is:
+Após a confirmação:
 
 ```text
-User → Frontend → PokéAPI
+termo
+→ normalização
+→ correspondência exata local
+→ consulta remota quando necessária
+→ mapper
+→ resultado separado
 ```
 
-This temporary integration will be replaced when the internal backend REST API is introduced.
+O resultado remoto não é inserido na paginação.
 
----
+Isso preserva:
 
-### Request Flow
+- contador;
+- próximo offset;
+- fim da listagem;
+- controle de duplicações.
+
+O status `404` é tratado como Pokémon inexistente. Erros de rede ou servidor são tratados como falhas técnicas.
+
+## Fluxo dos detalhes
+
+```text
+PokemonDetails
+→ usePokemonDetails
+→ pokemonService.getPokemonById
+→ /pokemon/{id}
+→ species.url
+→ /pokemon-species/{species}
+→ mappers
+→ PokemonDetails
+→ componentes
+```
+
+A resposta principal fornece:
+
+- identificação;
+- arte oficial;
+- tipos;
+- altura;
+- peso;
+- habilidades;
+- estatísticas;
+- sprites;
+- relação com a espécie.
+
+A resposta da espécie fornece a descrição da Pokédex.
+
+As duas requisições utilizam o mesmo `AbortSignal`.
+
+### Falhas na consulta da espécie
+
+Uma falha técnica ao buscar a espécie não interrompe o carregamento dos dados principais do Pokémon.
+
+Nesse caso:
+
+```ts
+description: null;
+```
+
+A página continua funcionando e apresenta uma mensagem de indisponibilidade para a descrição.
+
+Falhas na consulta principal de `/pokemon/{id}` continuam interrompendo o carregamento dos detalhes.
+
+### Descrição ausente
+
+Quando a espécie é carregada, mas não possui uma descrição válida:
+
+```ts
+description: null;
+```
+
+A página continua funcionando e apresenta uma mensagem de indisponibilidade.
+
+## Preservação entre rotas
+
+As rotas:
+
+```text
+/pokemon
+/pokemon/:pokemonId
+```
+
+compartilham um layout persistente.
+
+Esse layout mantém o estado necessário para preservar:
+
+- páginas carregadas;
+- próximo offset;
+- total da API;
+- termo da pesquisa;
+- resultado remoto;
+- filtro local;
+- Pokémon selecionado.
+
+Ao retornar dos detalhes, o card anteriormente aberto pode ser restaurado visualmente com `scrollIntoView`.
+
+Quando os detalhes são acessados diretamente, o retorno utiliza `/pokemon` como fallback.
+
+## Temas
+
+O tema é controlado por um contexto próprio.
+
+Fluxo:
+
+```text
+preferência manual
+→ localStorage
+→ ThemeContext
+→ atributo do documento
+→ tokens CSS
+```
+
+Quando não existe escolha manual, a aplicação utiliza `prefers-color-scheme`.
+
+A interface acompanha alterações do sistema enquanto nenhuma preferência manual estiver definida.
+
+Os componentes devem utilizar tokens semânticos sempre que possível, evitando cores fixas que não funcionem nos dois temas.
+
+## Traduções
+
+As traduções de habilidades utilizam um dicionário local.
+
+Fluxo:
+
+```text
+identificador da habilidade
+→ normalização
+→ dicionário pt-BR
+→ fallback formatado em inglês
+```
+
+A aplicação não realiza uma nova consulta para cada habilidade.
+
+As descrições da Pokédex utilizam a seguinte prioridade:
+
+```text
+pt-br
+→ português genérico
+→ inglês
+→ null
+```
+
+A disponibilidade das traduções depende dos dados fornecidos pela PokéAPI e do catálogo local.
+
+## Tratamento de requisições
+
+As requisições devem utilizar `AbortController` quando puderem ser substituídas ou interrompidas.
+
+O cancelamento é usado em situações como:
+
+- desmontagem de um fluxo;
+- troca do Pokémon selecionado;
+- início de uma nova pesquisa;
+- saída da página.
+
+Respostas antigas não devem substituir resultados mais recentes.
+
+Erros cancelados não devem ser apresentados como falhas para o usuário.
+
+## Estados da interface
+
+A aplicação diferencia estados conforme o contexto.
+
+### Listagem
+
+- carregamento inicial;
+- erro inicial;
+- carregamento adicional;
+- erro adicional;
+- fim dos resultados;
+- conteúdo vazio.
+
+### Pesquisa
+
+- filtragem local;
+- pesquisa remota em andamento;
+- Pokémon encontrado;
+- Pokémon inexistente;
+- erro técnico.
+
+### Detalhes
+
+- carregamento;
+- erro;
+- retry;
+- dados disponíveis;
+- conteúdo opcional indisponível.
+
+Um erro localizado não deve remover conteúdo que já foi carregado corretamente.
+
+## Acessibilidade
+
+A arquitetura visual deve preservar:
+
+- HTML semântico;
+- navegação por teclado;
+- foco visível;
+- textos alternativos;
+- estados comunicados por texto;
+- atributos ARIA quando necessários;
+- contraste nos temas claro e escuro;
+- suporte a diferentes tamanhos de tela.
+
+Informações não devem depender exclusivamente de cor, ícone ou animação.
+
+## Responsividade
+
+A interface utiliza abordagem adaptável para dispositivos móveis e desktop.
+
+Os layouts devem:
+
+- funcionar a partir de 320px;
+- evitar rolagem horizontal indevida;
+- reorganizar colunas em telas menores;
+- manter áreas interativas utilizáveis;
+- preservar legibilidade;
+- limitar larguras excessivas em telas grandes.
+
+## Decisões atuais
+
+As principais decisões da arquitetura são:
+
+- organização baseada em features;
+- separação entre API e domínio;
+- transformação por mappers;
+- requisições centralizadas em services;
+- estado e ciclo de vida controlados por hooks;
+- componentes focados em apresentação;
+- contextos utilizados apenas para estados compartilhados necessários;
+- uso direto da PokéAPI temporariamente;
+- evolução incremental em vez de antecipação de toda a arquitetura futura.
+
+## Limitações atuais
+
+- dependência direta da disponibilidade da PokéAPI;
+- ausência de cache persistente;
+- ausência de backend;
+- ausência de banco de dados;
+- ausência de autenticação;
+- ausência de testes automatizados;
+- traduções parciais;
+- pesquisa parcial limitada aos Pokémon carregados.
+
+Essas limitações devem ser tratadas conforme o Roadmap, sem adicionar complexidade antes de existir uma necessidade concreta.
+
+## Arquitetura planejada
+
+Quando o projeto introduzir autenticação, coleção pessoal e persistência, o fluxo deverá evoluir para:
+
+```text
+Usuário
+→ Frontend
+→ API da Minha Pokédex
+→ Services
+→ Banco de dados
+→ Serviços externos
+```
 
 ```mermaid
-flowchart TD
+flowchart LR
+    U[Usuário]
+    F[Frontend]
+    B[Backend]
+    DB[(PostgreSQL)]
+    P[PokéAPI]
 
-    A[User]
-    B[Frontend]
-    C[REST API]
-    D[Controller]
-    E[Service]
-    F[Repository]
-    G[(PostgreSQL)]
-    H[PokéAPI]
-
-    A --> B
-    B --> C
-    C --> D
-    D --> E
-
-    E --> F
-    F --> G
-
-    G -- Data Found --> E
-
-    G -- Data Missing --> E
-
-    E --> H
-
-    H --> E
-
-    E --> F
-
-    F --> G
-
-    E --> D
-    D --> B
-    B --> A
+    U --> F
+    F --> B
+    B --> DB
+    B --> P
 ```
 
----
+Tecnologias atualmente planejadas:
 
-### Flow Description
+| Camada         | Tecnologia                    |
+| -------------- | ----------------------------- |
+| Backend        | Node.js, Express e TypeScript |
+| Persistência   | Prisma                        |
+| Banco de dados | PostgreSQL                    |
 
-1. The user performs an action through the frontend.
-2. The frontend sends a request to the backend REST API.
-3. The request is handled by the appropriate controller.
-4. The controller delegates the request to the service layer.
-5. The service requests data from the repository.
-6. The repository queries the local PostgreSQL database.
-7. If the requested data exists, it is returned to the service.
-8. If the data is unavailable or outdated, the service retrieves it from the PokéAPI.
-9. The service sends the retrieved data to the repository for persistence.
-10. The repository stores the synchronized data in PostgreSQL.
-11. The service prepares the response.
-12. The controller returns the response to the frontend.
-13. The frontend displays the information to the user.
+Essas escolhas ainda podem ser revisadas antes da implementação.
 
----
+## Responsabilidades futuras
 
-### Layer Responsibilities
+### Frontend
 
-| Layer        | Responsibility                                                |
-| ------------ | ------------------------------------------------------------- |
-| Frontend     | Render the user interface and communicate with the backend.   |
-| Controller   | Receive HTTP requests and return HTTP responses.              |
-| Service      | Execute business logic and orchestrate application workflows. |
-| Repository   | Access and persist application data.                          |
-| Database     | Store application data.                                       |
-| External API | Provide Pokémon data not available locally.                   |
+- interface;
+- interação;
+- estado visual;
+- comunicação somente com a API interna.
 
----
+### Backend
 
-## 7. Design Principles
+- autenticação;
+- autorização;
+- validação;
+- regras de negócio;
+- persistência;
+- integração com serviços externos;
+- composição de respostas para o frontend.
 
-The Minha Pokédex follows a set of software design principles intended to improve code quality, maintainability, and long-term scalability.
+### Banco de dados
 
-These principles guide architectural decisions and should be respected throughout the development of the project.
+- usuários;
+- coleções;
+- favoritos;
+- dados individuais;
+- preferências;
+- informações próprias da aplicação.
 
----
+A PokéAPI continuará sendo uma fonte externa, mas o frontend deixará de depender diretamente dela.
 
-### Separation of Concerns (SoC)
+## Evolução da arquitetura
 
-Each layer and module has a single, well-defined responsibility.
+Novas camadas e tecnologias somente devem ser introduzidas quando resolverem uma necessidade do produto.
 
-Business logic, data access, presentation, and infrastructure concerns must remain isolated from one another.
+A evolução deve preservar, sempre que possível:
 
----
+- modelos de domínio;
+- separação de responsabilidades;
+- contratos dos hooks;
+- componentes visuais;
+- comportamento já validado.
 
-### Single Responsibility Principle (SRP)
-
-Each class, function, or module should have only one reason to change.
-
-Responsibilities should be clearly divided to simplify maintenance and testing.
-
----
-
-### Feature-Based Organization
-
-The application is organized into independent feature modules.
-
-Each module encapsulates its own controllers, services, repositories, routes, validation schemas, and types.
-
----
-
-### API First
-
-Communication between applications occurs exclusively through a well-defined REST API.
-
-The frontend never communicates directly with the database or external services.
-
----
-
-### Reusability
-
-Reusable components, utilities, and shared services should be centralized whenever possible to reduce code duplication.
-
----
-
-### Scalability
-
-The architecture should support the addition of new modules and features without requiring significant structural changes.
-
----
-
-### Maintainability
-
-The codebase should remain easy to understand, modify, and extend throughout the project's lifecycle.
-
----
-
-### Readability
-
-Code should prioritize clarity over unnecessary complexity.
-
-Consistent naming conventions and coding standards should be followed across the entire project.
-
----
-
-### Type Safety
-
-TypeScript should be used to provide strong typing across both frontend and backend applications, reducing runtime errors and improving developer experience.
-
----
-
-### Evolution over Rewrite
-
-The project should evolve incrementally.
-
-Architectural decisions should prioritize extensibility, allowing new features to be added without requiring major refactoring or complete redesigns.
-
----
-
-## 8. Scalability
-
-The Minha Pokédex architecture has been designed with scalability as a core principle.
-
-The project is expected to evolve incrementally, allowing new features, modules, and integrations to be added without requiring significant architectural changes.
-
-The modular structure and clear separation of responsibilities enable the application to grow while maintaining code quality, readability, and maintainability.
-
----
-
-### Scalability Goals
-
-The architecture is designed to support:
-
-- New feature modules.
-- Additional external services and APIs.
-- Increased application complexity.
-- Independent frontend and backend evolution.
-- Future mobile applications consuming the same REST API.
-- Database growth through efficient relational modeling.
-- Future performance optimizations, such as caching.
-
----
-
-### Planned Evolution
-
-The architecture supports the future implementation of features such as:
-
-- User authentication and authorization.
-- Personal Pokémon collections.
-- Pokémon GO-specific data.
-- Team Builder.
-- Raid Counter.
-- Battle Simulator.
-- Community features.
-- Notifications.
-- Progressive Web App (PWA).
-- Native mobile applications.
-
----
-
-### Long-Term Vision
-
-The project is intended to remain maintainable as it grows.
-
-Whenever possible, new functionality should be implemented by extending the existing modular architecture rather than modifying unrelated modules or introducing breaking structural changes.
-
-This approach minimizes technical debt and preserves architectural consistency throughout the project's lifecycle.
-
----
-
-### Modular Growth
-
-New functionality should be introduced as independent feature modules whenever possible.
-
-This approach minimizes coupling between different parts of the application and allows the project to evolve without impacting existing features.
-
-Each new module should follow the architectural standards defined for the project, ensuring consistency across the codebase.
-
----
-
-## 9. Security
-
-Security is considered a fundamental aspect of the Minha Pokédex architecture.
-
-Although the initial version focuses on public Pokémon data, the architecture has been designed to support secure handling of user information and authenticated resources in future releases.
-
----
-
-### Security Principles
-
-The project follows these security principles:
-
-- Validate all incoming data.
-- Never trust client-side input.
-- Protect sensitive information.
-- Minimize data exposure.
-- Follow the principle of least privilege.
-- Keep authentication and authorization isolated from business logic.
-
----
-
-### Application Security
-
-The application is designed to support:
-
-- Secure communication through HTTPS.
-- Input validation on all API endpoints.
-- Centralized error handling.
-- Secure management of environment variables.
-- Protection against common web vulnerabilities.
-
----
-
-### Data Protection
-
-Sensitive information shall never be exposed to the client.
-
-Future versions will ensure:
-
-- Password hashing.
-- Secure authentication.
-- Protected user data.
-- Private personal collections.
-- Secure access to protected resources.
-
----
-
-### Future Security Enhancements
-
-Future versions of the application may include:
-
-- JWT Authentication.
-- Role-Based Access Control (RBAC).
-- Rate Limiting.
-- Request Logging.
-- API Monitoring.
-- Refresh Tokens.
-- Multi-Factor Authentication (MFA).
-
----
-
-### Security by Design
-
-Security should be considered during the design of every new feature.
-
-New modules must follow the project's security standards, ensuring that authentication, authorization, input validation, and sensitive data handling are incorporated from the beginning rather than added as a later improvement.
-
----
-
-## 10. Future Architecture
-
-The current architecture has been designed to support the continuous evolution of the Minha Pokédex without requiring major structural changes.
-
-As the project grows, new capabilities should be introduced as independent modules, preserving the existing architecture and maintaining a low level of coupling between features.
-
----
-
-### Planned Modules
-
-Future versions of the application may introduce modules such as:
-
-- Authentication Module
-- Collection Module
-- Pokémon GO Module
-- PvP Module
-- Raid Module
-- Team Builder Module
-- Battle Simulator Module
-- Events Module
-- Community Module
-- Notification Module
-
-Each module should follow the project's architectural standards and integrate with the existing application through well-defined interfaces.
-
----
-
-### Future Integrations
-
-The architecture is prepared to support additional integrations, including:
-
-- Pokémon GO data providers.
-- Authentication providers.
-- Cloud storage services.
-- Push notification services.
-- Analytics platforms.
-- Monitoring and logging solutions.
-
----
-
-### Future Infrastructure
-
-As the application evolves, the infrastructure may be extended to include:
-
-- Redis for caching.
-- Background job processing.
-- CDN for static assets.
-- Container orchestration.
-- Continuous Deployment (CD).
-- Monitoring and observability tools.
-
-These additions should be incorporated without requiring significant changes to the application's core architecture.
-
----
-
-### Architectural Evolution
-
-The project follows an incremental evolution strategy.
-
-Architectural improvements should preserve backward compatibility whenever possible and prioritize extending the existing architecture instead of replacing it.
-
-Every new module or infrastructure component should comply with the architectural and documentation standards established by the project.
-
----
-
-## 11. Approval
-
-This document defines the official software architecture of the Minha Pokédex project.
-
-All architectural decisions should be aligned with the principles, standards, and guidelines described in this document.
-
-Future modifications should preserve the project's architectural consistency and be documented through the Revision History.
+A introdução do backend deverá substituir a fonte de dados dos services sem exigir uma reconstrução completa da interface.
