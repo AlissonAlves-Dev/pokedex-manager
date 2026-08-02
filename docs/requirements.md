@@ -135,7 +135,8 @@ Termos como `pika`, `char` ou `saur` filtram somente os Pokémon que já foram c
 
 - Os dados da espécie são consultados por meio de `species.url`.
 - A descrição deve ser normalizada antes de chegar ao componente.
-- Uma falha técnica na consulta da espécie interrompe o carregamento dos detalhes.
+- Uma falha técnica na consulta da espécie não deve interromper a exibição dos demais detalhes.
+- Quando a consulta da espécie falhar, a descrição deve ser tratada como indisponível.
 - A ausência de uma descrição válida não interrompe a página.
 - Os sprites utilizam a resposta principal de `/pokemon/{id}` e não geram novas requisições.
 

@@ -55,14 +55,22 @@ export function PokemonList() {
 
   function handleSearch() {
     const query = searchInput.trim();
+    const normalizedQuery = normalizePokemonSearchQuery(query);
 
     clearExactSearch();
-    setSearchQuery(query);
 
     if (!query) {
       setSearchInput("");
+      setSearchQuery("");
       return;
     }
+
+    if (!normalizedQuery) {
+      setSearchQuery("");
+      return;
+    }
+
+    setSearchQuery(query);
 
     const exactLocalPokemon = findExactPokemonMatch(pokemonList, query);
 
@@ -87,19 +95,25 @@ export function PokemonList() {
     setSearchQuery("");
   }
 
+  const activeSearch = searchInput.trim();
   const normalizedSearchInput = normalizePokemonSearchQuery(searchInput);
+
+  const hasSearchInput = activeSearch.length > 0;
+  const hasActiveSearch = normalizedSearchInput.length > 0;
   const isNumberSearch = /^\d+$/.test(normalizedSearchInput);
 
-  const filteredPokemonList = pokemonList.filter((pokemon) => {
-    const matchesName = pokemon.name
-      .toLowerCase()
-      .includes(normalizedSearchInput);
+  const filteredPokemonList = hasActiveSearch
+    ? pokemonList.filter((pokemon) => {
+        const matchesName = pokemon.name
+          .toLowerCase()
+          .includes(normalizedSearchInput);
 
-    const matchesId =
-      isNumberSearch && pokemon.id === Number(normalizedSearchInput);
+        const matchesId =
+          isNumberSearch && pokemon.id === Number(normalizedSearchInput);
 
-    return matchesName || matchesId;
-  });
+        return matchesName || matchesId;
+      })
+    : pokemonList;
 
   const isRemotePokemonAlreadyLoaded =
     remotePokemon !== null &&
@@ -114,8 +128,15 @@ export function PokemonList() {
     shouldShowRemotePokemon ||
     (hasSearchedRemotely && remotePokemon === null);
 
-  const activeSearch = searchInput.trim();
-  const hasActiveSearch = activeSearch.length > 0;
+  const exactSearchStatusMessage =
+    !isSearchingPokemon && !exactSearchError && shouldShowRemotePokemon
+      ? `Resultado exato encontrado para "${searchQuery}".`
+      : !isSearchingPokemon &&
+          !exactSearchError &&
+          hasSearchedRemotely &&
+          remotePokemon === null
+        ? `Nenhum Pokémon exato encontrado para "${searchQuery}".`
+        : "";
 
   useLayoutEffect(() => {
     if (isLoading || selectedPokemonId === null) {
@@ -179,7 +200,15 @@ export function PokemonList() {
         onSubmit={handleSearch}
       />
 
-      {hasActiveSearch && (
+      <p
+        className="pokemon-list__search-status"
+        role="status"
+        aria-atomic="true"
+      >
+        {exactSearchStatusMessage}
+      </p>
+
+      {hasSearchInput && (
         <Button
           className="pokemon-list__clear-search"
           variant="secondary"
@@ -207,7 +236,6 @@ export function PokemonList() {
         <section
           className="pokemon-list__exact-search"
           aria-label="Resultado da pesquisa exata"
-          aria-live="polite"
           aria-busy={isSearchingPokemon}
         >
           {isSearchingPokemon && (

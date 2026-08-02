@@ -1,5 +1,6 @@
 import { Card } from "../../../../shared/components/ui/Card/Card";
 import type { PokemonSprites as PokemonSpritesData } from "../../types/pokemon";
+import { useId } from "react";
 
 import "./PokemonSprites.css";
 
@@ -9,7 +10,6 @@ type PokemonSpritesProps = {
 };
 
 type PokemonSpriteCardProps = {
-  titleId: string;
   title: string;
   imageUrl: string | null;
   altText: string;
@@ -17,12 +17,13 @@ type PokemonSpriteCardProps = {
 };
 
 function PokemonSpriteCard({
-  titleId,
   title,
   imageUrl,
   altText,
   unavailableMessage,
 }: PokemonSpriteCardProps) {
+  const titleId = useId();
+
   return (
     <Card
       className="pokemon-sprites__card"
@@ -51,18 +52,16 @@ function PokemonSpriteCard({
 }
 
 export function PokemonSprites({ pokemonName, sprites }: PokemonSpritesProps) {
+  const titleId = useId();
+
   return (
-    <section
-      className="pokemon-sprites"
-      aria-labelledby="pokemon-sprites-title"
-    >
-      <h2 className="pokemon-sprites__title" id="pokemon-sprites-title">
+    <section className="pokemon-sprites" aria-labelledby={titleId}>
+      <h2 className="pokemon-sprites__title" id={titleId}>
         Sprites
       </h2>
 
       <div className="pokemon-sprites__grid">
         <PokemonSpriteCard
-          titleId="pokemon-sprite-default-title"
           title="Padrão"
           imageUrl={sprites.frontDefaultUrl}
           altText={`Sprite frontal padrão de ${pokemonName}`}
@@ -70,7 +69,6 @@ export function PokemonSprites({ pokemonName, sprites }: PokemonSpritesProps) {
         />
 
         <PokemonSpriteCard
-          titleId="pokemon-sprite-shiny-title"
           title="Shiny"
           imageUrl={sprites.frontShinyUrl}
           altText={`Sprite frontal shiny de ${pokemonName}`}

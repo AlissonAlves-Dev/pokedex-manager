@@ -48,6 +48,23 @@ async function fetchPokemonSpecies(
   return data;
 }
 
+async function getPokemonDescription(
+  speciesUrl: string,
+  signal?: AbortSignal,
+): Promise<string | null> {
+  try {
+    const pokemonSpeciesApi = await fetchPokemonSpecies(speciesUrl, signal);
+
+    return mapPokemonSpeciesToDescription(pokemonSpeciesApi);
+  } catch (error) {
+    if (signal?.aborted) {
+      throw error;
+    }
+
+    return null;
+  }
+}
+
 async function getPokemonSummary(
   url: string,
   signal?: AbortSignal,
@@ -115,12 +132,10 @@ export async function getPokemonById(
     signal,
   );
 
-  const pokemonSpeciesApi = await fetchPokemonSpecies(
+  const description = await getPokemonDescription(
     pokemonApi.species.url,
     signal,
   );
-
-  const description = mapPokemonSpeciesToDescription(pokemonSpeciesApi);
 
   return mapPokemonApiToDetails(pokemonApi, description);
 }

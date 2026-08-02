@@ -22,7 +22,7 @@ function mapPokemonTypes(
     });
 }
 
-function normalizeSpriteUrl(url: string | null): string | null {
+function normalizeImageUrl(url: string | null): string | null {
   const normalizedUrl = url?.trim() ?? "";
 
   return normalizedUrl || null;
@@ -30,9 +30,17 @@ function normalizeSpriteUrl(url: string | null): string | null {
 
 function mapPokemonSprites(pokemon: PokemonApiDetailResponse): PokemonSprites {
   return {
-    frontDefaultUrl: normalizeSpriteUrl(pokemon.sprites.front_default),
-    frontShinyUrl: normalizeSpriteUrl(pokemon.sprites.front_shiny),
+    frontDefaultUrl: normalizeImageUrl(pokemon.sprites.front_default),
+    frontShinyUrl: normalizeImageUrl(pokemon.sprites.front_shiny),
   };
+}
+
+function mapOfficialArtworkUrl(pokemon: PokemonApiDetailResponse): string {
+  return (
+    normalizeImageUrl(
+      pokemon.sprites.other["official-artwork"].front_default,
+    ) ?? ""
+  );
 }
 
 export function mapPokemonApiToSummary(
@@ -41,7 +49,7 @@ export function mapPokemonApiToSummary(
   return {
     id: pokemon.id,
     name: pokemon.name,
-    imageUrl: pokemon.sprites.other["official-artwork"].front_default ?? "",
+    imageUrl: mapOfficialArtworkUrl(pokemon),
     types: mapPokemonTypes(pokemon),
   };
 }
@@ -53,7 +61,7 @@ export function mapPokemonApiToDetails(
   return {
     id: pokemon.id,
     name: pokemon.name,
-    imageUrl: pokemon.sprites.other["official-artwork"].front_default ?? "",
+    imageUrl: mapOfficialArtworkUrl(pokemon),
     types: mapPokemonTypes(pokemon),
 
     description,

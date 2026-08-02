@@ -390,9 +390,17 @@ As duas requisições utilizam o mesmo `AbortSignal`.
 
 ### Falhas na consulta da espécie
 
-Uma falha técnica ao buscar a espécie interrompe o carregamento dos detalhes.
+Uma falha técnica ao buscar a espécie não interrompe o carregamento dos dados principais do Pokémon.
 
-O retry repete todo o fluxo.
+Nesse caso:
+
+```ts
+description: null;
+```
+
+A página continua funcionando e apresenta uma mensagem de indisponibilidade para a descrição.
+
+Falhas na consulta principal de `/pokemon/{id}` continuam interrompendo o carregamento dos detalhes.
 
 ### Descrição ausente
 
