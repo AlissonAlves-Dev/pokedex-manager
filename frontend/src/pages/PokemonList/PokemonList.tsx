@@ -131,12 +131,7 @@ export function PokemonList() {
   const exactSearchStatusMessage =
     !isSearchingPokemon && !exactSearchError && shouldShowRemotePokemon
       ? `Resultado exato encontrado para "${searchQuery}".`
-      : !isSearchingPokemon &&
-          !exactSearchError &&
-          hasSearchedRemotely &&
-          remotePokemon === null
-        ? `Nenhum Pokémon exato encontrado para "${searchQuery}".`
-        : "";
+      : "";
 
   useLayoutEffect(() => {
     if (isLoading || selectedPokemonId === null) {

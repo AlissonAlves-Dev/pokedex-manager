@@ -41,6 +41,7 @@ O backend e o banco de dados serão introduzidos quando o produto precisar de au
 | ESLint         | Análise de código               |
 | Prettier       | Formatação                      |
 | EditorConfig   | Padronização dos editores       |
+| Vitest         | Testes automatizados            |
 
 ## Estrutura do repositório
 

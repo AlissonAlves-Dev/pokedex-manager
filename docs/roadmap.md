@@ -53,7 +53,7 @@ Entregar uma Pokédex responsiva que permita:
 - organização baseada em features;
 - React Router;
 - componentes compartilhados;
-- ESLint, Prettier e EditorConfig.
+- ESLint, Prettier, Vitest e EditorConfig.
 
 #### Navegação e interface
 
@@ -137,7 +137,7 @@ Para concluir o Milestone 1:
 - cadeia de evolução;
 - formas e variações;
 - refinamentos finais da experiência;
-- testes automatizados;
+- ampliação da cobertura de testes automatizados para hooks, services e fluxos de interface;
 - preparação para publicação.
 
 ### Limitações atuais
@@ -178,6 +178,8 @@ Expandir a listagem e a página de detalhes, corrigindo limitações de navegaç
 - sprites padrão e shiny;
 - tratamento individual de dados indisponíveis;
 - reorganização da documentação em português.
+- configuração inicial de testes automatizados com Vitest;
+- testes unitários para normalização da pesquisa e mappers.
 
 ### Pendências para encerramento
 

@@ -90,6 +90,7 @@ Antes de cada commit relevante:
 npm run format
 npm run lint
 npm run build
+npm test
 git diff --check
 ```
 
@@ -100,7 +101,7 @@ git status --short
 git diff
 ```
 
-A implementação não deve ser commitada enquanto houver erros de lint, build ou integridade do diff.
+A implementação não deve ser commitada enquanto houver erros de lint, build, testes automatizados ou integridade do diff.
 
 ## Commits
 
@@ -200,6 +201,7 @@ Antes do merge:
 npm run format
 npm run lint
 npm run build
+npm test
 git diff --check
 git status
 ```
@@ -219,6 +221,7 @@ git pull --ff-only origin main
 git merge --no-ff sprint/sprint-N
 npm run lint
 npm run build
+npm test
 git diff --check
 git push origin main
 ```
@@ -310,6 +313,7 @@ A ausência de uma PR não elimina a necessidade do code review consolidado ante
 [ ] Format aprovado
 [ ] Lint aprovado
 [ ] Build aprovado
+[ ] Testes automatizados aprovados
 [ ] git diff --check aprovado
 [ ] Testes manuais concluídos
 [ ] Code review consolidado concluído

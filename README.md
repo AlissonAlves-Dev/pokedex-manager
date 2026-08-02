@@ -69,6 +69,7 @@ A pesquisa parcial considera apenas os Pokémon já carregados. Consultas globai
 - npm Workspaces;
 - ESLint;
 - Prettier;
+- Vitest;
 - EditorConfig;
 - Git;
 - GitHub.
@@ -174,6 +175,8 @@ npm run dev:frontend
 npm run format
 npm run lint
 npm run build
+npm test
+npm run test:watch
 ```
 
 | Script         | Finalidade                                   |
@@ -182,6 +185,8 @@ npm run build
 | `format`       | Formata os arquivos com Prettier             |
 | `lint`         | Executa as verificações do ESLint            |
 | `build`        | Gera a versão de produção                    |
+| `test`         | Executa os testes automatizados uma vez      |
+| `test:watch`   | Executa os testes em modo de observação      |
 
 ## Documentação
 
@@ -202,7 +207,7 @@ Principais documentos:
 - cadeia de evolução;
 - formas e variações;
 - refinamentos finais da experiência de Pokédex;
-- testes automatizados;
+- ampliação da cobertura de testes automatizados;
 - preparação para publicação.
 
 O progresso detalhado está registrado no [Roadmap](docs/roadmap.md).
