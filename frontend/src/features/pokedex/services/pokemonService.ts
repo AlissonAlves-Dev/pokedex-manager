@@ -6,15 +6,19 @@ import { mapPokemonSpeciesToDescription } from "../mappers/pokemonSpeciesMapper"
 
 import type {
   PokemonDetails,
+  PokemonEvolutionChain,
   PokemonListPage,
   PokemonSummary,
 } from "../types/pokemon";
 
 import type {
   PokemonApiDetailResponse,
+  PokemonApiEvolutionChainResponse,
   PokemonApiListResponse,
   PokemonApiSpeciesResponse,
 } from "../types/pokemonApi";
+
+import { mapPokemonEvolutionChain } from "../mappers/pokemonEvolutionMapper";
 
 const POKE_API_BASE_URL = "https://pokeapi.co/api/v2";
 
@@ -48,20 +52,75 @@ async function fetchPokemonSpecies(
   return data;
 }
 
-async function getPokemonDescription(
-  speciesUrl: string,
+async function fetchPokemonEvolutionChain(
+  url: string,
   signal?: AbortSignal,
-): Promise<string | null> {
-  try {
-    const pokemonSpeciesApi = await fetchPokemonSpecies(speciesUrl, signal);
+): Promise<PokemonApiEvolutionChainResponse> {
+  const response = await fetch(url, { signal });
 
-    return mapPokemonSpeciesToDescription(pokemonSpeciesApi);
+  if (!response.ok) {
+    throw new Error(
+      "Não foi possível carregar a cadeia de evolução do Pokémon.",
+    );
+  }
+
+  const data: PokemonApiEvolutionChainResponse = await response.json();
+
+  return data;
+}
+
+async function loadPokemonEvolutionChain(
+  evolutionChainUrl: string,
+  signal?: AbortSignal,
+): Promise<PokemonEvolutionChain | null> {
+  try {
+    const evolutionChainApi = await fetchPokemonEvolutionChain(
+      evolutionChainUrl,
+      signal,
+    );
+
+    return mapPokemonEvolutionChain(evolutionChainApi);
   } catch (error) {
     if (signal?.aborted) {
       throw error;
     }
 
     return null;
+  }
+}
+
+type PokemonSpeciesData = {
+  description: string | null;
+  evolutionChain: PokemonEvolutionChain | null;
+};
+
+async function loadPokemonSpeciesData(
+  speciesUrl: string,
+  signal?: AbortSignal,
+): Promise<PokemonSpeciesData> {
+  try {
+    const pokemonSpeciesApi = await fetchPokemonSpecies(speciesUrl, signal);
+
+    const description = mapPokemonSpeciesToDescription(pokemonSpeciesApi);
+
+    const evolutionChain = await loadPokemonEvolutionChain(
+      pokemonSpeciesApi.evolution_chain.url,
+      signal,
+    );
+
+    return {
+      description,
+      evolutionChain,
+    };
+  } catch (error) {
+    if (signal?.aborted) {
+      throw error;
+    }
+
+    return {
+      description: null,
+      evolutionChain: null,
+    };
   }
 }
 
@@ -132,10 +191,13 @@ export async function getPokemonById(
     signal,
   );
 
-  const description = await getPokemonDescription(
+  const { description, evolutionChain } = await loadPokemonSpeciesData(
     pokemonApi.species.url,
     signal,
   );
 
-  return mapPokemonApiToDetails(pokemonApi, description);
+  return mapPokemonApiToDetails(pokemonApi, {
+    description,
+    evolutionChain,
+  });
 }

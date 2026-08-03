@@ -28,6 +28,9 @@ function createSpeciesResponse(
 ): PokemonApiSpeciesResponse {
   return {
     id: 25,
+    evolution_chain: {
+      url: "https://pokeapi.co/api/v2/evolution-chain/10/",
+    },
     flavor_text_entries: entries,
   };
 }

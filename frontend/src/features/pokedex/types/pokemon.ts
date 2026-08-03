@@ -54,8 +54,50 @@ export type PokemonSprites = {
   frontShinyUrl: string | null;
 };
 
+export type PokemonEvolutionRequirements = {
+  triggerName: string;
+  versionGroupName: string | null;
+
+  itemName: string | null;
+  heldItemName: string | null;
+  knownMoveName: string | null;
+  knownMoveTypeName: string | null;
+  locationName: string | null;
+  partySpeciesName: string | null;
+  partyTypeName: string | null;
+  tradeSpeciesName: string | null;
+
+  gender: number | null;
+  minLevel: number | null;
+  minHappiness: number | null;
+  minBeauty: number | null;
+  minAffection: number | null;
+  relativePhysicalStats: number | null;
+
+  timeOfDay: string | null;
+
+  nearSpecialRock: boolean;
+  needsOverworldRain: boolean;
+  turnUpsideDown: boolean;
+};
+
+export type PokemonEvolutionNode = {
+  speciesId: number;
+  name: string;
+  imageUrl: string;
+  isBaby: boolean;
+  evolutionOptions: PokemonEvolutionRequirements[];
+  evolvesTo: PokemonEvolutionNode[];
+};
+
+export type PokemonEvolutionChain = {
+  id: number;
+  root: PokemonEvolutionNode;
+};
+
 export type PokemonDetails = PokemonSummary & {
   description: string | null;
+  evolutionChain: PokemonEvolutionChain | null;
   sprites: PokemonSprites;
   height: number;
   weight: number;

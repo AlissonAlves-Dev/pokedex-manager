@@ -1680,3 +1680,238 @@ A consulta da descrição da espécie passou a utilizar degradação segura: fal
 A Sprint 3 foi concluída e integrada à `main`. Ao final da sessão, a documentação estava atualizada, todas as validações técnicas haviam sido aprovadas, a `main` estava sincronizada com `origin/main`, a árvore de trabalho estava limpa e as branches local e remota da Sprint haviam sido removidas.
 
 ---
+
+## 2026/08/02
+
+### Objetivo
+
+Iniciar a Sprint 4 da **Minha Pokédex** pela implementação da cadeia de evolução, revisando a integração atual dos detalhes dos Pokémon, definindo a estratégia de consumo da PokéAPI e construindo uma base tipada, testável, responsiva e preparada para formas e variações.
+
+### Atividades realizadas
+
+- Revisão do fluxo atual da página de detalhes:
+
+  - `PokemonDetails`;
+  - `usePokemonDetails`;
+  - `pokemonService`;
+  - `/pokemon/{id}`;
+  - `/pokemon-species/{species}`;
+  - mappers;
+  - domínio;
+  - componentes.
+
+- Inclusão da URL `evolution_chain.url` entre os dados utilizados da resposta de espécie.
+- Definição de uma estratégia com no máximo três requisições JSON:
+
+  - `/pokemon/{id}`;
+  - `/pokemon-species/{species}`;
+  - `/evolution-chain/{chain}`.
+
+- Definição de que não seriam realizadas consultas individuais a `/pokemon/{id}` para cada integrante da cadeia.
+- Implementação da extração do identificador das espécies por meio de suas URLs.
+- Utilização dos identificadores extraídos para gerar diretamente as URLs dos sprites.
+- Adição de tipos da PokéAPI para representar:
+
+  - recursos com URL;
+  - resposta da cadeia de evolução;
+  - nós recursivos;
+  - detalhes e requisitos de evolução;
+  - informações sobre formas e regiões presentes nas condições.
+
+- Criação dos modelos de domínio:
+
+  - `PokemonEvolutionChain`;
+  - `PokemonEvolutionNode`;
+  - `PokemonEvolutionRequirements`.
+
+- Inclusão da propriedade `evolutionChain: PokemonEvolutionChain | null` no modelo `PokemonDetails`.
+- Manutenção da cadeia de evolução como estrutura recursiva, sem limitação a três estágios fixos.
+- Criação de um mapper dedicado para a cadeia de evolução.
+- Implementação da travessia recursiva da resposta da PokéAPI.
+- Preservação de cadeias lineares e ramificadas.
+- Mapeamento das condições opcionais de evolução.
+- Extração dos IDs das espécies pelas URLs.
+- Geração das URLs dos sprites no mapper.
+- Implementação da seleção das condições padrão.
+- Implementação da primeira condição disponível como fallback.
+- Preservação de múltiplas condições padrão válidas.
+- Remoção de opções visualmente duplicadas.
+- Priorização das condições da espécie-base quando existirem condições relacionadas a formas alternativas.
+- Análise do caso Pikachu e Raichu, no qual a PokéAPI apresentava condições semelhantes relacionadas às formas padrão e de Alola.
+- Priorização da condição da espécie-base enquanto formas alternativas ainda não fazem parte do escopo atual.
+- Atualização do `pokemonService` para:
+
+  - buscar os dados principais do Pokémon;
+  - consultar a espécie uma única vez;
+  - mapear a descrição;
+  - obter a cadeia por meio de `evolution_chain.url`;
+  - entregar a descrição e a cadeia ao mapper dos detalhes.
+
+- Definição dos comportamentos de falha:
+
+  - falha em `/pokemon/{id}` interrompe o carregamento dos detalhes;
+  - falha na consulta da espécie preserva os dados principais e retorna descrição e cadeia como `null`;
+  - falha somente na cadeia preserva a descrição;
+  - cancelamentos por `AbortSignal` continuam sendo propagados;
+  - falhas parciais não são confundidas com cancelamentos.
+
+- Confirmação de que o hook `usePokemonDetails` não precisou ser reorganizado.
+- Criação do componente `PokemonEvolutionChain`.
+- Implementação inicial de uma visualização vertical.
+- Descarte da proposta vertical por ocupar muito espaço e deixar áreas laterais vazias.
+- Reformulação da interface para um fluxo horizontal.
+- Implementação da apresentação das cadeias lineares da esquerda para a direita.
+- Distribuição das cadeias ramificadas utilizando a largura disponível.
+- Implementação do empilhamento do conteúdo em telas menores.
+- Inclusão de destaque visual para o Pokémon atualmente aberto.
+- Inclusão de identificação para Pokémon bebê.
+- Apresentação dos requisitos antes do Pokémon resultante.
+- Padronização das dimensões dos cards.
+- Organização da condição e do card correspondente na mesma coluna visual.
+- Correção de:
+
+  - cards desalinhados;
+  - larguras diferentes entre condição e Pokémon;
+  - nomes quebrando em colunas estreitas;
+  - cadeias lineares descendo para outra linha;
+  - ramificações sem aproveitamento adequado da largura;
+  - diferenças de alinhamento em relação às seções de descrição e sprites.
+
+- Criação do utilitário `pokemonEvolutionStages.ts`.
+- Extração da transformação visual da árvore para esse utilitário.
+- Organização dos nós por profundidade sem modificar o modelo recursivo.
+- Preservação do identificador da espécie anterior em cada estágio.
+- Validação da preservação correta das relações em cadeias ramificadas, incluindo:
+
+  - `Beautifly` com `parentSpeciesId: 266`;
+  - `Dustox` com `parentSpeciesId: 268`.
+
+- Prevenção da reconstrução futura das relações por posição ou nome.
+- Criação de um utilitário para formatar requisitos de evolução.
+- Implementação da apresentação legível de condições relacionadas a:
+
+  - nível;
+  - item;
+  - troca;
+  - item segurado;
+  - felicidade;
+  - beleza;
+  - afeição;
+  - gênero;
+  - horário;
+  - local;
+  - movimento conhecido;
+  - tipo de movimento;
+  - Pokémon ou tipo presente na equipe;
+  - clima;
+  - relação entre estatísticas físicas;
+  - condições especiais.
+
+- Implementação de fallback formatado para gatilhos ainda não traduzidos.
+- Inclusão da navegação para os integrantes da cadeia de evolução.
+- Definição de que o Pokémon atual não funcionaria como link para si mesmo.
+- Implementação da navegação dos demais integrantes por mouse e teclado.
+- Aplicação dos tokens globais ao foco visível.
+- Implementação do retorno da página ao topo ao trocar o Pokémon pela cadeia.
+- Atualização do selo **“Atual”** conforme o Pokémon aberto.
+- Preservação do comportamento do botão de retorno para a Pokédex.
+- Definição de que a navegação pela cadeia não utilizaria o estado específico de navegação da listagem.
+- Implementação de fallback para sprites que falhassem durante o carregamento.
+- Prevenção de imagens quebradas e de alterações nas dimensões dos cards.
+- Criação de testes automatizados para:
+
+  - cadeia sem evolução;
+  - cadeia linear;
+  - cadeia ramificada;
+  - evolução com detalhes nulos;
+  - seleção das condições padrão;
+  - fallback para a primeira condição;
+  - múltiplas condições padrão;
+  - URL inválida da espécie;
+  - condições relacionadas a formas alternativas;
+  - deduplicação entre grupos de versões;
+  - integração do service;
+  - quantidade de requisições;
+  - ausência de consultas individuais para os integrantes;
+  - falha nos dados principais;
+  - falha na espécie;
+  - falha somente na cadeia;
+  - propagação do cancelamento durante a consulta da espécie;
+  - propagação do cancelamento durante a consulta da cadeia;
+  - formatação dos requisitos;
+  - organização por estágios;
+  - preservação das espécies anteriores em ramificações posteriores.
+
+- Atualização dos documentos:
+
+  - `docs/requirements.md`;
+  - `docs/architecture.md`;
+  - `docs/roadmap.md`.
+
+- Documentação da cadeia de evolução como requisito implementado.
+- Documentação do novo fluxo de carregamento dos detalhes.
+- Documentação da estratégia de três requisições.
+- Documentação dos novos modelos de domínio.
+- Documentação do mapper recursivo.
+- Documentação do tratamento de falhas parciais.
+- Documentação da organização visual por estágios.
+- Registro das entregas atuais da Sprint 4.
+- Registro dos refinamentos ainda pendentes.
+- Registro de que formas e variações ainda não foram iniciadas.
+- Definição de dois refinamentos futuros:
+
+  - exibir inicialmente apenas os cards dos Pokémon e mover os requisitos para interações por hover, foco e toque;
+  - substituir o card isolado por uma mensagem informativa quando o Pokémon não possuir pré-evolução nem evolução posterior.
+
+- Manutenção desses refinamentos somente como decisões planejadas, sem implementação nesta sessão.
+- Validação visual das cadeias de:
+
+  - Pikachu;
+  - Eevee;
+  - Bulbasaur;
+  - Ditto;
+  - Wurmple;
+  - Tyrogue.
+
+- Validação de cadeias lineares.
+- Validação de cadeias ramificadas.
+- Validação de ramificações que continuam em estágios posteriores.
+- Validação nos temas claro e escuro.
+- Validação da navegação por teclado.
+- Validação da responsividade.
+- Confirmação da ausência de rolagem horizontal indevida.
+- Validação do fallback de imagens.
+- Execução bem-sucedida dos comandos:
+
+  - `npm run format`;
+  - `npm run lint`;
+  - `npm run build`;
+  - `npm test`;
+  - `git diff --check`;
+  - `git diff --cached --check`.
+
+- Preparação do incremento no staging da branch `sprint/sprint-4`.
+- Confirmação do estado do staging:
+
+  - 19 arquivos preparados;
+  - 9 arquivos novos;
+  - 10 arquivos modificados;
+  - 2.319 inserções;
+  - 33 remoções.
+
+- Confirmação da ausência de arquivos inesperados.
+- Confirmação da ausência de inconsistências no `git diff --cached --check`.
+
+### Observações
+
+A Sprint 4 foi iniciada com a implementação da cadeia de evolução. A solução utiliza a estrutura recursiva fornecida pela PokéAPI, preserva cadeias lineares e ramificadas e evita requisições individuais para cada integrante, limitando o carregamento dos detalhes a até três consultas JSON.
+
+A arquitetura manteve as responsabilidades separadas entre tipos da API, mapper recursivo, modelos de domínio, service e componentes. O fluxo também passou a tolerar falhas parciais: problemas na consulta da espécie ou da cadeia não impedem necessariamente a exibição dos dados principais do Pokémon.
+
+A interface foi adaptada para apresentar a cadeia horizontalmente em telas maiores e de forma empilhada em dispositivos menores. A navegação entre os integrantes foi integrada com suporte a teclado, foco visível, atualização do Pokémon atual e retorno automático ao topo.
+
+Foram registradas melhorias futuras para simplificar visualmente a seção, ocultando os requisitos até uma interação do usuário e substituindo o card isolado por uma mensagem quando não existirem evoluções conhecidas.
+
+Ao final da sessão, o incremento estava preparado no staging da branch `sprint/sprint-4`, com todas as validações técnicas aprovadas. O commit e o push ainda não haviam sido realizados.
+
+---

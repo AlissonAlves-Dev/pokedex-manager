@@ -1,4 +1,5 @@
 import { useLocation, useParams } from "react-router";
+import { useEffect } from "react";
 
 import { PokemonDetailsHeader } from "../../features/pokedex/components/PokemonDetailsHeader/PokemonDetailsHeader";
 import { PokemonPhysicalInfo } from "../../features/pokedex/components/PokemonPhysicalInfo/PokemonPhysicalInfo";
@@ -12,6 +13,7 @@ import { PokemonStats } from "../../features/pokedex/components/PokemonStats/Pok
 import { BackButton } from "../../shared/components/BackButton/BackButton";
 import { PokemonDescription } from "../../features/pokedex/components/PokemonDescription/PokemonDescription";
 import { PokemonSprites } from "../../features/pokedex/components/PokemonSprites/PokemonSprites";
+import { PokemonEvolutionChain } from "../../features/pokedex/components/PokemonEvolutionChain/PokemonEvolutionChain";
 
 import "./PokemonDetails.css";
 
@@ -45,6 +47,17 @@ export function PokemonDetails() {
       ? parsedPokemonId
       : null;
 
+  useEffect(() => {
+    if (validPokemonId === null) {
+      return;
+    }
+
+    window.scrollTo({
+      top: 0,
+      behavior: "auto",
+    });
+  }, [validPokemonId]);
+
   const { pokemon, isLoading, error, retry } =
     usePokemonDetails(validPokemonId);
 
@@ -77,6 +90,11 @@ export function PokemonDetails() {
           <PokemonDetailsHeader pokemon={pokemon} />
 
           <PokemonDescription description={pokemon.description} />
+
+          <PokemonEvolutionChain
+            evolutionChain={pokemon.evolutionChain}
+            currentPokemonId={pokemon.id}
+          />
 
           <PokemonSprites
             pokemonName={pokemon.name}

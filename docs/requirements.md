@@ -68,7 +68,7 @@ Termos como `pika`, `char` ou `saur` filtram somente os Pokémon que já foram c
 | RF-030 | Exibir o sprite frontal padrão.                                     | Concluído |
 | RF-031 | Exibir o sprite frontal shiny.                                      | Concluído |
 | RF-032 | Tratar individualmente sprites ausentes.                            | Concluído |
-| RF-033 | Exibir a cadeia de evolução.                                        | Pendente  |
+| RF-033 | Exibir a cadeia de evolução.                                        | Concluído |
 | RF-034 | Exibir formas e variações disponíveis.                              | Pendente  |
 
 ## Navegação e preservação de estado
@@ -139,6 +139,26 @@ Termos como `pika`, `char` ou `saur` filtram somente os Pokémon que já foram c
 - Quando a consulta da espécie falhar, a descrição deve ser tratada como indisponível.
 - A ausência de uma descrição válida não interrompe a página.
 - Os sprites utilizam a resposta principal de `/pokemon/{id}` e não geram novas requisições.
+- A resposta da espécie fornece a URL da cadeia por meio de `evolution_chain.url`.
+- A cadeia deve ser carregada sem realizar uma requisição individual para cada integrante.
+- A quantidade de integrantes da cadeia não altera a quantidade de requisições JSON.
+- Cadeias lineares e ramificadas devem ser representadas por uma estrutura recursiva.
+- Uma falha exclusiva da cadeia de evolução não deve remover a descrição já carregada.
+- Uma falha na espécie torna descrição e cadeia indisponíveis, mas preserva os dados principais.
+- Os integrantes da cadeia devem permitir navegação para suas respectivas páginas de detalhes.
+- O Pokémon atualmente aberto deve permanecer identificado e não deve funcionar como link para si mesmo.
+- Imagens ausentes ou com falha de carregamento devem apresentar fallback sem alterar as dimensões dos cards.
+
+---
+
+### Refinamentos pendentes da cadeia de evolução
+
+- Exibir inicialmente somente os cards dos Pokémon.
+- Apresentar os requisitos de evolução dentro do próprio card por hover.
+- Oferecer comportamento equivalente por foco de teclado e interação em telas touch.
+- Quando não existir evolução conhecida, ocultar o card isolado e apresentar somente a mensagem informativa.
+
+---
 
 ### Dados indisponíveis
 

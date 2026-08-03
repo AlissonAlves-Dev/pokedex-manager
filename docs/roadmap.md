@@ -193,20 +193,63 @@ Expandir a listagem e a página de detalhes, corrigindo limitações de navegaç
 
 A Sprint somente será marcada como concluída após o code review e o merge.
 
-## Próxima Sprint
+## Sprint 4 — Evoluções e formas
 
-A próxima Sprint deverá continuar o Milestone 1.
+### Objetivo
 
-Escopo previsto:
+Expandir os detalhes da Pokédex com a cadeia de evolução e preparar a base arquitetural para formas e variações.
 
-- cadeia de evolução;
-- formas e variações;
-- revisão do uso do endpoint de espécie;
-- reutilização dos dados já disponíveis;
-- tratamento de formas que compartilham a mesma espécie;
-- acessibilidade e responsividade das novas seções.
+A implementação de formas não deve começar antes da conclusão e revisão da base da evolução.
 
-O escopo definitivo será definido no Planejamento antes da criação da próxima branch.
+### Cadeia de evolução — implementado
+
+- revisão do tipo `PokemonApiSpeciesResponse`;
+- utilização de `evolution_chain.url`;
+- tipos da API para cadeias e condições;
+- modelo de domínio recursivo;
+- suporte a cadeias lineares e ramificadas;
+- percurso recursivo da resposta;
+- seleção de condições padrão;
+- remoção de condições visualmente duplicadas;
+- tratamento de condições associadas a formas alternativas;
+- extração do ID pela URL da espécie;
+- construção direta da URL dos sprites;
+- ausência de requisições individuais para cada integrante;
+- falha da espécie sem bloquear os dados principais;
+- falha da cadeia sem remover a descrição;
+- propagação de cancelamentos;
+- organização visual por estágios;
+- preservação da relação entre cada evolução e sua espécie anterior;
+- layout horizontal responsivo;
+- identificação do Pokémon atual;
+- navegação entre integrantes da cadeia;
+- fallback para sprites indisponíveis;
+- testes automatizados do mapper;
+- testes automatizados do service;
+- testes do formatador de condições;
+- testes da organização por estágios.
+
+### Refinamentos pendentes da cadeia
+
+- substituir os blocos permanentes de requisitos por informações exibidas dentro do card;
+- apresentar os requisitos por hover;
+- disponibilizar comportamento equivalente por foco de teclado;
+- definir interação adequada para dispositivos touch;
+- manter somente os cards na visualização inicial;
+- remover o card isolado de Pokémon sem evolução;
+- exibir apenas a mensagem informativa quando não existir evolução conhecida;
+- revisar visualmente cadeias ramificadas que continuam em estágios posteriores;
+- concluir revisão de acessibilidade e responsividade.
+
+### Formas e variações
+
+Ainda não iniciadas.
+
+A implementação somente começará depois que:
+
+- os refinamentos definidos para a cadeia forem concluídos ou formalmente planejados para outra etapa;
+- os testes da base estiverem aprovados;
+- o code review da cadeia não apresentar bloqueadores.
 
 ## Milestone 2 — Coleção pessoal
 

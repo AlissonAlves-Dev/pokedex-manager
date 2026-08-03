@@ -240,6 +240,10 @@ Exemplos:
 - transformar uma resposta em `PokemonSummary`;
 - montar `PokemonDetails`;
 - selecionar e normalizar a descrição da espécie;
+- transformar recursivamente uma cadeia de evolução;
+- preservar evoluções lineares e ramificadas;
+- selecionar e deduplicar condições de evolução relevantes;
+- extrair o identificador da espécie pela URL;
 - traduzir ou formatar nomes de habilidades;
 - converter URLs ausentes em `null`.
 
@@ -254,7 +258,11 @@ Exemplos:
 - `PokemonAbility`;
 - `PokemonStat`;
 - `PokemonSprites`;
-- `PokemonListPage`.
+- `PokemonListPage`;
+- `PokemonEvolutionChain`;
+- `PokemonEvolutionNode`;
+- `PokemonEvolutionRequirements`;
+- `PokemonEvolutionStage`.
 
 Os modelos de domínio devem ser mais simples e previsíveis que as respostas externas.
 
@@ -368,9 +376,13 @@ PokemonDetails
 → /pokemon/{id}
 → species.url
 → /pokemon-species/{species}
-→ mappers
+├── descrição
+└── evolution_chain.url
+    → /evolution-chain/{chain}
+    → pokemonEvolutionMapper
+    → PokemonEvolutionChain
 → PokemonDetails
-→ componentes
+→ componentesentes
 ```
 
 A resposta principal fornece:
@@ -385,23 +397,67 @@ A resposta principal fornece:
 - sprites;
 - relação com a espécie.
 
-A resposta da espécie fornece a descrição da Pokédex.
+A resposta da espécie fornece:
+
+- textos de descrição;
+- URL da cadeia de evolução.
+
+A resposta da cadeia fornece uma árvore recursiva formada por:
+
+- espécie atual;
+- condições de evolução;
+- próximas evoluções;
+- possíveis ramificações.
+
+A interface organiza essa árvore em estágios visuais sem alterar o modelo recursivo do domínio.
 
 As duas requisições utilizam o mesmo `AbortSignal`.
 
-### Falhas na consulta da espécie
+---
 
-Uma falha técnica ao buscar a espécie não interrompe o carregamento dos dados principais do Pokémon.
+### Estratégia da cadeia de evolução
 
-Nesse caso:
+O carregamento completo utiliza no máximo três requisições JSON:
+
+```text
+/pokemon/{id}
+/pokemon-species/{species}
+/evolution-chain/{chain}
+```
+
+Não são realizadas requisições a /pokemon/{id} para cada integrante da cadeia.
+
+O identificador de cada espécie é extraído de species.url e utilizado para construir diretamente a URL do sprite correspondente.
+
+Essa estratégia mantém constante a quantidade de consultas à PokéAPI, independentemente do tamanho ou da quantidade de ramificações da cadeia.
+
+---
+
+### Falhas parciais dos detalhes
+
+Uma falha técnica na consulta principal de `/pokemon/{id}` interrompe o carregamento dos detalhes.
+
+Uma falha ao buscar a espécie não interrompe os dados principais. Nesse caso:
 
 ```ts
 description: null;
+evolutionChain: null;
 ```
 
-A página continua funcionando e apresenta uma mensagem de indisponibilidade para a descrição.
+Uma falha exclusiva na consulta da cadeia preserva a descrição:
 
-Falhas na consulta principal de `/pokemon/{id}` continuam interrompendo o carregamento dos detalhes.
+```ts
+description: "Descrição disponível";
+evolutionChain: null;
+```
+
+Cancelamentos com AbortSignal nunca são convertidos em dados ausentes e continuam sendo propagados.
+
+A ausência da cadeia ou da descrição deve ser tratada individualmente pela interface.
+
+A arquitetura atual já define services, mappers, domínio, hooks e componentes como responsabilidades separadas; a cadeia segue exatamente essa divisão.
+
+---
 
 ### Descrição ausente
 

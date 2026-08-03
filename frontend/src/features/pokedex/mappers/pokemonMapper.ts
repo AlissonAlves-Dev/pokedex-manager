@@ -2,6 +2,7 @@ import { isPokemonType } from "../types/pokemon";
 
 import type {
   PokemonDetails,
+  PokemonEvolutionChain,
   PokemonSprites,
   PokemonSummary,
 } from "../types/pokemon";
@@ -54,9 +55,17 @@ export function mapPokemonApiToSummary(
   };
 }
 
+type PokemonDetailsAdditionalData = {
+  description?: string | null;
+  evolutionChain?: PokemonEvolutionChain | null;
+};
+
 export function mapPokemonApiToDetails(
   pokemon: PokemonApiDetailResponse,
-  description: string | null = null,
+  {
+    description = null,
+    evolutionChain = null,
+  }: PokemonDetailsAdditionalData = {},
 ): PokemonDetails {
   return {
     id: pokemon.id,
@@ -65,6 +74,7 @@ export function mapPokemonApiToDetails(
     types: mapPokemonTypes(pokemon),
 
     description,
+    evolutionChain,
     sprites: mapPokemonSprites(pokemon),
 
     height: pokemon.height,
