@@ -1512,12 +1512,171 @@ Revisar e reorganizar a documentação da **Minha Pokédex**, tornando-a mais en
 - Revisão das diferenças entre os arquivos alterados.
 - Revisão da integridade do diff.
 
-### Observações
+---
 
-A documentação da **Minha Pokédex** foi reorganizada para representar com maior precisão o estado atual do projeto. Os documentos passaram a possuir responsabilidades mais claras, com menor repetição de conteúdo e separação explícita entre funcionalidades implementadas e planejamento futuro.
+### Encerramento da Sprint 3
 
-A documentação textual passou a adotar oficialmente o português brasileiro, enquanto os termos diretamente relacionados ao código e às ferramentas permaneceram em inglês. A arquitetura futura, incluindo backend e banco de dados, foi preservada somente como planejamento, sem transmitir que essas estruturas já estão implementadas.
+#### Objetivo
 
-Os documentos vazios ou redundantes foram removidos, e o novo `docs/README.md` passou a funcionar como índice e ponto inicial para consulta. As entradas históricas do Development Journal foram preservadas sem alterações retroativas.
+Realizar o code review consolidado da Sprint 3 da **Minha Pokédex**, corrigir os achados identificados, implementar melhorias adicionais, integrar testes automatizados e concluir o merge da branch `sprint/sprint-3` na `main`.
+
+#### Atividades realizadas
+
+- Realização da comparação completa entre as branches `main` e `sprint/sprint-3`.
+- Confirmação de que a branch da Sprint estava inicialmente:
+
+  - sete commits à frente da `main`;
+  - nenhum commit atrás da `main`.
+
+- Revisão consolidada das implementações relacionadas a:
+
+  - paginação progressiva;
+  - preservação da listagem;
+  - pesquisa global exata;
+  - normalização dos termos pesquisados;
+  - cancelamento de requisições;
+  - prevenção de race conditions;
+  - contexto persistente das rotas;
+  - restauração do Pokémon selecionado;
+  - descrição obtida pelo endpoint de espécie;
+  - fallback e normalização das descrições;
+  - sprites padrão e shiny;
+  - tratamento de dados ausentes;
+  - acessibilidade;
+  - responsividade;
+  - temas;
+  - services;
+  - mappers;
+  - hooks;
+  - modelos de domínio;
+  - componentes;
+  - documentação;
+  - possíveis regressões.
+
+- Identificação de que entradas compostas somente por símbolos poderiam ser normalizadas para uma string vazia.
+- Identificação de que uma string vazia poderia corresponder incorretamente a todos os nomes por meio de `pokemon.name.includes("")`.
+- Separação entre o texto digitado e o termo normalizado válido.
+- Correção do fluxo para impedir que pesquisas inválidas fossem tratadas como filtro ativo ou consulta remota.
+- Identificação do uso do token inexistente `--color-text` no componente de descrição.
+- Substituição pelo token `--color-text-primary`.
+- Validação da consistência visual da descrição nos temas claro e escuro.
+- Aplicação à arte oficial da mesma normalização utilizada pelos sprites.
+- Implementação do tratamento da URL da arte oficial com:
+
+  - remoção de espaços no início e no final;
+  - conversão de string vazia para ausência;
+  - conversão de `null` para ausência.
+
+- Prevenção de imagens quebradas quando a API fornecer URLs vazias ou inválidas.
+- Substituição dos IDs fixos de `PokemonDescription`, `PokemonSprites` e dos cards de sprites por IDs gerados com `useId()`.
+- Prevenção de colisões de IDs em possíveis reutilizações dos componentes.
+- Revisão das regiões dinâmicas utilizadas durante a pesquisa.
+- Separação dos anúncios de acessibilidade por responsabilidade:
+
+  - `Spinner` para carregamento;
+  - `ErrorState` para erros;
+  - região de status visualmente oculta para resultados encontrados;
+  - `EmptyState` para resultados inexistentes.
+
+- Remoção do `aria-live` externo que poderia causar anúncios duplicados.
+- Revisão do comportamento quando a consulta ao endpoint de espécie falhava.
+- Alteração do fluxo para que uma falha em `/pokemon/{id}` continue produzindo um erro geral.
+- Alteração do fluxo para que uma falha somente em `/pokemon-species/{id}` resulte em `description: null`.
+- Preservação da exibição dos demais detalhes quando somente a descrição não puder ser carregada.
+- Manutenção da propagação normal do cancelamento por `AbortSignal`.
+- Instalação e configuração do **Vitest 4.1.10**.
+- Inclusão dos scripts:
+
+  - `npm test`;
+  - `npm run test:watch`.
+
+- Criação dos arquivos de teste:
+
+  - `pokemonSearch.test.ts`;
+  - `pokemonSpeciesMapper.test.ts`;
+  - `pokemonMapper.test.ts`.
+
+- Implementação de testes automatizados para:
+
+  - espaços e capitalização;
+  - números com `#`;
+  - zeros à esquerda;
+  - nomes compostos;
+  - símbolos de gênero;
+  - pontuação;
+  - correspondências exatas;
+  - entradas normalizadas para vazio;
+  - prioridade de idiomas entre `pt-br`, `pt` e `en`;
+  - ausência de idioma compatível;
+  - caracteres invisíveis;
+  - quebras de linha;
+  - normalização da grafia de Pokémon;
+  - arte oficial;
+  - sprites padrão e shiny;
+  - URLs vazias;
+  - URLs nulas;
+  - descrições disponíveis ou ausentes.
+
+- Execução bem-sucedida de três arquivos de testes.
+- Aprovação dos 24 testes automatizados implementados.
+- Atualização dos arquivos:
+
+  - `README.md`;
+  - `docs/architecture.md`;
+  - `docs/contributing.md`;
+  - `docs/requirements.md`;
+  - `docs/roadmap.md`.
+
+- Registro do Vitest como ferramenta atual do projeto.
+- Documentação dos novos scripts de teste.
+- Inclusão de `npm test` entre as validações obrigatórias.
+- Inclusão dos testes no checklist de encerramento das Sprints.
+- Registro da cobertura automatizada inicial.
+- Registro da cobertura de hooks, services e interface como expansão futura.
+- Documentação da degradação segura da descrição quando a consulta da espécie falha.
+- Documentação do novo comportamento das regiões acessíveis da pesquisa.
+- Repetição do code review após as correções e melhorias.
+- Conclusão da revisão com:
+
+  - nenhum bloqueador;
+  - nenhum problema importante;
+  - nenhuma melhoria opcional pendente;
+  - nenhuma regressão identificada.
+
+- Aprovação da branch `sprint/sprint-3` para integração.
+- Início do merge por meio do comando `git merge --no-ff sprint/sprint-3`.
+- Abertura do editor Vim para edição da mensagem do merge.
+- Interrupção do terminal antes da conclusão do commit de merge.
+- Confirmação de que o Git manteve o merge preparado, sem conflitos pendentes.
+- Conclusão manual do merge com o comando `git commit -m "merge: complete sprint 3"`.
+- Criação do commit `3168b4b merge: complete sprint 3`.
+- Confirmação de que a `main` ficou oito commits à frente do repositório remoto:
+
+  - sete commits da Sprint 3;
+  - um commit de merge.
+
+- Execução das validações pós-merge.
+- Envio da `main` atualizada para o repositório remoto.
+- Execução bem-sucedida dos comandos:
+
+  - `npm run format`;
+  - `npm run lint`;
+  - `npm run build`;
+  - `npm test`;
+  - `git diff --check`;
+  - `git status`.
+
+- Confirmação de que a `main` estava sincronizada com `origin/main`.
+- Confirmação de que a árvore de trabalho estava limpa.
+- Remoção local da branch `sprint/sprint-3`.
+- Remoção da branch `sprint/sprint-3` do repositório remoto.
+
+#### Observações
+
+O code review consolidado da Sprint 3 foi concluído sem bloqueadores, problemas importantes ou regressões. Os achados identificados durante a revisão foram corrigidos antes da integração, incluindo o tratamento de pesquisas normalizadas para vazio, a correção de um token visual inexistente, a normalização da arte oficial e melhorias nas regiões acessíveis da pesquisa.
+
+A consulta da descrição da espécie passou a utilizar degradação segura: falhas específicas nesse endpoint não impedem mais a exibição dos demais detalhes do Pokémon. A Sprint também introduziu a primeira estrutura de testes automatizados do projeto, utilizando Vitest, com três arquivos e 24 testes aprovados.
+
+A Sprint 3 foi concluída e integrada à `main`. Ao final da sessão, a documentação estava atualizada, todas as validações técnicas haviam sido aprovadas, a `main` estava sincronizada com `origin/main`, a árvore de trabalho estava limpa e as branches local e remota da Sprint haviam sido removidas.
 
 ---
