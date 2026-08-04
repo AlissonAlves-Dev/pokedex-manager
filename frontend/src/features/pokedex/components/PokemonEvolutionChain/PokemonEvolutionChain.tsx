@@ -12,7 +12,10 @@ import {
   formatPokemonResourceName,
   getPokemonEvolutionConditionLabels,
 } from "../../utils/pokemonEvolutionFormatter";
-import { createPokemonEvolutionStages } from "../../utils/pokemonEvolutionStages";
+import {
+  createPokemonEvolutionStages,
+  getPokemonEvolutionStageItems,
+} from "../../utils/pokemonEvolutionStages";
 
 import "./PokemonEvolutionChain.css";
 
@@ -24,37 +27,101 @@ type PokemonEvolutionChainProps = {
 type PokemonEvolutionNodeCardProps = {
   node: PokemonEvolutionNode;
   currentPokemonId: number;
-};
-
-type PokemonEvolutionConditionsProps = {
-  pokemonName: string;
-  options: PokemonEvolutionRequirements[];
   isRoot: boolean;
 };
+
+type PokemonEvolutionRequirementsContentProps = {
+  pokemonName: string;
+  options: PokemonEvolutionRequirements[];
+};
+
+function PokemonEvolutionRequirementsContent({
+  pokemonName,
+  options,
+}: PokemonEvolutionRequirementsContentProps) {
+  return (
+    <div
+      className="pokemon-evolution-chain__requirements"
+      role="group"
+      aria-label={`Condições para evoluir para ${pokemonName}`}
+    >
+      <strong className="pokemon-evolution-chain__requirements-title">
+        Requisitos para evoluir
+      </strong>
+
+      {options.length === 0 ? (
+        <p className="pokemon-evolution-chain__condition-unavailable">
+          Condição não informada
+        </p>
+      ) : (
+        <div className="pokemon-evolution-chain__options">
+          {options.map((option, optionIndex) => {
+            const labels = getPokemonEvolutionConditionLabels(option);
+
+            return (
+              <div
+                className="pokemon-evolution-chain__option"
+                key={`${option.triggerName}-${
+                  option.versionGroupName ?? "default"
+                }-${optionIndex}`}
+              >
+                {options.length > 1 && (
+                  <strong className="pokemon-evolution-chain__option-title">
+                    Opção {optionIndex + 1}
+                  </strong>
+                )}
+
+                <ul className="pokemon-evolution-chain__condition-list">
+                  {labels.map((label, labelIndex) => (
+                    <li
+                      className="pokemon-evolution-chain__condition"
+                      key={`${label}-${labelIndex}`}
+                    >
+                      {label}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            );
+          })}
+        </div>
+      )}
+    </div>
+  );
+}
 
 function PokemonEvolutionNodeCard({
   node,
   currentPokemonId,
+  isRoot,
 }: PokemonEvolutionNodeCardProps) {
   const [hasImageError, setHasImageError] = useState(false);
 
   const pokemonName = formatPokemonResourceName(node.name);
   const isCurrentPokemon = node.speciesId === currentPokemonId;
+  const hasRequirements = !isRoot;
 
   const shouldShowImage = node.imageUrl.length > 0 && !hasImageError;
 
+  const cardClassName = [
+    "pokemon-evolution-chain__node",
+    isCurrentPokemon ? "pokemon-evolution-chain__node--current" : "",
+    hasRequirements ? "pokemon-evolution-chain__node--has-requirements" : "",
+  ]
+    .filter(Boolean)
+    .join(" ");
+
   const cardContent = (
     <Card
-      className={`pokemon-evolution-chain__node ${
-        isCurrentPokemon ? "pokemon-evolution-chain__node--current" : ""
-      }`}
+      className={cardClassName}
       role={isCurrentPokemon ? "group" : undefined}
+      tabIndex={isCurrentPokemon && hasRequirements ? 0 : undefined}
       aria-label={
         isCurrentPokemon
           ? `${pokemonName}, número ${node.speciesId}, Pokémon atual`
           : undefined
       }
-      aria-current={isCurrentPokemon ? "true" : undefined}
+      aria-current={isCurrentPokemon ? "page" : undefined}
     >
       <div className="pokemon-evolution-chain__image-container">
         {shouldShowImage ? (
@@ -73,19 +140,28 @@ function PokemonEvolutionNodeCard({
         )}
       </div>
 
-      <div className="pokemon-evolution-chain__node-content">
-        <span className="pokemon-evolution-chain__number">
-          #{String(node.speciesId).padStart(4, "0")}
-        </span>
+      <div className="pokemon-evolution-chain__node-views">
+        <div className="pokemon-evolution-chain__node-summary">
+          <span className="pokemon-evolution-chain__number">
+            #{String(node.speciesId).padStart(4, "0")}
+          </span>
 
-        <h3 className="pokemon-evolution-chain__name">{pokemonName}</h3>
+          <h3 className="pokemon-evolution-chain__name">{pokemonName}</h3>
 
-        {(isCurrentPokemon || node.isBaby) && (
-          <div className="pokemon-evolution-chain__badges">
-            {isCurrentPokemon && <Badge variant="primary">Atual</Badge>}
+          {(isCurrentPokemon || node.isBaby) && (
+            <div className="pokemon-evolution-chain__badges">
+              {isCurrentPokemon && <Badge variant="primary">Atual</Badge>}
 
-            {node.isBaby && <Badge variant="neutral">Bebê</Badge>}
-          </div>
+              {node.isBaby && <Badge variant="neutral">Bebê</Badge>}
+            </div>
+          )}
+        </div>
+
+        {hasRequirements && (
+          <PokemonEvolutionRequirementsContent
+            pokemonName={pokemonName}
+            options={node.evolutionOptions}
+          />
         )}
       </div>
     </Card>
@@ -103,71 +179,6 @@ function PokemonEvolutionNodeCard({
     >
       {cardContent}
     </Link>
-  );
-}
-
-function PokemonEvolutionConditions({
-  pokemonName,
-  options,
-  isRoot,
-}: PokemonEvolutionConditionsProps) {
-  if (isRoot) {
-    return (
-      <div
-        className="pokemon-evolution-chain__condition-slot pokemon-evolution-chain__condition-slot--empty"
-        aria-hidden="true"
-      />
-    );
-  }
-
-  if (options.length === 0) {
-    return (
-      <div className="pokemon-evolution-chain__condition-slot">
-        <div className="pokemon-evolution-chain__option">
-          <span className="pokemon-evolution-chain__condition-unavailable">
-            Condição não informada
-          </span>
-        </div>
-      </div>
-    );
-  }
-
-  return (
-    <div
-      className="pokemon-evolution-chain__condition-slot"
-      role="group"
-      aria-label={`Condições para evoluir para ${pokemonName}`}
-    >
-      <div className="pokemon-evolution-chain__options">
-        {options.map((option, optionIndex) => {
-          const labels = getPokemonEvolutionConditionLabels(option);
-
-          return (
-            <div
-              className="pokemon-evolution-chain__option"
-              key={`${option.triggerName}-${optionIndex}`}
-            >
-              {options.length > 1 && (
-                <strong className="pokemon-evolution-chain__option-title">
-                  Opção {optionIndex + 1}
-                </strong>
-              )}
-
-              <ul className="pokemon-evolution-chain__condition-list">
-                {labels.map((label) => (
-                  <li
-                    className="pokemon-evolution-chain__condition"
-                    key={label}
-                  >
-                    {label}
-                  </li>
-                ))}
-              </ul>
-            </div>
-          );
-        })}
-      </div>
-    </div>
   );
 }
 
@@ -193,9 +204,23 @@ export function PokemonEvolutionChain({
 
   const stages = createPokemonEvolutionStages(evolutionChain.root);
 
-  const hasEvolutions = stages.length > 1;
+  if (stages.length === 1) {
+    return (
+      <section className="pokemon-evolution-chain" aria-labelledby={titleId}>
+        <h2 className="pokemon-evolution-chain__title" id={titleId}>
+          Cadeia de evolução
+        </h2>
 
-  const hasBranchedStage = stages.some((stage) => stage.items.length > 1);
+        <p className="pokemon-evolution-chain__empty-message">
+          Este Pokémon não possui evoluções conhecidas.
+        </p>
+      </section>
+    );
+  }
+
+  const hasBranchedStage = stages.some(
+    (stage) => getPokemonEvolutionStageItems(stage).length > 1,
+  );
 
   const flowClassName = [
     "pokemon-evolution-chain__flow",
@@ -212,7 +237,8 @@ export function PokemonEvolutionChain({
 
       <div className={flowClassName}>
         {stages.map((stage, stageIndex) => {
-          const hasMultiplePokemon = stage.items.length > 1;
+          const stageItems = getPokemonEvolutionStageItems(stage);
+          const hasMultiplePokemon = stageItems.length > 1;
 
           const stageClassName = [
             "pokemon-evolution-chain__stage",
@@ -243,39 +269,24 @@ export function PokemonEvolutionChain({
                 )}
 
                 <ul className="pokemon-evolution-chain__stage-grid">
-                  {stage.items.map(({ node, parentSpeciesId }) => {
-                    const pokemonName = formatPokemonResourceName(node.name);
-
-                    return (
-                      <li
-                        className="pokemon-evolution-chain__stage-item"
-                        key={`${parentSpeciesId ?? "root"}-${node.speciesId}`}
-                      >
-                        <PokemonEvolutionConditions
-                          pokemonName={pokemonName}
-                          options={node.evolutionOptions}
-                          isRoot={stageIndex === 0}
-                        />
-
-                        <PokemonEvolutionNodeCard
-                          node={node}
-                          currentPokemonId={currentPokemonId}
-                        />
-                      </li>
-                    );
-                  })}
+                  {stageItems.map(({ node, parentSpeciesId }) => (
+                    <li
+                      className="pokemon-evolution-chain__stage-item"
+                      key={`${parentSpeciesId ?? "root"}-${node.speciesId}`}
+                    >
+                      <PokemonEvolutionNodeCard
+                        node={node}
+                        currentPokemonId={currentPokemonId}
+                        isRoot={stageIndex === 0}
+                      />
+                    </li>
+                  ))}
                 </ul>
               </div>
             </div>
           );
         })}
       </div>
-
-      {!hasEvolutions && (
-        <p className="pokemon-evolution-chain__empty-message">
-          Este Pokémon não possui evoluções conhecidas.
-        </p>
-      )}
     </section>
   );
 }

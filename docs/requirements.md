@@ -148,15 +148,18 @@ Termos como `pika`, `char` ou `saur` filtram somente os Pokémon que já foram c
 - Os integrantes da cadeia devem permitir navegação para suas respectivas páginas de detalhes.
 - O Pokémon atualmente aberto deve permanecer identificado e não deve funcionar como link para si mesmo.
 - Imagens ausentes ou com falha de carregamento devem apresentar fallback sem alterar as dimensões dos cards.
-
----
-
-### Refinamentos pendentes da cadeia de evolução
-
-- Exibir inicialmente somente os cards dos Pokémon.
-- Apresentar os requisitos de evolução dentro do próprio card por hover.
-- Oferecer comportamento equivalente por foco de teclado e interação em telas touch.
-- Quando não existir evolução conhecida, ocultar o card isolado e apresentar somente a mensagem informativa.
+- A visualização inicial da cadeia deve apresentar somente o resumo dos integrantes.
+- Os requisitos de evolução devem permanecer dentro do card do Pokémon resultante.
+- Em dispositivos com mouse, os requisitos devem substituir o resumo durante o hover.
+- Ao receber foco pelo teclado, o card deve apresentar os mesmos requisitos exibidos no hover.
+- Em dispositivos sem hover, resumo e requisitos devem permanecer disponíveis no próprio card.
+- O card inteiro dos integrantes que não representam o Pokémon atual deve funcionar como link para os detalhes.
+- A imagem do integrante deve ser ocultada durante o hover ou foco para ampliar o espaço dos requisitos.
+- Todos os cards de uma mesma cadeia devem utilizar dimensões e alinhamentos consistentes.
+- A organização por estágios deve preservar o agrupamento de cada evolução por sua espécie anterior.
+- Cadeias ramificadas que continuam em estágios posteriores devem preservar a relação visual entre pais e descendentes.
+- Quando a cadeia possuir somente o próprio Pokémon, o card isolado não deve ser exibido.
+- Pokémon sem evolução conhecida devem apresentar somente uma mensagem informativa.
 
 ---
 

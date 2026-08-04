@@ -1915,3 +1915,239 @@ Foram registradas melhorias futuras para simplificar visualmente a seção, ocul
 Ao final da sessão, o incremento estava preparado no staging da branch `sprint/sprint-4`, com todas as validações técnicas aprovadas. O commit e o push ainda não haviam sido realizados.
 
 ---
+
+## 2026/08/03
+
+### Objetivo
+
+Dar continuidade à Sprint 4 da **Minha Pokédex**, realizando o polimento completo da cadeia de evolução antes do início da implementação de formas e variações.
+
+### Atividades realizadas
+
+- Revisão dos arquivos e estruturas relacionados à cadeia de evolução:
+
+  - `PokemonEvolutionChain.tsx`;
+  - `PokemonEvolutionChain.css`;
+  - `pokemonEvolutionStages.ts`;
+  - testes do agrupamento por estágios;
+  - formatador dos requisitos;
+  - configuração atual do Vitest.
+
+- Identificação de que os requisitos de evolução ainda eram renderizados em blocos separados antes dos cards.
+- Identificação da necessidade de espaços invisíveis na raiz para compensar os blocos externos.
+- Identificação do aumento excessivo da altura da seção causado pela estrutura anterior.
+- Identificação de que o agrupamento por profundidade preservava `parentSpeciesId`, mas ainda apresentava os itens de cada estágio como uma lista visualmente plana.
+- Reformulação do utilitário `pokemonEvolutionStages.ts`.
+- Organização de cada estágio em grupos associados ao Pokémon anterior.
+- Estruturação dos estágios com:
+
+  - `parentSpeciesId`;
+  - `items`.
+
+- Criação de um utilitário auxiliar para recuperar os itens de todos os grupos na ordem visual.
+- Preservação correta das relações em cadeias ramificadas que continuam em estágios posteriores.
+- Validação da organização da cadeia de Wurmple:
+
+  - Wurmple;
+  - Silcoon e Cascoon;
+  - Beautifly associado a Silcoon;
+  - Dustox associado a Cascoon.
+
+- Preservação de grupos vazios quando uma ramificação termina antes das demais.
+- Prevenção da associação visual incorreta de evoluções posteriores ao Pokémon anterior errado.
+- Ampliação dos testes de `pokemonEvolutionStages`.
+- Implementação de testes para:
+
+  - Pokémon sem evolução;
+  - cadeia linear;
+  - múltiplas evoluções do mesmo Pokémon anterior;
+  - grupos distintos em ramificações posteriores;
+  - preservação de grupos vazios;
+  - múltiplos descendentes do mesmo Pokémon anterior;
+  - ordem dos pais;
+  - ordem dos filhos;
+  - recuperação dos itens na ordem visual.
+
+- Avaliação de uma proposta inicial com botões separados para navegação e requisitos.
+- Descarte da proposta de botões para preservar a simplicidade e a navegação direta.
+- Definição de que todo o card permaneceria como link para a página de detalhes.
+- Manutenção do Pokémon atual sem link para si mesmo.
+- Definição da substituição do conteúdo interno durante hover ou foco.
+- Remoção de ações intermediárias antes da navegação.
+- Reorganização interna dos cards em dois estados:
+
+  - resumo;
+  - requisitos.
+
+- Inclusão no estado de resumo de:
+
+  - sprite;
+  - número;
+  - nome;
+  - badges.
+
+- Inclusão no estado de requisitos de:
+
+  - título;
+  - opções de evolução;
+  - condições necessárias.
+
+- Remoção dos antigos componentes e estilos responsáveis pelos blocos externos de condições.
+- Implementação do comportamento para mouse:
+
+  - ocultação do resumo durante o hover;
+  - ocultação da imagem;
+  - utilização de toda a área interna pelos requisitos;
+  - preservação do card inteiro como área clicável.
+
+- Implementação do comportamento para teclado:
+
+  - preservação do foco visível;
+  - exibição dos requisitos ao receber foco;
+  - manutenção da navegação pela tecla `Enter`;
+  - possibilidade de foco no Pokémon atual quando ele possui requisitos;
+  - impedimento da navegação do Pokémon atual para sua própria página.
+
+- Implementação do comportamento para dispositivos touch:
+
+  - manutenção do resumo e dos requisitos disponíveis no mesmo card;
+  - ausência de botão intermediário;
+  - ausência de primeiro toque dedicado somente à exibição dos requisitos;
+  - preservação da navegação direta pelo card.
+
+- Implementação de uma saída antecipada para cadeias com apenas um integrante.
+- Remoção do card isolado de Pokémon sem pré-evolução ou evolução posterior.
+- Remoção do sprite da seção nesses casos.
+- Inclusão da mensagem:
+
+  - **“Este Pokémon não possui evoluções conhecidas.”**
+
+- Preservação do tratamento separado para falhas no carregamento da cadeia.
+- Realização de múltiplas revisões visuais da seção.
+- Correção de cards com alturas diferentes.
+- Correção de imagens e conteúdos desalinhados.
+- Redução do excesso de espaço interno.
+- Ajuste dos requisitos que estavam excessivamente comprimidos.
+- Correção do posicionamento do card-base em cadeias ramificadas.
+- Correção dos conectores que estavam centralizados em relação à grade inteira, em vez do card-base.
+- Correção de inconsistências visuais entre as cadeias de Eevee e Wurmple.
+- Correção de comportamentos inadequados durante hover.
+- Padronização das dimensões de todos os cards.
+- Definição de altura fixa para os cards no desktop.
+- Configuração das imagens com `5rem`.
+- Centralização do conteúdo interno.
+- Compactação dos requisitos para ocuparem a mesma altura dos cards.
+- Ocultação da imagem durante hover e foco.
+- Centralização do card-base em relação aos Pokémon do estágio seguinte.
+- Centralização dos conectores ao lado do card-base.
+- Implementação de compensação para a altura do título **“Possíveis evoluções”**.
+- Remoção dos ajustes específicos de alinhamento quando o layout passa para a versão mobile.
+- Revisão visual das cadeias de:
+
+  - Eevee;
+  - Wurmple;
+  - Bulbasaur;
+  - Pikachu;
+  - Ditto.
+
+- Configuração de um ambiente DOM para testes de componentes React.
+- Adição das dependências:
+
+  - `jsdom`;
+  - React Testing Library;
+  - `jest-dom`;
+  - `user-event`.
+
+- Atualização do `vite.config.ts` com:
+
+  - `environment: jsdom`;
+  - `setupFiles: ./src/test/setup.ts`.
+
+- Criação do arquivo `frontend/src/test/setup.ts`.
+- Configuração dos matchers do DOM.
+- Configuração da limpeza automática após cada teste.
+- Criação do arquivo `PokemonEvolutionChain.test.tsx`.
+- Implementação de testes do componente para:
+
+  - cadeia indisponível;
+  - Pokémon sem evolução;
+  - ausência do card isolado;
+  - cadeia linear;
+  - links para os integrantes;
+  - Pokémon atual sem link;
+  - atributo `aria-current`;
+  - card intermediário identificado como atual;
+  - requisitos dentro do card correspondente;
+  - requisitos distintos em ramificações;
+  - condição não informada;
+  - badge de Pokémon bebê;
+  - fallback de imagem;
+  - navegação por teclado;
+  - cadeia de Eevee;
+  - cadeia de Wurmple;
+  - ordem das ramificações que continuam em estágios posteriores.
+
+- Definição de que os testes automatizados validariam estrutura, conteúdo e atributos de acessibilidade.
+- Manutenção da validação manual para:
+
+  - hover;
+  - media queries;
+  - dimensões;
+  - transições;
+  - comportamento real do layout no navegador.
+
+- Revisão dos documentos:
+
+  - `docs/requirements.md`;
+  - `docs/architecture.md`;
+  - `docs/roadmap.md`.
+
+- Documentação dos requisitos de evolução incorporados aos cards.
+- Documentação das interações por hover e foco.
+- Documentação do comportamento em dispositivos sem hover.
+- Documentação do card inteiro como link.
+- Registro da ausência de botões intermediários.
+- Documentação da ocultação da imagem durante a exibição dos requisitos.
+- Documentação da padronização dos cards.
+- Documentação do agrupamento por espécie anterior.
+- Documentação da preservação de grupos vazios.
+- Documentação da mensagem para Pokémon sem evolução.
+- Registro da utilização de React Testing Library e `jsdom`.
+- Documentação da estratégia de testes do componente.
+- Atualização do polimento da cadeia como funcionalidade implementada.
+- Manutenção da Sprint 4 com status de andamento.
+- Correção de um erro de escrita no fluxo arquitetural dos detalhes.
+- Execução bem-sucedida dos comandos:
+
+  - `npm run format`;
+  - `npm run lint`;
+  - `npm run build`;
+  - `npm test`;
+  - `git diff --check`.
+
+- Validação manual dos temas claro e escuro.
+- Validação das interações por hover.
+- Validação do foco e da navegação por teclado.
+- Validação da navegação pelos cards.
+- Validação do comportamento do Pokémon atual.
+- Validação em dispositivos e larguras reduzidas.
+- Validação da padronização dos cards.
+- Validação dos conectores.
+- Validação de cadeias lineares.
+- Validação de cadeias ramificadas.
+- Validação de ramificações que continuam em outros estágios.
+- Validação da mensagem para Pokémon sem evolução.
+
+### Observações
+
+A cadeia de evolução passou por uma reorganização estrutural e visual completa. Os requisitos deixaram de ocupar blocos permanentes externos e foram incorporados aos próprios cards, mantendo a navegação direta para os detalhes e oferecendo comportamentos adequados para mouse, teclado e dispositivos touch.
+
+O agrupamento visual por espécie anterior passou a preservar não apenas os relacionamentos da árvore, mas também grupos vazios em ramificações encerradas antecipadamente. Essa alteração evita associações visuais incorretas em cadeias que continuam por caminhos diferentes em estágios posteriores.
+
+Pokémon sem evoluções conhecidas deixaram de apresentar um card isolado na seção. Nesses casos, a interface exibe apenas uma mensagem informativa, enquanto falhas no carregamento da cadeia continuam sendo tratadas separadamente.
+
+O ambiente de testes foi ampliado com `jsdom`, React Testing Library, `jest-dom` e `user-event`, permitindo a criação dos primeiros testes automatizados de componentes React do projeto. Os testes estruturais e de acessibilidade foram automatizados, enquanto aspectos dependentes do layout real do navegador permaneceram sob validação visual manual.
+
+Ao final da sessão, o polimento da cadeia de evolução estava concluído e validado, deixando a Sprint 4 preparada para avançar para a implementação de formas e variações.
+
+---

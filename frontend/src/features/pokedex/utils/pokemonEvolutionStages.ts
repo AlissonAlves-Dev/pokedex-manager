@@ -5,43 +5,67 @@ export type PokemonEvolutionStageItem = {
   parentSpeciesId: number | null;
 };
 
-export type PokemonEvolutionStage = {
-  depth: number;
+export type PokemonEvolutionStageGroup = {
+  parentSpeciesId: number | null;
   items: PokemonEvolutionStageItem[];
 };
+
+export type PokemonEvolutionStage = {
+  depth: number;
+  groups: PokemonEvolutionStageGroup[];
+};
+
+export function getPokemonEvolutionStageItems(
+  stage: PokemonEvolutionStage,
+): PokemonEvolutionStageItem[] {
+  return stage.groups.flatMap((group) => group.items);
+}
 
 export function createPokemonEvolutionStages(
   root: PokemonEvolutionNode,
 ): PokemonEvolutionStage[] {
-  const stages: PokemonEvolutionStage[] = [];
+  const stages: PokemonEvolutionStage[] = [
+    {
+      depth: 0,
+      groups: [
+        {
+          parentSpeciesId: null,
+          items: [
+            {
+              node: root,
+              parentSpeciesId: null,
+            },
+          ],
+        },
+      ],
+    },
+  ];
 
-  function visitNode(
-    node: PokemonEvolutionNode,
-    depth: number,
-    parentSpeciesId: number | null,
-  ) {
-    const existingStage = stages[depth];
+  let previousStageNodes: PokemonEvolutionNode[] = [root];
+  let depth = 1;
 
-    const stageItem: PokemonEvolutionStageItem = {
-      node,
-      parentSpeciesId,
-    };
+  while (previousStageNodes.some((node) => node.evolvesTo.length > 0)) {
+    const groups: PokemonEvolutionStageGroup[] = previousStageNodes.map(
+      (parentNode) => ({
+        parentSpeciesId: parentNode.speciesId,
+        items: parentNode.evolvesTo.map((node) => ({
+          node,
+          parentSpeciesId: parentNode.speciesId,
+        })),
+      }),
+    );
 
-    if (existingStage) {
-      existingStage.items.push(stageItem);
-    } else {
-      stages.push({
-        depth,
-        items: [stageItem],
-      });
-    }
-
-    node.evolvesTo.forEach((nextNode) => {
-      visitNode(nextNode, depth + 1, node.speciesId);
+    stages.push({
+      depth,
+      groups,
     });
-  }
 
-  visitNode(root, 0, null);
+    previousStageNodes = groups.flatMap((group) =>
+      group.items.map((item) => item.node),
+    );
+
+    depth += 1;
+  }
 
   return stages;
 }

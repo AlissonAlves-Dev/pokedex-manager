@@ -25,12 +25,13 @@ O Roadmap apresenta direções de desenvolvimento. O escopo pode ser ajustado co
 
 ## Histórico de Sprints
 
-| Sprint   | Escopo principal                                                            | Status          |
-| -------- | --------------------------------------------------------------------------- | --------------- |
-| Sprint 0 | Configuração inicial, monorepo e ferramentas de desenvolvimento             | Concluído       |
-| Sprint 1 | Rotas, estrutura do frontend, integração com a PokéAPI, listagem e detalhes | Concluído       |
-| Sprint 2 | Navegação responsiva, melhorias visuais, temas e traduções de habilidades   | Concluído       |
-| Sprint 3 | Paginação, pesquisa global exata, descrição, sprites e documentação         | Em encerramento |
+| Sprint   | Escopo principal                                                              | Status       |
+| -------- | ----------------------------------------------------------------------------- | ------------ |
+| Sprint 0 | Configuração inicial, monorepo e ferramentas de desenvolvimento               | Concluído    |
+| Sprint 1 | Rotas, estrutura do frontend, integração com a PokéAPI, listagem e detalhes   | Concluído    |
+| Sprint 2 | Navegação responsiva, melhorias visuais, temas e traduções de habilidades     | Concluído    |
+| Sprint 3 | Paginação, pesquisa global exata, descrição, sprites e testes iniciais        | Concluído    |
+| Sprint 4 | Cadeias de evolução, polimento visual, acessibilidade e testes de componentes | Em andamento |
 
 ## Milestone 1 — Pokédex MVP
 
@@ -134,7 +135,6 @@ Entregar uma Pokédex responsiva que permita:
 
 Para concluir o Milestone 1:
 
-- cadeia de evolução;
 - formas e variações;
 - refinamentos finais da experiência;
 - ampliação da cobertura de testes automatizados para hooks, services e fluxos de interface;
@@ -229,17 +229,30 @@ A implementação de formas não deve começar antes da conclusão e revisão da
 - testes do formatador de condições;
 - testes da organização por estágios.
 
-### Refinamentos pendentes da cadeia
+### Polimento da cadeia — implementado
 
-- substituir os blocos permanentes de requisitos por informações exibidas dentro do card;
-- apresentar os requisitos por hover;
-- disponibilizar comportamento equivalente por foco de teclado;
-- definir interação adequada para dispositivos touch;
-- manter somente os cards na visualização inicial;
-- remover o card isolado de Pokémon sem evolução;
-- exibir apenas a mensagem informativa quando não existir evolução conhecida;
-- revisar visualmente cadeias ramificadas que continuam em estágios posteriores;
-- concluir revisão de acessibilidade e responsividade.
+- remoção dos blocos permanentes de requisitos;
+- requisitos incorporados ao card do Pokémon resultante;
+- exibição dos requisitos por hover;
+- comportamento equivalente por foco de teclado;
+- fallback para dispositivos sem hover;
+- preservação do card inteiro como link;
+- ausência de botões intermediários nos cards;
+- ocultação da imagem durante hover e foco;
+- padronização das dimensões dos cards;
+- alinhamento dos conteúdos internos;
+- centralização do Pokémon-base e dos conectores em cadeias ramificadas;
+- agrupamento dos estágios por espécie anterior;
+- preservação de grupos vazios quando uma ramificação termina antes das demais;
+- revisão das cadeias de Eevee e Wurmple;
+- remoção do card isolado em Pokémon sem evolução;
+- mensagem específica para ausência de evoluções conhecidas;
+- configuração do ambiente de testes com jsdom;
+- integração da React Testing Library;
+- testes automatizados do componente da cadeia;
+- validação de links, foco, requisitos, badges e fallback de imagem;
+- revisão em temas claro e escuro;
+- revisão de responsividade.
 
 ### Formas e variações
 

@@ -29,19 +29,21 @@ O backend e o banco de dados serão introduzidos quando o produto precisar de au
 
 ## Tecnologias atuais
 
-| Tecnologia     | Responsabilidade                |
-| -------------- | ------------------------------- |
-| React          | Construção da interface         |
-| TypeScript     | Tipagem estática                |
-| Vite           | Desenvolvimento e build         |
-| React Router   | Navegação entre páginas         |
-| CSS            | Estilos, temas e responsividade |
-| Fetch API      | Requisições HTTP                |
-| npm Workspaces | Organização do monorepo         |
-| ESLint         | Análise de código               |
-| Prettier       | Formatação                      |
-| EditorConfig   | Padronização dos editores       |
-| Vitest         | Testes automatizados            |
+| Tecnologia            | Responsabilidade                                |
+| --------------------- | ----------------------------------------------- |
+| React                 | Construção da interface                         |
+| TypeScript            | Tipagem estática                                |
+| Vite                  | Desenvolvimento e build                         |
+| React Router          | Navegação entre páginas                         |
+| CSS                   | Estilos, temas e responsividade                 |
+| Fetch API             | Requisições HTTP                                |
+| npm Workspaces        | Organização do monorepo                         |
+| ESLint                | Análise de código                               |
+| Prettier              | Formatação                                      |
+| EditorConfig          | Padronização dos editores                       |
+| Vitest                | Testes automatizados                            |
+| React Testing Library | Testes de componentes e comportamento acessível |
+| jsdom                 | Ambiente DOM para testes do frontend            |
 
 ## Estrutura do repositório
 
@@ -99,6 +101,8 @@ frontend/src/
 ├── shared/
 │   └── components/
 ├── styles/
+├── test/
+│   └── setup.ts
 ├── App.tsx
 ├── index.css
 └── main.tsx
@@ -382,7 +386,7 @@ PokemonDetails
     → pokemonEvolutionMapper
     → PokemonEvolutionChain
 → PokemonDetails
-→ componentesentes
+→ componentes
 ```
 
 A resposta principal fornece:
@@ -411,7 +415,7 @@ A resposta da cadeia fornece uma árvore recursiva formada por:
 
 A interface organiza essa árvore em estágios visuais sem alterar o modelo recursivo do domínio.
 
-As duas requisições utilizam o mesmo `AbortSignal`.
+As requisições relacionadas aos detalhes utilizam o mesmo `AbortSignal`.
 
 ---
 
@@ -430,6 +434,38 @@ Não são realizadas requisições a /pokemon/{id} para cada integrante da cadei
 O identificador de cada espécie é extraído de species.url e utilizado para construir diretamente a URL do sprite correspondente.
 
 Essa estratégia mantém constante a quantidade de consultas à PokéAPI, independentemente do tamanho ou da quantidade de ramificações da cadeia.
+
+---
+
+### Organização visual da cadeia
+
+O modelo de domínio permanece recursivo, mas a interface transforma a árvore em estágios visuais.
+
+```text
+PokemonEvolutionChain
+→ createPokemonEvolutionStages
+→ estágios
+→ grupos por espécie anterior
+→ cards
+```
+
+Cada item do estágio preserva:
+
+o nó da evolução;
+o identificador da espécie anterior;
+o grupo ao qual pertence.
+
+A preservação desses grupos permite representar corretamente cadeias como:
+
+```text
+Wurmple
+├── Silcoon
+│   └── Beautifly
+└── Cascoon
+    └── Dustox
+```
+
+Uma ramificação que termina antes das demais continua representada por um grupo vazio no estágio seguinte. Isso evita associar visualmente uma evolução ao Pokémon anterior incorreto.
 
 ---
 

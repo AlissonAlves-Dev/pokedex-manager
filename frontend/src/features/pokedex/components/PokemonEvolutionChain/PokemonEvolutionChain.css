@@ -17,6 +17,8 @@
   line-height: 1.3;
 }
 
+/* Fluxo geral */
+
 .pokemon-evolution-chain__flow {
   display: flex;
   align-items: stretch;
@@ -46,17 +48,15 @@
 
 .pokemon-evolution-chain__flow--branched
   .pokemon-evolution-chain__stage--single {
-  flex: 0 1 15rem;
+  display: flex;
+  justify-content: center;
+
+  flex: 0 0 15rem;
 }
 
 .pokemon-evolution-chain__flow--branched
   .pokemon-evolution-chain__stage--multiple {
   flex: 1 1 0;
-}
-
-.pokemon-evolution-chain__flow--branched
-  .pokemon-evolution-chain__stage:first-child {
-  justify-content: center;
 }
 
 .pokemon-evolution-chain__stage-title {
@@ -66,6 +66,7 @@
 
   font-size: 0.875rem;
   font-weight: 600;
+  line-height: 1.3;
   text-align: center;
 }
 
@@ -79,6 +80,8 @@
 
 .pokemon-evolution-chain__stage-grid {
   display: grid;
+  align-items: stretch;
+  grid-auto-rows: 1fr;
   grid-template-columns: repeat(auto-fit, minmax(14rem, 1fr));
 
   width: 100%;
@@ -93,82 +96,32 @@
 
 .pokemon-evolution-chain__stage-item {
   display: flex;
-  flex-direction: column;
+  align-items: stretch;
 
   width: 100%;
   min-width: 0;
-
-  gap: var(--spacing-sm);
+  height: 100%;
 }
 
-.pokemon-evolution-chain__condition-slot {
+/* Seta entre estágios */
+
+.pokemon-evolution-chain__stage-connector {
   display: flex;
-  align-items: flex-end;
+  align-items: center;
+  justify-content: center;
+  align-self: center;
 
-  width: 100%;
-  min-height: 6.5rem;
-}
-
-.pokemon-evolution-chain__condition-slot--empty {
-  visibility: hidden;
-}
-
-.pokemon-evolution-chain__options {
-  display: flex;
-  flex-direction: column;
-
-  width: 100%;
-
-  gap: var(--spacing-xs);
-}
-
-.pokemon-evolution-chain__option {
-  display: flex;
-  flex-direction: column;
-
-  width: 100%;
-  min-width: 0;
-
-  gap: var(--spacing-xs);
-
-  padding: var(--spacing-sm);
+  flex: 0 0 2rem;
+  height: 6.75rem;
 
   color: var(--color-text-secondary);
-  background-color: var(--color-surface-secondary);
 
-  border: 1px solid var(--color-border);
-  border-radius: var(--radius-md);
+  font-size: 1.5rem;
+  font-weight: 700;
+  line-height: 1;
 }
 
-.pokemon-evolution-chain__option-title {
-  color: var(--color-text-primary);
-
-  font-size: 0.8125rem;
-}
-
-.pokemon-evolution-chain__condition-list {
-  display: flex;
-  flex-direction: column;
-
-  gap: var(--spacing-xs);
-}
-
-.pokemon-evolution-chain__condition {
-  font-size: 0.8125rem;
-  line-height: 1.35;
-}
-
-.pokemon-evolution-chain__condition::before {
-  content: "•";
-
-  margin-right: var(--spacing-xs);
-}
-
-.pokemon-evolution-chain__condition-unavailable {
-  font-size: 0.8125rem;
-  font-style: italic;
-  line-height: 1.35;
-}
+/* Link envolvendo o card */
 
 .pokemon-evolution-chain__node-link {
   display: block;
@@ -184,6 +137,11 @@
   border-radius: var(--radius-lg);
 }
 
+.pokemon-evolution-chain__node-link:focus-visible {
+  outline: 3px solid var(--color-focus-ring);
+  outline-offset: 2px;
+}
+
 .pokemon-evolution-chain__node-link .pokemon-evolution-chain__node {
   height: 100%;
 }
@@ -196,17 +154,29 @@
   transform: translateY(0);
 }
 
+/* Card */
+
 .pokemon-evolution-chain__node {
-  flex-direction: row;
+  display: grid;
+  grid-template-columns: 4.5rem minmax(0, 1fr);
   align-items: center;
 
   width: 100%;
   min-width: 0;
-  min-height: 7rem;
+  height: 6.75rem;
+  min-height: 6.75rem;
+  max-height: 6.75rem;
 
-  padding: var(--spacing-md);
+  gap: var(--spacing-sm);
+  padding: var(--spacing-sm) var(--spacing-md);
 
+  overflow: hidden;
   text-align: left;
+
+  transition:
+    transform 150ms ease,
+    grid-template-columns 150ms ease,
+    gap 150ms ease;
 }
 
 .pokemon-evolution-chain__node--current {
@@ -214,26 +184,42 @@
   border-color: var(--color-primary-soft-border);
 }
 
+.pokemon-evolution-chain__node--current:focus-visible {
+  outline: 3px solid var(--color-focus-ring);
+  outline-offset: 2px;
+}
+
+/* Imagem */
+
 .pokemon-evolution-chain__image-container {
   display: flex;
   align-items: center;
   justify-content: center;
 
-  flex: 0 0 5rem;
+  width: 4.5rem;
+  height: 4.5rem;
 
-  width: 5rem;
-  height: 5rem;
+  overflow: hidden;
 
   background-color: var(--color-surface-secondary);
 
   border-radius: var(--radius-md);
+
+  opacity: 1;
+  visibility: visible;
+
+  transition:
+    opacity 150ms ease,
+    visibility 150ms ease,
+    width 150ms ease,
+    height 150ms ease;
 }
 
 .pokemon-evolution-chain__image {
   display: block;
 
-  width: 4.5rem;
-  height: 4.5rem;
+  width: 5rem;
+  height: 5rem;
 
   object-fit: contain;
   image-rendering: pixelated;
@@ -257,14 +243,48 @@
   text-align: center;
 }
 
-.pokemon-evolution-chain__node-content {
-  display: flex;
-  flex: 1;
-  flex-direction: column;
+/* Área de conteúdo do card */
+
+.pokemon-evolution-chain__node-views {
+  display: grid;
+
+  width: 100%;
+  min-width: 0;
+}
+
+.pokemon-evolution-chain__node-summary,
+.pokemon-evolution-chain__requirements {
+  grid-area: 1 / 1;
 
   min-width: 0;
+  min-height: 100%;
 
-  gap: var(--spacing-xs);
+  transition:
+    opacity 150ms ease,
+    visibility 150ms ease;
+}
+
+.pokemon-evolution-chain__node-summary {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+
+  gap: 0.2rem;
+
+  opacity: 1;
+  visibility: visible;
+}
+
+.pokemon-evolution-chain__requirements {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+
+  gap: 0.35rem;
+
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
 }
 
 .pokemon-evolution-chain__number {
@@ -272,6 +292,7 @@
 
   font-size: 0.75rem;
   font-weight: 600;
+  line-height: 1.1;
 }
 
 .pokemon-evolution-chain__name {
@@ -279,8 +300,8 @@
 
   color: var(--color-text-primary);
 
-  font-size: 1rem;
-  line-height: 1.3;
+  font-size: 0.95rem;
+  line-height: 1.2;
 
   overflow-wrap: anywhere;
 }
@@ -289,22 +310,122 @@
   display: flex;
   flex-wrap: wrap;
 
+  gap: 0.35rem;
+}
+
+/* Requisitos */
+
+.pokemon-evolution-chain__requirements-title {
+  color: var(--color-text-primary);
+
+  font-size: 0.85rem;
+  line-height: 1.15;
+}
+
+.pokemon-evolution-chain__option {
+  display: flex;
+  flex-direction: column;
+
+  min-width: 0;
+
+  gap: 0.2rem;
+}
+
+.pokemon-evolution-chain__option {
+  display: flex;
+  flex-direction: column;
+
+  min-width: 0;
+
   gap: var(--spacing-xs);
 }
 
-.pokemon-evolution-chain__stage-connector {
-  display: flex;
-  align-items: center;
-  justify-content: center;
+.pokemon-evolution-chain__option-title {
+  color: var(--color-text-primary);
 
-  flex: 0 0 2rem;
+  font-size: 0.8125rem;
+  line-height: 1.2;
+}
+
+.pokemon-evolution-chain__condition-list {
+  display: flex;
+  flex-direction: column;
+
+  gap: 0.15rem;
+}
+
+.pokemon-evolution-chain__condition {
+  color: var(--color-text-secondary);
+
+  font-size: 0.8rem;
+  line-height: 1.2;
+}
+
+.pokemon-evolution-chain__condition::before {
+  content: "•";
+
+  margin-right: var(--spacing-xs);
+}
+
+.pokemon-evolution-chain__condition-unavailable {
+  margin: 0;
 
   color: var(--color-text-secondary);
 
-  font-size: 1.5rem;
-  font-weight: 700;
-  line-height: 1;
+  font-size: 0.8125rem;
+  font-style: italic;
+  line-height: 1.35;
 }
+
+/* Desktop: hover e foco mostram requisitos e escondem a imagem */
+
+@media (hover: hover) and (pointer: fine) {
+  .pokemon-evolution-chain__node--has-requirements:hover,
+  .pokemon-evolution-chain__node-link:focus-visible
+    .pokemon-evolution-chain__node,
+  .pokemon-evolution-chain__node--current:focus-visible {
+    grid-template-columns: 0 minmax(0, 1fr);
+
+    gap: 0;
+  }
+
+  .pokemon-evolution-chain__node--has-requirements:hover
+    .pokemon-evolution-chain__image-container,
+  .pokemon-evolution-chain__node-link:focus-visible
+    .pokemon-evolution-chain__image-container,
+  .pokemon-evolution-chain__node--current:focus-visible
+    .pokemon-evolution-chain__image-container {
+    width: 0;
+    height: 0;
+
+    opacity: 0;
+    visibility: hidden;
+  }
+
+  .pokemon-evolution-chain__node--has-requirements:hover
+    .pokemon-evolution-chain__node-summary,
+  .pokemon-evolution-chain__node-link:focus-visible
+    .pokemon-evolution-chain__node-summary,
+  .pokemon-evolution-chain__node--current:focus-visible
+    .pokemon-evolution-chain__node-summary {
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+  }
+
+  .pokemon-evolution-chain__node--has-requirements:hover
+    .pokemon-evolution-chain__requirements,
+  .pokemon-evolution-chain__node-link:focus-visible
+    .pokemon-evolution-chain__requirements,
+  .pokemon-evolution-chain__node--current:focus-visible
+    .pokemon-evolution-chain__requirements {
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+  }
+}
+
+/* Estados de indisponibilidade */
 
 .pokemon-evolution-chain__unavailable {
   align-items: center;
@@ -320,12 +441,75 @@
 }
 
 .pokemon-evolution-chain__empty-message {
+  padding: var(--spacing-md);
+
   color: var(--color-text-secondary);
+  background-color: var(--color-surface-secondary);
 
   font-style: italic;
   line-height: 1.5;
   text-align: center;
+
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
 }
+
+/* Touch: mostra resumo + requisitos ao mesmo tempo */
+
+@media (hover: none), (pointer: coarse) {
+  .pokemon-evolution-chain__node {
+    grid-template-columns: 5rem minmax(0, 1fr);
+    align-items: flex-start;
+  }
+
+  .pokemon-evolution-chain__node-views {
+    display: flex;
+    flex-direction: column;
+
+    gap: var(--spacing-sm);
+  }
+
+  .pokemon-evolution-chain__node-summary,
+  .pokemon-evolution-chain__requirements {
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+  }
+
+  .pokemon-evolution-chain__requirements {
+    padding-top: var(--spacing-sm);
+
+    border-top: 1px solid var(--color-border);
+  }
+}
+
+/*
+ * Compensa a altura do título "Possíveis evoluções"
+ * para centralizar o Pokémon-base com a grade ao lado.
+ */
+.pokemon-evolution-chain__flow--branched
+  .pokemon-evolution-chain__stage:first-child {
+  justify-content: center;
+
+  box-sizing: border-box;
+  padding-top: calc(1.1375rem + var(--spacing-sm));
+}
+
+/*
+ * Centraliza a seta na mesma área visual do card-base,
+ * desconsiderando o espaço ocupado pelo título do estágio.
+ */
+.pokemon-evolution-chain__flow--branched
+  .pokemon-evolution-chain__stage-connector {
+  align-self: stretch;
+
+  box-sizing: border-box;
+  height: auto;
+  margin: 0;
+  padding-top: calc(1.1375rem + var(--spacing-sm));
+}
+
+/* Responsividade */
 
 @media (max-width: 64rem) {
   .pokemon-evolution-chain__flow--branched {
@@ -372,20 +556,42 @@
     grid-template-columns: 1fr;
   }
 
-  .pokemon-evolution-chain__condition-slot {
-    min-height: 0;
-  }
-
-  .pokemon-evolution-chain__condition-slot--empty {
-    display: none;
-  }
-
-  .pokemon-evolution-chain__stage-item {
+  .pokemon-evolution-chain__stage-item,
+  .pokemon-evolution-chain__node-link,
+  .pokemon-evolution-chain__node {
     width: 100%;
   }
 
-  .pokemon-evolution-chain__node,
-  .pokemon-evolution-chain__options {
-    width: 100%;
+  .pokemon-evolution-chain__flow--branched
+    .pokemon-evolution-chain__stage:first-child {
+    padding-top: 0;
+  }
+
+  .pokemon-evolution-chain__flow--branched
+    .pokemon-evolution-chain__stage-connector {
+    align-self: stretch;
+
+    height: 2rem;
+    padding-top: 0;
+  }
+}
+
+@media (max-width: 30rem) {
+  .pokemon-evolution-chain__node {
+    grid-template-columns: 4rem minmax(0, 1fr);
+
+    height: auto;
+    min-height: 6.5rem;
+    max-height: none;
+  }
+
+  .pokemon-evolution-chain__image-container {
+    width: 4rem;
+    height: 4rem;
+  }
+
+  .pokemon-evolution-chain__image {
+    width: 3.5rem;
+    height: 3.5rem;
   }
 }
