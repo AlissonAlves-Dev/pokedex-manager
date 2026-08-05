@@ -108,4 +108,113 @@ describe("getPokemonEvolutionConditionLabels", () => {
 
     expect(labels).toEqual(["Custom Trigger"]);
   });
+
+  it("formata condições relacionadas a movimento, local e equipe", () => {
+    const labels = getPokemonEvolutionConditionLabels(
+      createRequirements({
+        knownMoveName: "ancient-power",
+        locationName: "mount-lanakila",
+        partySpeciesName: "remoraid",
+        partyTypeName: "dark",
+        tradeSpeciesName: "karrablast",
+      }),
+    );
+
+    expect(labels).toEqual([
+      "Subir de nível",
+      "Conhecer Ancient Power",
+      "Em Mount Lanakila",
+      "Com Remoraid na equipe",
+      "Com um Pokémon do tipo Dark na equipe",
+      "Trocar por Karrablast",
+    ]);
+  });
+
+  it("formata valores mínimos e condições especiais", () => {
+    const labels = getPokemonEvolutionConditionLabels(
+      createRequirements({
+        minBeauty: 170,
+        minAffection: 2,
+        nearSpecialRock: true,
+        needsOverworldRain: true,
+        turnUpsideDown: true,
+      }),
+    );
+
+    expect(labels).toEqual([
+      "Subir de nível",
+      "Beleza mínima 170",
+      "Afeição mínima 2",
+      "Próximo a uma rocha especial",
+      "Durante chuva no mundo",
+      "Com o dispositivo de cabeça para baixo",
+    ]);
+  });
+
+  it("preserva item e nível quando o gatilho é diferente", () => {
+    const labels = getPokemonEvolutionConditionLabels(
+      createRequirements({
+        triggerName: "trade",
+        itemName: "linking-cord",
+        minLevel: 25,
+      }),
+    );
+
+    expect(labels).toEqual([
+      "Realizar uma troca",
+      "Usar Linking Cord",
+      "Nível mínimo 25",
+    ]);
+  });
+
+  it.each([
+    [1, "Gênero feminino"],
+    [2, "Gênero masculino"],
+    [99, "Gênero exigido: 99"],
+  ])("formata o gênero %i", (gender, expectedLabel) => {
+    const labels = getPokemonEvolutionConditionLabels(
+      createRequirements({
+        gender,
+      }),
+    );
+
+    expect(labels).toEqual(["Subir de nível", expectedLabel]);
+  });
+
+  it.each([
+    [-1, "Ataque menor que Defesa"],
+    [0, "Ataque igual à Defesa"],
+    [1, "Ataque maior que Defesa"],
+  ])(
+    "formata a relação entre os atributos para o valor %i",
+    (relativePhysicalStats, expectedLabel) => {
+      const labels = getPokemonEvolutionConditionLabels(
+        createRequirements({
+          relativePhysicalStats,
+        }),
+      );
+
+      expect(labels).toEqual(["Subir de nível", expectedLabel]);
+    },
+  );
+
+  it("formata uma evolução durante o dia", () => {
+    const labels = getPokemonEvolutionConditionLabels(
+      createRequirements({
+        timeOfDay: "day",
+      }),
+    );
+
+    expect(labels).toEqual(["Subir de nível", "Durante o dia"]);
+  });
+
+  it("utiliza um período formatado quando o horário não é conhecido", () => {
+    const labels = getPokemonEvolutionConditionLabels(
+      createRequirements({
+        timeOfDay: "late-evening",
+      }),
+    );
+
+    expect(labels).toEqual(["Subir de nível", "Período: Late Evening"]);
+  });
 });

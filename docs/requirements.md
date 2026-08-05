@@ -160,6 +160,15 @@ Termos como `pika`, `char` ou `saur` filtram somente os Pokémon que já foram c
 - Cadeias ramificadas que continuam em estágios posteriores devem preservar a relação visual entre pais e descendentes.
 - Quando a cadeia possuir somente o próprio Pokémon, o card isolado não deve ser exibido.
 - Pokémon sem evolução conhecida devem apresentar somente uma mensagem informativa.
+- O agrupamento por espécie anterior deve participar efetivamente da estrutura renderizada, sem achatar os integrantes do estágio.
+- Grupos de ramificações encerradas devem permanecer representados enquanto outras ramificações continuarem evoluindo.
+- Em dispositivos sem hover, os cards devem adaptar sua altura ao conteúdo e não podem ocultar condições de evolução.
+- Cards com requisitos extensos devem manter todas as condições acessíveis.
+- O foco do card-base não deve ocultar seu resumo quando não existirem requisitos associados.
+- Os requisitos devem ser associados programaticamente ao link ou ao card atual.
+- URLs de recursos vazias ou formadas apenas por espaços não devem gerar requisições.
+- Uma URL de espécie ausente deve preservar os dados principais e tornar descrição e cadeia indisponíveis.
+- Uma URL de cadeia ausente deve preservar a descrição e tornar somente a cadeia indisponível.
 
 ---
 

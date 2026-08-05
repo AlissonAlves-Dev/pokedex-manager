@@ -76,7 +76,9 @@
 .pokemon-details-header__types {
   display: flex;
   flex-wrap: wrap;
+
   gap: 0.5rem;
+  margin-top: var(--spacing-sm);
 }
 
 @media (max-width: 48rem) {

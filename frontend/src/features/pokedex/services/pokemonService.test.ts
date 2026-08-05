@@ -296,4 +296,44 @@ describe("getPokemonById", () => {
 
     expect(fetchMock).toHaveBeenCalledTimes(3);
   });
+
+  it("não consulta a espécie quando species.url está vazia", async () => {
+    const pokemonApi = createPokemonApiResponse();
+
+    pokemonApi.species.url = "   ";
+
+    fetchMock.mockResolvedValueOnce(createJsonResponse(pokemonApi));
+
+    const pokemon = await getPokemonById(1);
+
+    expect(pokemon.id).toBe(1);
+    expect(pokemon.description).toBeNull();
+    expect(pokemon.evolutionChain).toBeNull();
+
+    expect(fetchMock).toHaveBeenCalledTimes(1);
+
+    expect(getRequestedUrls()).toEqual([POKEMON_URL]);
+  });
+
+  it("preserva a descrição quando evolution_chain.url está vazia", async () => {
+    const speciesApi = createSpeciesApiResponse();
+
+    speciesApi.evolution_chain.url = "   ";
+
+    fetchMock
+      .mockResolvedValueOnce(createJsonResponse(createPokemonApiResponse()))
+      .mockResolvedValueOnce(createJsonResponse(speciesApi));
+
+    const pokemon = await getPokemonById(1);
+
+    expect(pokemon.description).toBe(
+      "A strange seed was planted on its back at birth.",
+    );
+
+    expect(pokemon.evolutionChain).toBeNull();
+
+    expect(fetchMock).toHaveBeenCalledTimes(2);
+
+    expect(getRequestedUrls()).toEqual([POKEMON_URL, SPECIES_URL]);
+  });
 });

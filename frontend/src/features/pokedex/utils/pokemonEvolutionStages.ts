@@ -15,6 +15,11 @@ export type PokemonEvolutionStage = {
   groups: PokemonEvolutionStageGroup[];
 };
 
+type PokemonEvolutionStageParent = {
+  node: PokemonEvolutionNode | null;
+  emptyGroupParentSpeciesId: number;
+};
+
 export function getPokemonEvolutionStageItems(
   stage: PokemonEvolutionStage,
 ): PokemonEvolutionStageItem[] {
@@ -41,18 +46,37 @@ export function createPokemonEvolutionStages(
     },
   ];
 
-  let previousStageNodes: PokemonEvolutionNode[] = [root];
+  let previousStageParents: PokemonEvolutionStageParent[] = [
+    {
+      node: root,
+      emptyGroupParentSpeciesId: root.speciesId,
+    },
+  ];
+
   let depth = 1;
 
-  while (previousStageNodes.some((node) => node.evolvesTo.length > 0)) {
-    const groups: PokemonEvolutionStageGroup[] = previousStageNodes.map(
-      (parentNode) => ({
-        parentSpeciesId: parentNode.speciesId,
-        items: parentNode.evolvesTo.map((node) => ({
-          node,
-          parentSpeciesId: parentNode.speciesId,
-        })),
-      }),
+  while (
+    previousStageParents.some(
+      ({ node }) => node !== null && node.evolvesTo.length > 0,
+    )
+  ) {
+    const groups: PokemonEvolutionStageGroup[] = previousStageParents.map(
+      ({ node, emptyGroupParentSpeciesId }) => {
+        if (node === null) {
+          return {
+            parentSpeciesId: emptyGroupParentSpeciesId,
+            items: [],
+          };
+        }
+
+        return {
+          parentSpeciesId: node.speciesId,
+          items: node.evolvesTo.map((evolutionNode) => ({
+            node: evolutionNode,
+            parentSpeciesId: node.speciesId,
+          })),
+        };
+      },
     );
 
     stages.push({
@@ -60,8 +84,23 @@ export function createPokemonEvolutionStages(
       groups,
     });
 
-    previousStageNodes = groups.flatMap((group) =>
-      group.items.map((item) => item.node),
+    previousStageParents = groups.flatMap(
+      (group): PokemonEvolutionStageParent[] => {
+        if (group.items.length === 0) {
+          return [
+            {
+              node: null,
+              emptyGroupParentSpeciesId:
+                group.parentSpeciesId ?? root.speciesId,
+            },
+          ];
+        }
+
+        return group.items.map(({ node }) => ({
+          node,
+          emptyGroupParentSpeciesId: node.speciesId,
+        }));
+      },
     );
 
     depth += 1;

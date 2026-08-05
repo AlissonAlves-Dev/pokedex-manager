@@ -22,6 +22,12 @@ import { mapPokemonEvolutionChain } from "../mappers/pokemonEvolutionMapper";
 
 const POKE_API_BASE_URL = "https://pokeapi.co/api/v2";
 
+function normalizeResourceUrl(url: string): string | null {
+  const normalizedUrl = url.trim();
+
+  return normalizedUrl || null;
+}
+
 async function fetchPokemonDetails(
   url: string,
   signal?: AbortSignal,
@@ -73,9 +79,15 @@ async function loadPokemonEvolutionChain(
   evolutionChainUrl: string,
   signal?: AbortSignal,
 ): Promise<PokemonEvolutionChain | null> {
+  const normalizedEvolutionChainUrl = normalizeResourceUrl(evolutionChainUrl);
+
+  if (!normalizedEvolutionChainUrl) {
+    return null;
+  }
+
   try {
     const evolutionChainApi = await fetchPokemonEvolutionChain(
-      evolutionChainUrl,
+      normalizedEvolutionChainUrl,
       signal,
     );
 
@@ -98,8 +110,20 @@ async function loadPokemonSpeciesData(
   speciesUrl: string,
   signal?: AbortSignal,
 ): Promise<PokemonSpeciesData> {
+  const normalizedSpeciesUrl = normalizeResourceUrl(speciesUrl);
+
+  if (!normalizedSpeciesUrl) {
+    return {
+      description: null,
+      evolutionChain: null,
+    };
+  }
+
   try {
-    const pokemonSpeciesApi = await fetchPokemonSpecies(speciesUrl, signal);
+    const pokemonSpeciesApi = await fetchPokemonSpecies(
+      normalizedSpeciesUrl,
+      signal,
+    );
 
     const description = mapPokemonSpeciesToDescription(pokemonSpeciesApi);
 

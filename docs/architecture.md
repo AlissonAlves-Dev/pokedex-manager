@@ -467,6 +467,12 @@ Wurmple
 
 Uma ramificação que termina antes das demais continua representada por um grupo vazio no estágio seguinte. Isso evita associar visualmente uma evolução ao Pokémon anterior incorreto.
 
+O componente renderiza `stage.groups` diretamente.
+
+Cada grupo visual reúne os descendentes de uma única espécie anterior. Os integrantes não são achatados em uma lista única antes da renderização.
+
+Grupos vazios permanecem na estrutura enquanto outra ramificação continua evoluindo. Em layouts horizontais, eles preservam a posição relativa das ramificações. Em layouts móveis, os espaços vazios são ocultados porque os estágios são empilhados verticalmente.
+
 ---
 
 ### Falhas parciais dos detalhes
@@ -492,6 +498,36 @@ Cancelamentos com AbortSignal nunca são convertidos em dados ausentes e continu
 A ausência da cadeia ou da descrição deve ser tratada individualmente pela interface.
 
 A arquitetura atual já define services, mappers, domínio, hooks e componentes como responsabilidades separadas; a cadeia segue exatamente essa divisão.
+
+---
+
+### Normalização de URLs relacionadas
+
+Antes de iniciar uma consulta de espécie ou cadeia, a URL é normalizada:
+
+```text
+URL recebida
+→ remoção de espaços externos
+→ URL válida ou ausência
+```
+
+Quando species.url estiver ausente:
+
+```ts
+description: null;
+evolutionChain: null;
+```
+
+Nesse caso, nenhuma requisição de espécie é iniciada.
+
+Quando evolution_chain.url estiver ausente:
+
+```ts
+description: "Descrição disponível";
+evolutionChain: null;
+```
+
+Nesse caso, a descrição obtida da espécie é preservada e nenhuma requisição de cadeia é iniciada.
 
 ---
 
@@ -637,6 +673,13 @@ A arquitetura visual deve preservar:
 
 Informações não devem depender exclusivamente de cor, ícone ou animação.
 
+Os requisitos de evolução possuem identificadores próprios e são associados por `aria-describedby`:
+
+- ao link, quando o card navega para outro Pokémon;
+- ao card com foco, quando ele representa o Pokémon atual.
+
+O nome acessível continua identificando a ação ou o Pokémon, enquanto as condições são oferecidas como descrição complementar.
+
 ## Responsividade
 
 A interface utiliza abordagem adaptável para dispositivos móveis e desktop.
@@ -649,6 +692,103 @@ Os layouts devem:
 - manter áreas interativas utilizáveis;
 - preservar legibilidade;
 - limitar larguras excessivas em telas grandes.
+
+Em dispositivos com hover, os cards mantêm dimensões estáveis e requisitos extensos podem utilizar a área interna disponível.
+
+Em dispositivos sem hover:
+
+- resumo e requisitos permanecem visíveis;
+- a altura do card se adapta ao conteúdo;
+- o conteúdo não utiliza corte por altura fixa;
+- as linhas da grade usam a altura real de cada card;
+- o espaçamento entre os cards permanece uniforme.
+
+## Estratégia de testes
+
+Os testes automatizados do frontend utilizam:
+
+- Vitest para execução da suíte;
+- jsdom como ambiente DOM;
+- React Testing Library para renderização e consultas acessíveis;
+- `jest-dom` para matchers relacionados ao DOM;
+- `user-event` para simular interações do usuário.
+
+A configuração do ambiente está centralizada em:
+
+```text
+frontend/src/test/setup.ts
+```
+
+Os testes são mantidos próximos aos arquivos que protegem:
+
+```text
+componente
+├── Component.tsx
+└── Component.test.tsx
+
+utilitário
+├── utility.ts
+└── utility.test.ts
+
+mapper
+├── mapper.ts
+└── mapper.test.ts
+
+service
+├── service.ts
+└── service.test.ts
+```
+
+### Cobertura da cadeia de evolução
+
+A cadeia de evolução possui testes para:
+
+- fluxo de até três requisições;
+- ausência de requisições individuais para os integrantes;
+- falha dos dados principais;
+- falha parcial da espécie;
+- falha exclusiva da cadeia;
+- propagação de cancelamentos;
+- uso do mesmo `AbortSignal`;
+- URLs vazias da espécie e da cadeia;
+- mapeamento recursivo;
+- cadeias lineares e ramificadas;
+- seleção e deduplicação dos requisitos;
+- condições relacionadas a formas alternativas;
+- extração do identificador pela URL da espécie;
+- formatação das condições de evolução;
+- gênero, horário e relação entre Ataque e Defesa;
+- condições especiais do formatador;
+- organização dos integrantes por estágios;
+- agrupamento por espécie anterior;
+- preservação de grupos vazios por várias profundidades;
+- Pokémon sem evolução conhecida;
+- links para os integrantes;
+- identificação do Pokémon atual;
+- foco no card-base sem requisitos;
+- requisitos dentro do card correspondente;
+- associação acessível por `aria-describedby`;
+- conteúdo com múltiplas opções e condições extensas;
+- fallback de imagem;
+- navegação por teclado;
+- parentesco presente na estrutura renderizada.
+
+### Limites dos testes DOM
+
+O jsdom não calcula o layout visual real do navegador.
+
+Por isso, os testes automatizados não substituem a validação manual de:
+
+- hover;
+- media queries;
+- dimensões dos cards;
+- alinhamentos;
+- transições;
+- rolagem interna;
+- comportamento real em dispositivos touch;
+- temas claro e escuro.
+
+Esses comportamentos devem ser revisados manualmente nas larguras e dispositivos definidos pelo projeto.
 
 ## Decisões atuais
 

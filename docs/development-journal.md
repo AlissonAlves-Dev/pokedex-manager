@@ -2151,3 +2151,303 @@ O ambiente de testes foi ampliado com `jsdom`, React Testing Library, `jest-dom`
 Ao final da sessão, o polimento da cadeia de evolução estava concluído e validado, deixando a Sprint 4 preparada para avançar para a implementação de formas e variações.
 
 ---
+
+## 2026/08/04
+
+### Objetivo
+
+Realizar a revisão consolidada da cadeia de evolução desenvolvida na Sprint 4 da **Minha Pokédex**, comparando todo o incremento da branch `sprint/sprint-4` com a `main`, corrigindo os achados técnicos e preparando a implementação para a comparação final antes do início de formas e variações.
+
+### Atividades realizadas
+
+- Realização da comparação consolidada entre as branches:
+
+  - `main`;
+  - `sprint/sprint-4`.
+
+- Confirmação de que a branch da Sprint estava inicialmente:
+
+  - dois commits à frente da `main`;
+  - nenhum commit atrás da `main`.
+
+- Identificação de 25 arquivos alterados no incremento inicial.
+- Revisão dos arquivos e estruturas relacionados a:
+
+  - tipos da PokéAPI;
+  - modelos de domínio;
+  - mapper recursivo da cadeia;
+  - service dos detalhes;
+  - utilitários de formatação;
+  - organização por estágios;
+  - componente da cadeia de evolução;
+  - estilos;
+  - testes unitários;
+  - testes de integração;
+  - testes de componentes;
+  - configuração do ambiente DOM;
+  - documentação viva.
+
+- Revisão consolidada dos seguintes aspectos:
+
+  - fluxo de requisições;
+  - falhas parciais;
+  - cancelamento;
+  - tipos da API e do domínio;
+  - mapper recursivo;
+  - requisitos de evolução;
+  - organização por estágios;
+  - agrupamento por parentesco;
+  - cadeias lineares;
+  - cadeias ramificadas;
+  - interações por hover, foco e touch;
+  - navegação;
+  - acessibilidade;
+  - responsividade;
+  - testes automatizados;
+  - documentação.
+
+- Manutenção de formas e variações fora do escopo durante toda a revisão.
+- Classificação inicial dos achados em:
+
+  - três bloqueadores;
+  - cinco problemas importantes;
+  - seis melhorias opcionais.
+
+- Reprovação inicial do incremento para o início de formas e variações.
+- Identificação dos três bloqueadores:
+
+  - agrupamento por parentesco calculado, mas descartado durante a renderização;
+  - card-base ficando visualmente vazio ao receber foco pelo teclado;
+  - corte de requisitos extensos no desktop e em dispositivos touch.
+
+- Revisão dos seletores responsáveis pela troca de conteúdo durante hover e foco.
+- Identificação de que seletores muito amplos ocultavam o conteúdo de qualquer card envolvido por um link.
+- Identificação de que o Pokémon-base podia:
+
+  - funcionar como link;
+  - não possuir requisitos;
+  - ter imagem e resumo ocultados;
+  - não possuir conteúdo substituto;
+  - ficar visualmente vazio.
+
+- Restrição dos seletores aos cards com a classe `pokemon-evolution-chain__node--has-requirements`.
+- Preservação da troca de conteúdo somente em cards com requisitos.
+- Manutenção da imagem, número e nome do Pokémon-base durante o foco.
+- Preservação do foco visível.
+- Preservação da navegação por meio da tecla `Enter`.
+- Criação de um teste de regressão para o card-base funcionando como link.
+- Revisão da altura fixa e do uso de `overflow: hidden` nos cards.
+- Identificação de que dispositivos sem hover apresentavam resumo e requisitos simultaneamente dentro de uma altura limitada.
+- Identificação do risco de corte em:
+
+  - evoluções com várias condições;
+  - evoluções com múltiplas opções;
+  - tablets;
+  - celulares em orientação horizontal.
+
+- Alteração da estratégia de altura dos cards.
+- Aplicação de altura fixa somente em dispositivos nos quais o hover está disponível.
+- Implementação de rolagem interna para requisitos extensos no desktop.
+- Alinhamento dos requisitos extensos pelo topo.
+- Implementação de altura automática em dispositivos sem hover.
+- Remoção do corte causado por `overflow`.
+- Permissão para que o card cresça conforme o conteúdo.
+- Separação visual das múltiplas opções de evolução.
+- Criação de um teste com múltiplas opções e condições:
+
+  - duas opções de evolução;
+  - nível;
+  - felicidade;
+  - horário;
+  - tipo de movimento;
+  - item.
+
+- Identificação de que `grid-auto-rows: 1fr` fazia todas as linhas responsivas assumirem a altura do maior card.
+- Identificação de grandes áreas vazias abaixo de cards curtos.
+- Alteração da grade responsiva e touch para:
+
+  - `grid-auto-rows: auto`;
+  - `align-items: start`.
+
+- Ajuste de cada linha para utilizar a altura real de seu conteúdo.
+- Padronização do espaçamento externo entre cards curtos e longos.
+- Remoção de áreas vazias artificiais.
+- Confirmação da ausência de sobreposição.
+- Confirmação da ausência de rolagem horizontal indevida.
+- Correção do espaçamento entre o nome do Pokémon e as badges de tipo.
+- Correção do alinhamento vertical das imagens em cards com requisitos.
+- Centralização do conteúdo textual do Pokémon-base.
+- Ajuste do alinhamento entre número, nome e badge **“Atual”**.
+- Correção do comportamento visual do card-base quando ele representa um link.
+- Padronização visual entre cards curtos e cards com condições extensas.
+- Revisão da utilização do agrupamento calculado por `pokemonEvolutionStages.ts`.
+- Identificação de que o utilitário já fornecia:
+
+  - `parentSpeciesId`;
+  - `items`.
+
+- Identificação de que o componente utilizava `getPokemonEvolutionStageItems(stage)` e tornava a renderização novamente plana.
+- Alteração do componente para renderizar diretamente `stage.groups`.
+- Inclusão do atributo `data-parent-species-id` em cada grupo renderizado.
+- Preservação estrutural das relações da cadeia de Wurmple:
+
+  - Beautifly associado ao grupo de Silcoon;
+  - Dustox associado ao grupo de Cascoon.
+
+- Atualização dos testes do componente para verificar:
+
+  - pertencimento de Beautifly ao grupo de Silcoon;
+  - pertencimento de Dustox ao grupo de Cascoon;
+  - ausência dos descendentes no grupo incorreto.
+
+- Identificação de que a primeira implementação mantinha grupos vazios somente no estágio imediatamente seguinte.
+- Identificação de que espaços de ramificações encerradas desapareciam quando outra ramificação continuava por mais de uma profundidade.
+- Reformulação do algoritmo para utilizar uma estrutura intermediária com:
+
+  - `node: PokemonEvolutionNode | null`.
+
+- Propagação dos grupos vazios enquanto outras ramificações ainda possuírem evoluções.
+- Inclusão de tipagem explícita no retorno de `flatMap` para auxiliar a inferência do TypeScript.
+- Ampliação dos testes para validar grupos vazios preservados por múltiplos estágios.
+- Criação de classes específicas para a estrutura visual dos grupos:
+
+  - `stage-groups`;
+  - `branch-group`;
+  - `branch-group--empty`;
+  - `empty-branch-slot`.
+
+- Preservação da posição relativa das ramificações vazias no desktop.
+- Manutenção dos descendentes de um mesmo pai no mesmo grupo.
+- Ocultação dos grupos vazios no layout mobile.
+- Apresentação vertical dos estágios em telas menores.
+- Remoção de espaços sem conteúdo no mobile.
+- Revisão da associação acessível entre os cards focáveis e seus requisitos.
+- Identificação de que os requisitos eram apresentados visualmente durante o foco, mas não estavam associados programaticamente ao elemento focável.
+- Criação de identificadores próprios para cada bloco de requisitos.
+- Aplicação de `aria-describedby`:
+
+  - aos links dos demais integrantes;
+  - ao card do Pokémon atual quando ele possui requisitos.
+
+- Separação da estrutura acessível entre:
+
+  - nome acessível para ação ou identificação do Pokémon;
+  - descrição acessível para as condições de evolução.
+
+- Criação de testes para a associação acessível:
+
+  - nos links;
+  - no Pokémon atual.
+
+- Revisão das URLs opcionais utilizadas pelo service.
+- Identificação do uso direto de `species.url` e `evolution_chain.url`, mesmo quando os valores poderiam estar vazios ou conter somente espaços.
+- Criação de uma função de normalização para:
+
+  - remover espaços no início e no final;
+  - retornar uma URL válida;
+  - retornar `null` quando o valor estiver ausente ou vazio.
+
+- Implementação do comportamento quando `species.url` está ausente:
+
+  - nenhuma consulta de espécie;
+  - `description: null`;
+  - `evolutionChain: null`;
+  - preservação dos dados principais.
+
+- Implementação do comportamento quando `evolution_chain.url` está ausente:
+
+  - nenhuma consulta da cadeia;
+  - preservação da descrição;
+  - `evolutionChain: null`.
+
+- Criação de testes para garantir a quantidade correta de requisições nesses cenários.
+- Ampliação da cobertura do formatador de requisitos.
+- Inclusão de testes para:
+
+  - movimento conhecido;
+  - localização;
+  - espécie presente na equipe;
+  - tipo presente na equipe;
+  - espécie específica durante troca;
+  - beleza mínima;
+  - afeição mínima;
+  - rocha especial;
+  - chuva no mundo;
+  - dispositivo invertido;
+  - item e nível com gatilhos diferentes;
+  - gênero feminino;
+  - gênero masculino;
+  - código de gênero desconhecido;
+  - Ataque menor que Defesa;
+  - Ataque igual à Defesa;
+  - Ataque maior que Defesa;
+  - período diurno;
+  - períodos não reconhecidos.
+
+- Renomeação do arquivo `pokemonEvolucionMapper.test.ts` para `pokemonEvolutionMapper.test.ts`.
+- Manutenção do ambiente de testes utilizando:
+
+  - Vitest;
+  - `jsdom`;
+  - React Testing Library;
+  - `jest-dom`;
+  - `user-event`.
+
+- Revisão dos documentos:
+
+  - `docs/requirements.md`;
+  - `docs/architecture.md`;
+  - `docs/roadmap.md`.
+
+- Documentação da renderização efetiva dos grupos de parentesco.
+- Documentação da preservação dos grupos vazios.
+- Documentação da altura adaptável em dispositivos touch.
+- Documentação do tratamento de requisitos extensos.
+- Documentação da correção do foco no card-base.
+- Documentação da associação dos requisitos por `aria-describedby`.
+- Documentação da normalização das URLs opcionais.
+- Documentação dos comportamentos de falha decorrentes de URLs ausentes.
+- Registro da cobertura ampliada dos testes.
+- Documentação das limitações do `jsdom`.
+- Registro da necessidade de validação visual manual.
+- Criação da seção **“Estratégia de testes”** em `docs/architecture.md`.
+- Identificação e correção de blocos Markdown aninhados incorretamente na primeira versão dessa seção.
+- Execução dos comandos durante as etapas da revisão:
+
+  - `npm run format`;
+  - `npm run lint`;
+  - `npm run build`;
+  - `npm test`;
+  - `git diff --check`.
+
+- Execução individual dos testes relacionados a cada correção.
+- Execução posterior da suíte completa.
+- Correção dos três bloqueadores iniciais:
+
+  - foco do card-base;
+  - requisitos extensos e comportamento touch;
+  - renderização efetiva do agrupamento por parentesco.
+
+- Correção dos achados importantes relacionados a:
+
+  - associação acessível dos requisitos;
+  - normalização das URLs opcionais;
+  - testes do agrupamento visual;
+  - cobertura do formatador;
+  - sincronização da documentação.
+
+- Preparação da cadeia de evolução para a comparação final contra a `main`.
+
+### Observações
+
+A revisão consolidada identificou problemas que impediam a aprovação inicial da cadeia de evolução, principalmente na renderização das relações entre ramificações, no comportamento do card-base durante o foco por teclado e na apresentação de requisitos extensos.
+
+O componente passou a utilizar efetivamente os grupos de parentesco calculados pelo utilitário, preservando no DOM a relação entre cada evolução e sua espécie anterior. Grupos vazios também passaram a ser propagados por múltiplos estágios, mantendo o alinhamento correto das ramificações no desktop sem criar espaços desnecessários no mobile.
+
+O comportamento dos cards foi ajustado para diferenciar dispositivos com e sem hover. No desktop, requisitos extensos utilizam rolagem interna quando necessário. Em dispositivos touch, os cards possuem altura automática e crescem conforme o conteúdo, sem cortes ou áreas vazias artificiais.
+
+A acessibilidade foi ampliada com a associação programática dos requisitos aos elementos focáveis por meio de `aria-describedby`. Também foram adicionados tratamentos seguros para URLs opcionais da espécie e da cadeia, evitando requisições inválidas e preservando os dados principais quando esses recursos não estiverem disponíveis.
+
+Ao final da sessão, todos os bloqueadores e achados importantes identificados durante a revisão corretiva haviam sido tratados. A cadeia de evolução estava pronta para a comparação consolidada final contra a `main`, enquanto formas e variações permaneciam suspensas.
+
+---

@@ -253,6 +253,16 @@ A implementação de formas não deve começar antes da conclusão e revisão da
 - validação de links, foco, requisitos, badges e fallback de imagem;
 - revisão em temas claro e escuro;
 - revisão de responsividade.
+- - correção do foco do card-base sem requisitos;
+- adaptação da altura dos cards em dispositivos sem hover;
+- prevenção de corte em condições extensas;
+- espaçamento uniforme entre cards responsivos;
+- renderização efetiva dos grupos por espécie anterior;
+- preservação de grupos vazios por múltiplos estágios;
+- associação acessível dos requisitos com `aria-describedby`;
+- normalização de URLs opcionais antes das requisições;
+- ampliação dos testes do formatador de condições;
+- correções identificadas durante o code review consolidado.
 
 ### Formas e variações
 

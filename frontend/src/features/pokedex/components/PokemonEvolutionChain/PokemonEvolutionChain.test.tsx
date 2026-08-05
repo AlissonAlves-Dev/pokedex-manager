@@ -448,30 +448,172 @@ describe("PokemonEvolutionChain", () => {
     expect(ivysaurLink).toHaveFocus();
   });
 
-  it("preserva a ordem das ramificações que continuam em outro estágio", () => {
-    renderEvolutionChain(createWurmpleChain(), 265);
+  it("preserva o parentesco das ramificações em estágios posteriores", () => {
+    const { container } = renderEvolutionChain(createWurmpleChain(), 265);
 
-    const links = screen.getAllByRole("link");
+    const silcoonGroup = container.querySelector(
+      '[data-parent-species-id="266"]',
+    );
 
-    expect(links.map((link) => link.getAttribute("aria-label"))).toEqual([
-      "Ver detalhes de Silcoon",
-      "Ver detalhes de Cascoon",
-      "Ver detalhes de Beautifly",
-      "Ver detalhes de Dustox",
-    ]);
+    const cascoonGroup = container.querySelector(
+      '[data-parent-species-id="268"]',
+    );
 
-    expect(screen.getAllByText("Possíveis evoluções")).toHaveLength(2);
+    expect(silcoonGroup).not.toBeNull();
+    expect(cascoonGroup).not.toBeNull();
 
     expect(
-      screen.getByRole("link", {
+      within(silcoonGroup as HTMLElement).getByRole("link", {
         name: "Ver detalhes de Beautifly",
       }),
     ).toHaveAttribute("href", "/pokemon/267");
 
     expect(
-      screen.getByRole("link", {
+      within(silcoonGroup as HTMLElement).queryByText("Dustox"),
+    ).not.toBeInTheDocument();
+
+    expect(
+      within(cascoonGroup as HTMLElement).getByRole("link", {
         name: "Ver detalhes de Dustox",
       }),
     ).toHaveAttribute("href", "/pokemon/269");
+
+    expect(
+      within(cascoonGroup as HTMLElement).queryByText("Beautifly"),
+    ).not.toBeInTheDocument();
+
+    expect(screen.getAllByText("Possíveis evoluções")).toHaveLength(2);
+  });
+
+  it("mantém o card raiz sem requisitos quando ele funciona como link", async () => {
+    const user = userEvent.setup();
+
+    renderEvolutionChain(createBulbasaurChain(), 2);
+
+    const bulbasaurLink = screen.getByRole("link", {
+      name: "Ver detalhes de Bulbasaur",
+    });
+
+    const bulbasaurCard = bulbasaurLink.querySelector(
+      ".pokemon-evolution-chain__node",
+    );
+
+    expect(bulbasaurCard).not.toBeNull();
+
+    expect(bulbasaurCard).not.toHaveClass(
+      "pokemon-evolution-chain__node--has-requirements",
+    );
+
+    expect(
+      within(bulbasaurLink).queryByText("Requisitos para evoluir"),
+    ).not.toBeInTheDocument();
+
+    expect(
+      within(bulbasaurLink).getByRole("img", {
+        name: "Sprite de Bulbasaur",
+      }),
+    ).toBeInTheDocument();
+
+    await user.tab();
+
+    expect(bulbasaurLink).toHaveFocus();
+    expect(within(bulbasaurLink).getByText("Bulbasaur")).toBeInTheDocument();
+  });
+
+  it("renderiza todas as opções e condições de uma evolução extensa", () => {
+    const evolvedPokemon = createEvolutionNode({
+      speciesId: 902,
+      name: "complex-evolution",
+      evolutionOptions: [
+        createEvolutionRequirements({
+          minLevel: 30,
+          minHappiness: 160,
+          timeOfDay: "day",
+          knownMoveTypeName: "fairy",
+        }),
+        createEvolutionRequirements({
+          triggerName: "use-item",
+          itemName: "moon-stone",
+        }),
+      ],
+    });
+
+    const rootPokemon = createEvolutionNode({
+      speciesId: 901,
+      name: "root-pokemon",
+      evolvesTo: [evolvedPokemon],
+    });
+
+    renderEvolutionChain(createEvolutionChain(rootPokemon), 901);
+
+    const evolvedPokemonLink = screen.getByRole("link", {
+      name: "Ver detalhes de Complex Evolution",
+    });
+
+    expect(within(evolvedPokemonLink).getByText("Opção 1")).toBeInTheDocument();
+    expect(within(evolvedPokemonLink).getByText("Opção 2")).toBeInTheDocument();
+
+    expect(
+      within(evolvedPokemonLink).getByText("Atingir o nível 30"),
+    ).toBeInTheDocument();
+
+    expect(
+      within(evolvedPokemonLink).getByText("Felicidade mínima 160"),
+    ).toBeInTheDocument();
+
+    expect(
+      within(evolvedPokemonLink).getByText("Durante o dia"),
+    ).toBeInTheDocument();
+
+    expect(
+      within(evolvedPokemonLink).getByText("Conhecer um golpe do tipo Fairy"),
+    ).toBeInTheDocument();
+
+    expect(
+      within(evolvedPokemonLink).getByText("Usar Moon Stone"),
+    ).toBeInTheDocument();
+  });
+
+  it("associa os requisitos ao link por aria-describedby", () => {
+    renderEvolutionChain(createEeveeChain(), 133);
+
+    const sylveonLink = screen.getByRole("link", {
+      name: "Ver detalhes de Sylveon",
+    });
+
+    const requirementsId = sylveonLink.getAttribute("aria-describedby");
+
+    expect(requirementsId).toBeTruthy();
+
+    const requirements = document.getElementById(requirementsId as string);
+
+    expect(requirements).not.toBeNull();
+
+    expect(requirements).toHaveAccessibleName(
+      "Condições para evoluir para Sylveon",
+    );
+
+    expect(requirements).toHaveTextContent("Subir de nível");
+
+    expect(requirements).toHaveTextContent("Conhecer um golpe do tipo Fairy");
+
+    expect(requirements).toHaveTextContent("Felicidade mínima 160");
+  });
+
+  it("associa os requisitos ao card do Pokémon atual", () => {
+    renderEvolutionChain(createBulbasaurChain(), 2);
+
+    const ivysaurCard = screen.getByRole("group", {
+      name: "Ivysaur, número 2, Pokémon atual",
+    });
+
+    const requirementsId = ivysaurCard.getAttribute("aria-describedby");
+
+    expect(requirementsId).toBeTruthy();
+
+    const requirements = document.getElementById(requirementsId as string);
+
+    expect(requirements).not.toBeNull();
+    expect(requirements).toHaveTextContent("Atingir o nível 16");
   });
 });

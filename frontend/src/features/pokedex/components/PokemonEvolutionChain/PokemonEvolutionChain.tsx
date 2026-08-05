@@ -31,16 +31,19 @@ type PokemonEvolutionNodeCardProps = {
 };
 
 type PokemonEvolutionRequirementsContentProps = {
+  id: string;
   pokemonName: string;
   options: PokemonEvolutionRequirements[];
 };
 
 function PokemonEvolutionRequirementsContent({
+  id,
   pokemonName,
   options,
 }: PokemonEvolutionRequirementsContentProps) {
   return (
     <div
+      id={id}
       className="pokemon-evolution-chain__requirements"
       role="group"
       aria-label={`Condições para evoluir para ${pokemonName}`}
@@ -97,9 +100,13 @@ function PokemonEvolutionNodeCard({
 }: PokemonEvolutionNodeCardProps) {
   const [hasImageError, setHasImageError] = useState(false);
 
+  const requirementsId = useId();
   const pokemonName = formatPokemonResourceName(node.name);
   const isCurrentPokemon = node.speciesId === currentPokemonId;
   const hasRequirements = !isRoot;
+  const requirementsDescriptionId = hasRequirements
+    ? requirementsId
+    : undefined;
 
   const shouldShowImage = node.imageUrl.length > 0 && !hasImageError;
 
@@ -122,6 +129,9 @@ function PokemonEvolutionNodeCard({
           : undefined
       }
       aria-current={isCurrentPokemon ? "page" : undefined}
+      aria-describedby={
+        isCurrentPokemon ? requirementsDescriptionId : undefined
+      }
     >
       <div className="pokemon-evolution-chain__image-container">
         {shouldShowImage ? (
@@ -159,6 +169,7 @@ function PokemonEvolutionNodeCard({
 
         {hasRequirements && (
           <PokemonEvolutionRequirementsContent
+            id={requirementsId}
             pokemonName={pokemonName}
             options={node.evolutionOptions}
           />
@@ -176,6 +187,7 @@ function PokemonEvolutionNodeCard({
       className="pokemon-evolution-chain__node-link"
       to={`/pokemon/${node.speciesId}`}
       aria-label={`Ver detalhes de ${pokemonName}`}
+      aria-describedby={requirementsDescriptionId}
     >
       {cardContent}
     </Link>
@@ -268,19 +280,53 @@ export function PokemonEvolutionChain({
                   </p>
                 )}
 
-                <ul className="pokemon-evolution-chain__stage-grid">
-                  {stageItems.map(({ node, parentSpeciesId }) => (
-                    <li
-                      className="pokemon-evolution-chain__stage-item"
-                      key={`${parentSpeciesId ?? "root"}-${node.speciesId}`}
-                    >
-                      <PokemonEvolutionNodeCard
-                        node={node}
-                        currentPokemonId={currentPokemonId}
-                        isRoot={stageIndex === 0}
-                      />
-                    </li>
-                  ))}
+                <ul className="pokemon-evolution-chain__stage-groups">
+                  {stage.groups.map((group, groupIndex) => {
+                    const isEmptyGroup = group.items.length === 0;
+
+                    const groupClassName = [
+                      "pokemon-evolution-chain__branch-group",
+                      isEmptyGroup
+                        ? "pokemon-evolution-chain__branch-group--empty"
+                        : "",
+                    ]
+                      .filter(Boolean)
+                      .join(" ");
+
+                    return (
+                      <li
+                        className={groupClassName}
+                        key={`stage-${stage.depth}-parent-${
+                          group.parentSpeciesId ?? "root"
+                        }-${groupIndex}`}
+                        data-parent-species-id={
+                          group.parentSpeciesId ?? undefined
+                        }
+                      >
+                        {isEmptyGroup ? (
+                          <span
+                            className="pokemon-evolution-chain__empty-branch-slot"
+                            aria-hidden="true"
+                          />
+                        ) : (
+                          <ul className="pokemon-evolution-chain__stage-grid">
+                            {group.items.map(({ node, parentSpeciesId }) => (
+                              <li
+                                className="pokemon-evolution-chain__stage-item"
+                                key={`${parentSpeciesId ?? "root"}-${node.speciesId}`}
+                              >
+                                <PokemonEvolutionNodeCard
+                                  node={node}
+                                  currentPokemonId={currentPokemonId}
+                                  isRoot={stageIndex === 0}
+                                />
+                              </li>
+                            ))}
+                          </ul>
+                        )}
+                      </li>
+                    );
+                  })}
                 </ul>
               </div>
             </div>
