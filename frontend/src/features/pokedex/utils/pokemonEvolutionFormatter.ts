@@ -1,4 +1,5 @@
 import type { PokemonEvolutionRequirements } from "../types/pokemon";
+import { formatPokemonResourceName } from "./pokemonResourceName";
 
 const EVOLUTION_TRIGGER_LABELS: Record<string, string> = {
   "level-up": "Subir de nível",
@@ -12,20 +13,6 @@ const EVOLUTION_TRIGGER_LABELS: Record<string, string> = {
   "take-damage": "Receber dano em batalha",
   other: "Condição especial",
 };
-
-function capitalizeWord(word: string): string {
-  return `${word.charAt(0).toUpperCase()}${word.slice(1)}`;
-}
-
-export function formatPokemonResourceName(value: string): string {
-  return value
-    .trim()
-    .replace(/[_\s]+/g, "-")
-    .split("-")
-    .filter(Boolean)
-    .map(capitalizeWord)
-    .join(" ");
-}
 
 function formatTimeOfDay(timeOfDay: string): string {
   if (timeOfDay === "day") {

@@ -54,6 +54,38 @@ export type PokemonSprites = {
   frontShinyUrl: string | null;
 };
 
+export type PokemonResourceReference = {
+  id: number;
+  name: string;
+  displayName: string;
+};
+
+export type PokemonVariationReference = PokemonResourceReference & {
+  isDefault: boolean;
+};
+
+export type PokemonFormReference = PokemonResourceReference;
+
+export type PokemonFormDetails = {
+  id: number;
+  pokemonId: number;
+
+  name: string;
+  displayName: string;
+  formName: string | null;
+
+  isDefault: boolean;
+  isBattleOnly: boolean;
+  isMega: boolean;
+
+  formOrder: number;
+
+  types: PokemonType[];
+  sprites: PokemonSprites;
+
+  versionGroupName: string | null;
+};
+
 export type PokemonEvolutionRequirements = {
   triggerName: string;
   versionGroupName: string | null;
@@ -95,9 +127,27 @@ export type PokemonEvolutionChain = {
   root: PokemonEvolutionNode;
 };
 
+export type PokemonDetailsSupplementaryData = {
+  description: string | null;
+  evolutionChain: PokemonEvolutionChain | null;
+
+  variations: PokemonVariationReference[] | null;
+
+  formsSwitchable: boolean | null;
+  hasGenderDifferences: boolean | null;
+};
+
 export type PokemonDetails = PokemonSummary & {
   description: string | null;
   evolutionChain: PokemonEvolutionChain | null;
+
+  isDefaultVariation: boolean;
+  variations: PokemonVariationReference[] | null;
+  forms: PokemonFormReference[];
+
+  formsSwitchable: boolean | null;
+  hasGenderDifferences: boolean | null;
+
   sprites: PokemonSprites;
   height: number;
   weight: number;

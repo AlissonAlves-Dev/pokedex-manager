@@ -2,11 +2,19 @@ import {
   mapPokemonApiToDetails,
   mapPokemonApiToSummary,
 } from "../mappers/pokemonMapper";
-import { mapPokemonSpeciesToDescription } from "../mappers/pokemonSpeciesMapper";
+import {
+  mapPokemonSpeciesToDescription,
+  mapPokemonSpeciesToMetadata,
+  mapPokemonSpeciesToVariations,
+} from "../mappers/pokemonSpeciesMapper";
+import { mapPokemonEvolutionChain } from "../mappers/pokemonEvolutionMapper";
+import { mapPokemonApiToFormDetails } from "../mappers/pokemonFormMapper";
 
 import type {
   PokemonDetails,
+  PokemonDetailsSupplementaryData,
   PokemonEvolutionChain,
+  PokemonFormDetails,
   PokemonListPage,
   PokemonSummary,
 } from "../types/pokemon";
@@ -14,11 +22,10 @@ import type {
 import type {
   PokemonApiDetailResponse,
   PokemonApiEvolutionChainResponse,
+  PokemonApiFormResponse,
   PokemonApiListResponse,
   PokemonApiSpeciesResponse,
 } from "../types/pokemonApi";
-
-import { mapPokemonEvolutionChain } from "../mappers/pokemonEvolutionMapper";
 
 const POKE_API_BASE_URL = "https://pokeapi.co/api/v2";
 
@@ -39,6 +46,21 @@ async function fetchPokemonDetails(
   }
 
   const data: PokemonApiDetailResponse = await response.json();
+
+  return data;
+}
+
+async function fetchPokemonForm(
+  url: string,
+  signal?: AbortSignal,
+): Promise<PokemonApiFormResponse> {
+  const response = await fetch(url, { signal });
+
+  if (!response.ok) {
+    throw new Error("Não foi possível carregar os dados da forma do Pokémon.");
+  }
+
+  const data: PokemonApiFormResponse = await response.json();
 
   return data;
 }
@@ -101,22 +123,24 @@ async function loadPokemonEvolutionChain(
   }
 }
 
-type PokemonSpeciesData = {
-  description: string | null;
-  evolutionChain: PokemonEvolutionChain | null;
-};
+function createUnavailablePokemonSpeciesData(): PokemonDetailsSupplementaryData {
+  return {
+    description: null,
+    evolutionChain: null,
+    variations: null,
+    formsSwitchable: null,
+    hasGenderDifferences: null,
+  };
+}
 
 async function loadPokemonSpeciesData(
   speciesUrl: string,
   signal?: AbortSignal,
-): Promise<PokemonSpeciesData> {
+): Promise<PokemonDetailsSupplementaryData> {
   const normalizedSpeciesUrl = normalizeResourceUrl(speciesUrl);
 
   if (!normalizedSpeciesUrl) {
-    return {
-      description: null,
-      evolutionChain: null,
-    };
+    return createUnavailablePokemonSpeciesData();
   }
 
   try {
@@ -127,6 +151,11 @@ async function loadPokemonSpeciesData(
 
     const description = mapPokemonSpeciesToDescription(pokemonSpeciesApi);
 
+    const variations = mapPokemonSpeciesToVariations(pokemonSpeciesApi);
+
+    const { formsSwitchable, hasGenderDifferences } =
+      mapPokemonSpeciesToMetadata(pokemonSpeciesApi);
+
     const evolutionChain = await loadPokemonEvolutionChain(
       pokemonSpeciesApi.evolution_chain.url,
       signal,
@@ -135,16 +164,16 @@ async function loadPokemonSpeciesData(
     return {
       description,
       evolutionChain,
+      variations,
+      formsSwitchable,
+      hasGenderDifferences,
     };
   } catch (error) {
     if (signal?.aborted) {
       throw error;
     }
 
-    return {
-      description: null,
-      evolutionChain: null,
-    };
+    return createUnavailablePokemonSpeciesData();
   }
 }
 
@@ -215,13 +244,26 @@ export async function getPokemonById(
     signal,
   );
 
-  const { description, evolutionChain } = await loadPokemonSpeciesData(
+  const supplementaryData = await loadPokemonSpeciesData(
     pokemonApi.species.url,
     signal,
   );
 
-  return mapPokemonApiToDetails(pokemonApi, {
-    description,
-    evolutionChain,
-  });
+  return mapPokemonApiToDetails(pokemonApi, supplementaryData);
+}
+
+export async function getPokemonFormById(
+  formId: number,
+  signal?: AbortSignal,
+): Promise<PokemonFormDetails> {
+  if (!Number.isSafeInteger(formId) || formId <= 0) {
+    throw new Error("Identificador da forma do Pokémon inválido.");
+  }
+
+  const pokemonFormApi = await fetchPokemonForm(
+    `${POKE_API_BASE_URL}/pokemon-form/${formId}`,
+    signal,
+  );
+
+  return mapPokemonApiToFormDetails(pokemonFormApi);
 }

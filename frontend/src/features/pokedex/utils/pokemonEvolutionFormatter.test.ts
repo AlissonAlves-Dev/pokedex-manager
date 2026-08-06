@@ -1,10 +1,7 @@
 import { describe, expect, it } from "vitest";
 
 import type { PokemonEvolutionRequirements } from "../types/pokemon";
-import {
-  formatPokemonResourceName,
-  getPokemonEvolutionConditionLabels,
-} from "./pokemonEvolutionFormatter";
+import { getPokemonEvolutionConditionLabels } from "./pokemonEvolutionFormatter";
 
 function createRequirements(
   overrides: Partial<PokemonEvolutionRequirements> = {},
@@ -38,16 +35,6 @@ function createRequirements(
     ...overrides,
   };
 }
-
-describe("formatPokemonResourceName", () => {
-  it("formata identificadores separados por hífen", () => {
-    expect(formatPokemonResourceName("water-stone")).toBe("Water Stone");
-  });
-
-  it("remove espaços externos e normaliza separadores", () => {
-    expect(formatPokemonResourceName("  mr_mime  ")).toBe("Mr Mime");
-  });
-});
 
 describe("getPokemonEvolutionConditionLabels", () => {
   it("formata uma evolução por nível", () => {

@@ -1,0 +1,100 @@
+.pokemon-variations-and-forms {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-lg);
+
+  padding: var(--spacing-lg);
+
+  background-color: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+}
+
+.pokemon-variations-and-forms__title,
+.pokemon-variations-and-forms__subtitle {
+  margin: 0;
+}
+
+.pokemon-variations-and-forms__title {
+  font-size: 1.5rem;
+  line-height: 1.3;
+}
+
+.pokemon-variations-and-forms__group {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-md);
+}
+
+.pokemon-variations-and-forms__subtitle {
+  color: var(--color-text-secondary);
+
+  font-size: 1rem;
+  line-height: 1.3;
+}
+
+.pokemon-variations-and-forms__list {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 12rem), 1fr));
+  gap: var(--spacing-sm);
+
+  margin: 0;
+  padding: 0;
+
+  list-style: none;
+}
+
+.pokemon-variations-and-forms__link {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--spacing-sm);
+
+  min-width: 0;
+  min-height: 3rem;
+  padding: var(--spacing-sm) var(--spacing-md);
+
+  color: var(--color-text-primary);
+  background-color: var(--color-surface-secondary);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+
+  text-decoration: none;
+
+  transition:
+    background-color 150ms ease,
+    border-color 150ms ease,
+    color 150ms ease;
+}
+
+.pokemon-variations-and-forms__link:hover {
+  background-color: var(--color-primary-soft);
+  border-color: var(--color-primary-soft-border);
+}
+
+.pokemon-variations-and-forms__link--current {
+  color: var(--color-primary-text);
+  background-color: var(--color-primary-soft);
+  border-color: var(--color-primary);
+}
+
+.pokemon-variations-and-forms__name {
+  min-width: 0;
+
+  overflow-wrap: anywhere;
+
+  font-weight: 600;
+  line-height: 1.3;
+}
+
+@media (max-width: 30rem) {
+  .pokemon-variations-and-forms {
+    gap: var(--spacing-md);
+
+    padding: var(--spacing-md);
+  }
+
+  .pokemon-variations-and-forms__list {
+    grid-template-columns: 1fr;
+  }
+}

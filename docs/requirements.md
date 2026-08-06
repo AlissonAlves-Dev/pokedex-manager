@@ -69,7 +69,7 @@ Termos como `pika`, `char` ou `saur` filtram somente os Pokémon que já foram c
 | RF-031 | Exibir o sprite frontal shiny.                                      | Concluído |
 | RF-032 | Tratar individualmente sprites ausentes.                            | Concluído |
 | RF-033 | Exibir a cadeia de evolução.                                        | Concluído |
-| RF-034 | Exibir formas e variações disponíveis.                              | Pendente  |
+| RF-034 | Exibir formas e variações disponíveis.                              | Concluído |
 
 ## Navegação e preservação de estado
 
@@ -110,7 +110,7 @@ Termos como `pika`, `char` ou `saur` filtram somente os Pokémon que já foram c
 | RNF-011 | Utilizar textos alternativos adequados nas imagens.                               | Concluído |
 | RNF-012 | Manter contraste adequado nos temas claro e escuro.                               | Concluído |
 | RNF-013 | Ser compatível com navegadores modernos.                                          | Pendente  |
-| RNF-014 | Cobrir os comportamentos críticos da aplicação com testes automatizados.          | Pendente  |
+| RNF-014 | Cobrir os comportamentos críticos da aplicação com testes automatizados.          | Concluído |
 
 ## Regras de comportamento
 
@@ -169,6 +169,25 @@ Termos como `pika`, `char` ou `saur` filtram somente os Pokémon que já foram c
 - URLs de recursos vazias ou formadas apenas por espaços não devem gerar requisições.
 - Uma URL de espécie ausente deve preservar os dados principais e tornar descrição e cadeia indisponíveis.
 - Uma URL de cadeia ausente deve preservar a descrição e tornar somente a cadeia indisponível.
+- As variações devem ser obtidas por meio de `pokemon-species.varieties`.
+- As formas devem ser obtidas por meio de `pokemon.forms`.
+- Variações e formas não devem ser inferidas por sufixos existentes nos nomes.
+- A variação padrão deve ser identificada pelo campo oficial `is_default`.
+- A abertura inicial dos detalhes não deve realizar requisições individuais para todas as formas.
+- Uma forma somente deve ser carregada após seleção explícita do usuário.
+- A seleção de uma forma deve utilizar a query canônica `?form={formId}`.
+- O parâmetro `form` deve aceitar somente um inteiro positivo, seguro e sem zeros à esquerda.
+- Parâmetros repetidos, vazios ou sintaticamente inválidos não devem gerar requisições.
+- Um ID de forma que não exista em `pokemon.forms` deve ser tratado como indisponível sem iniciar uma requisição.
+- A resposta de uma forma deve pertencer ao Pokémon atualmente aberto.
+- O carregamento, erro e retry da forma devem permanecer locais e não remover os detalhes principais.
+- A troca de Pokémon, forma ou tentativa deve cancelar a requisição anterior.
+- Respostas antigas não devem substituir a forma atualmente selecionada.
+- Links de variações devem remover qualquer query de forma anterior.
+- A navegação entre dados principais, formas e variações deve utilizar links reais.
+- A variação atual deve utilizar `aria-current="page"`.
+- A forma atual e os dados principais devem utilizar `aria-current="true"`.
+- Queries inválidas ou formas indisponíveis devem preservar a URL e oferecer um caminho para retornar aos dados principais.
 
 ---
 

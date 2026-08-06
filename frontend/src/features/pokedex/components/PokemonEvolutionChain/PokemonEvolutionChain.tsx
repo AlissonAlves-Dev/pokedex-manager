@@ -8,10 +8,8 @@ import type {
   PokemonEvolutionNode,
   PokemonEvolutionRequirements,
 } from "../../types/pokemon";
-import {
-  formatPokemonResourceName,
-  getPokemonEvolutionConditionLabels,
-} from "../../utils/pokemonEvolutionFormatter";
+import { getPokemonEvolutionConditionLabels } from "../../utils/pokemonEvolutionFormatter";
+import { formatPokemonResourceName } from "../../utils/pokemonResourceName";
 import {
   createPokemonEvolutionStages,
   getPokemonEvolutionStageItems,

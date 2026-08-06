@@ -19,12 +19,22 @@ export type PokemonApiResource = {
   url: string;
 };
 
+export type PokemonApiTypeSlot = {
+  slot: number;
+  type: {
+    name: string;
+  };
+};
+
 export type PokemonApiDetailResponse = {
   id: number;
   name: string;
   height: number;
   weight: number;
+
+  is_default: boolean;
   species: PokemonApiNamedResource;
+  forms: PokemonApiNamedResource[];
 
   sprites: {
     front_default: string | null;
@@ -37,12 +47,7 @@ export type PokemonApiDetailResponse = {
     };
   };
 
-  types: {
-    slot: number;
-    type: {
-      name: string;
-    };
-  }[];
+  types: PokemonApiTypeSlot[];
 
   abilities: {
     ability: {
@@ -67,10 +72,42 @@ export type PokemonApiFlavorTextEntry = {
   version: PokemonApiNamedResource;
 };
 
+export type PokemonApiSpeciesVariety = {
+  is_default: boolean;
+  pokemon: PokemonApiNamedResource;
+};
+
 export type PokemonApiSpeciesResponse = {
   id: number;
+
   evolution_chain: PokemonApiResource;
   flavor_text_entries: PokemonApiFlavorTextEntry[];
+
+  varieties: PokemonApiSpeciesVariety[];
+  forms_switchable: boolean;
+  has_gender_differences: boolean;
+};
+
+export type PokemonApiFormResponse = {
+  id: number;
+  name: string;
+  form_name: string;
+  form_order: number;
+
+  is_default: boolean;
+  is_battle_only: boolean;
+  is_mega: boolean;
+
+  pokemon: PokemonApiNamedResource;
+
+  sprites: {
+    front_default: string | null;
+    front_shiny: string | null;
+  };
+
+  types: PokemonApiTypeSlot[];
+
+  version_group: PokemonApiNamedResource;
 };
 
 export type PokemonApiEvolutionDetail = {

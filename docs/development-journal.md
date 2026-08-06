@@ -2451,3 +2451,174 @@ A acessibilidade foi ampliada com a associação programática dos requisitos ao
 Ao final da sessão, todos os bloqueadores e achados importantes identificados durante a revisão corretiva haviam sido tratados. A cadeia de evolução estava pronta para a comparação consolidada final contra a `main`, enquanto formas e variações permaneciam suspensas.
 
 ---
+
+## 2026/08/05
+
+### Objetivo
+
+Concluir o encerramento técnico da cadeia de evolução da Sprint 4 e, após sua aprovação definitiva, analisar, implementar, revisar e validar o fluxo completo de formas e variações da **Minha Pokédex**.
+
+### Atividades realizadas
+
+- Conclusão da revisão técnica da cadeia de evolução.
+- Confirmação da renderização direta de `stage.groups`.
+- Validação da preservação do parentesco entre ramificações.
+- Validação da propagação de grupos vazios por múltiplos estágios.
+- Preservação dos placeholders estruturais no desktop.
+- Remoção dos espaços vazios correspondentes a ramificações encerradas no layout mobile.
+- Validação do foco no card-base sem ocultação de sua imagem, número ou nome.
+- Validação da altura adaptável dos cards em dispositivos sem suporte confiável a hover.
+- Confirmação da ausência de corte em requisitos extensos.
+- Validação da associação acessível dos requisitos por meio de `aria-describedby`.
+- Validação da normalização das URLs de espécie e cadeia de evolução.
+- Confirmação da prevenção de requisições para URLs inválidas, vazias ou compostas apenas por espaços.
+- Aprovação definitiva da cadeia de evolução.
+- Liberação do desenvolvimento de formas e variações somente após o encerramento técnico da cadeia.
+- Estudo da relação entre os recursos da PokéAPI:
+
+  - `PokemonSpecies`;
+  - `varieties`;
+  - `Pokemon`;
+  - `forms`;
+  - `PokemonForm`.
+
+- Definição de que as variações seriam obtidas por meio de `pokemon-species.varieties`.
+- Definição de que as formas seriam obtidas por meio de `pokemon.forms`.
+- Definição de que categorias de formas e variações não seriam inferidas por sufixos presentes nos nomes.
+- Utilização do campo oficial `is_default` para identificar a variação padrão.
+- Definição de que as formas não seriam carregadas antecipadamente.
+- Preservação do limite de até três requisições no carregamento inicial dos detalhes.
+- Definição de que `/pokemon-form/{formId}` seria consultado somente após a seleção explícita de uma forma.
+- Definição da URL de seleção de formas como `/pokemon/:pokemonId?form=:formId`.
+- Criação e atualização dos contratos da API e do domínio para representar:
+
+  - referências genéricas de recursos;
+  - variações;
+  - formas;
+  - detalhes completos de uma forma;
+  - metadados complementares da espécie.
+
+- Criação de utilitários para:
+
+  - extração segura de IDs das URLs da PokéAPI;
+  - formatação compartilhada de nomes;
+  - parsing estrito da query `form`;
+  - resolução dos estados de seleção da forma.
+
+- Implementação do mapeamento das variações retornadas pelo endpoint de espécie.
+- Implementação do mapeamento das referências de formas retornadas pelos dados principais do Pokémon.
+- Criação do mapper completo dos detalhes de uma forma.
+- Implementação do descarte individual de referências inválidas sem comprometer os demais dados válidos.
+- Criação do método `getPokemonFormById` para carregamento independente das formas.
+- Criação do hook `usePokemonForm`.
+- Implementação do cancelamento da requisição ao:
+
+  - trocar a forma selecionada;
+  - trocar o Pokémon aberto;
+  - repetir uma consulta;
+  - desmontar o componente.
+
+- Implementação de proteção contra respostas obsoletas sobrescreverem a seleção atual.
+- Implementação da validação do Pokémon associado à forma consultada.
+- Implementação dos estados:
+
+  - dados principais;
+  - query inválida;
+  - forma indisponível;
+  - carregamento;
+  - sucesso;
+  - erro.
+
+- Criação do componente `PokemonVariationsAndForms`.
+- Criação do componente `PokemonFormDetailsPanel`.
+- Implementação da navegação por links reais entre:
+
+  - dados principais;
+  - formas;
+  - variações.
+
+- Remoção da query de forma ao navegar para outra variação.
+- Preservação do contexto de retorno à listagem durante a navegação entre formas e variações.
+- Inclusão da identificação acessível das opções atualmente selecionadas.
+- Implementação do retorno aos dados principais quando a query de forma for inválida.
+- Criação do painel de detalhes da forma com:
+
+  - tipos;
+  - características;
+  - metadados;
+  - sprites.
+
+- Implementação de estados locais de carregamento, erro e repetição para a forma selecionada.
+- Validação da interface nos temas claro e escuro.
+- Validação da responsividade a partir de `320px`.
+- Ampliação da cobertura automatizada para:
+
+  - utilitários;
+  - mappers;
+  - service principal;
+  - carregamento independente de formas;
+  - hook de formas;
+  - cancelamento;
+  - concorrência;
+  - parser da query;
+  - resolução da seleção;
+  - componentes visuais;
+  - navegação;
+  - acessibilidade;
+  - integração com a página `PokemonDetails`.
+
+- Criação de testes para garantir a ausência de requisições quando a query for inválida.
+- Criação de testes para garantir uma única requisição por forma selecionada.
+- Criação de testes para impedir que uma resposta antiga substitua a seleção atual.
+- Validação do retry independente do carregamento principal dos detalhes.
+- Validação dos estados ativos utilizando `aria-current`.
+- Validação da navegação por teclado.
+- Validação da hierarquia dos títulos.
+- Validação dos grupos acessíveis de tipos e características.
+- Realização do code review consolidado da implementação de formas e variações.
+- Identificação e correção da perda do contexto de retorno à listagem.
+- Identificação e correção da ausência de recuperação para query inválida quando o Pokémon possuía apenas uma forma.
+- Correção da hierarquia dos títulos.
+- Inclusão de semântica adequada nos grupos da interface.
+- Inclusão da identificação da variação padrão no nome acessível.
+- Identificação e remoção de um arquivo vazio acidental chamado `{` na raiz do repositório.
+- Atualização dos documentos:
+
+  - `docs/requirements.md`;
+  - `docs/architecture.md`;
+  - `docs/roadmap.md`.
+
+- Atualização do requisito de formas e variações para **Concluído**.
+- Atualização da cobertura dos comportamentos críticos para **Concluído**.
+- Alteração do estado da Sprint 4 para **Em encerramento**.
+- Execução bem-sucedida dos comandos:
+
+  - `npm run format`;
+  - `npm run lint`;
+  - `npm run build`;
+  - `npm test`;
+  - `git diff --check`.
+
+- Validação manual do fluxo de requisições.
+- Validação da navegação entre dados principais, formas e variações.
+- Validação de queries inválidas.
+- Validação da troca rápida entre formas.
+- Validação do cancelamento das requisições.
+- Validação dos temas claro e escuro.
+- Validação da responsividade.
+- Validação da navegação por teclado e dos estados de foco.
+- Confirmação da ausência de rolagem horizontal indevida.
+
+### Observações
+
+A cadeia de evolução foi definitivamente aprovada após a confirmação de todas as correções identificadas durante a revisão consolidada. A renderização passou a preservar efetivamente o parentesco entre ramificações, os grupos vazios por múltiplos estágios, o comportamento correto do card-base e a apresentação segura de requisitos extensos em desktop e dispositivos touch.
+
+Somente após essa aprovação foi iniciada a implementação de formas e variações. A solução passou a utilizar as relações oficiais fornecidas pela PokéAPI, sem inferir categorias a partir dos nomes e sem aumentar o carregamento inicial da página de detalhes. Os dados completos de uma forma são consultados apenas após sua seleção explícita.
+
+O fluxo implementado inclui navegação por URLs reais, carregamento independente, cancelamento, proteção contra respostas obsoletas, tratamento de queries inválidas, retry local, acessibilidade, responsividade e preservação do contexto de retorno à listagem.
+
+Durante a revisão consolidada, foram corrigidos problemas de navegação, recuperação de estados inválidos, hierarquia de títulos, semântica dos grupos e identificação acessível da variação padrão. Um arquivo vazio criado acidentalmente na raiz também foi removido.
+
+Ao final da sessão, a cadeia de evolução, as formas e as variações estavam implementadas, revisadas e validadas na branch `sprint/sprint-4`. A Sprint 4 permanecia com o status **Em encerramento**, ainda sem merge com a `main`.
+
+---

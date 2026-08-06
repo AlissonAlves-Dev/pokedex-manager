@@ -7,6 +7,7 @@ import "./PokemonSprites.css";
 type PokemonSpritesProps = {
   pokemonName: string;
   sprites: PokemonSpritesData;
+  headingLevel?: 2 | 3;
 };
 
 type PokemonSpriteCardProps = {
@@ -51,11 +52,20 @@ function PokemonSpriteCard({
   );
 }
 
-export function PokemonSprites({ pokemonName, sprites }: PokemonSpritesProps) {
+export function PokemonSprites({
+  pokemonName,
+  sprites,
+  headingLevel = 2,
+}: PokemonSpritesProps) {
   const titleId = useId();
+
+  const Heading = headingLevel === 3 ? "h3" : "h2";
 
   return (
     <section className="pokemon-sprites" aria-labelledby={titleId}>
+      <Heading className="pokemon-sprites__title" id={titleId}>
+        Sprites
+      </Heading>
       <h2 className="pokemon-sprites__title" id={titleId}>
         Sprites
       </h2>

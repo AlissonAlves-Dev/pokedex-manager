@@ -5,7 +5,10 @@ import {
   mapPokemonApiToDetails,
   mapPokemonApiToSummary,
 } from "./pokemonMapper";
-import type { PokemonEvolutionChain } from "../types/pokemon";
+import type {
+  PokemonEvolutionChain,
+  PokemonDetailsSupplementaryData,
+} from "../types/pokemon";
 
 function createPokemonApiResponse(): PokemonApiDetailResponse {
   return {
@@ -13,6 +16,18 @@ function createPokemonApiResponse(): PokemonApiDetailResponse {
     name: "pikachu",
     height: 4,
     weight: 60,
+
+    is_default: true,
+    forms: [
+      {
+        name: "pikachu",
+        url: "https://pokeapi.co/api/v2/pokemon-form/25/",
+      },
+      {
+        name: "pikachu-cosplay",
+        url: "https://pokeapi.co/api/v2/pokemon-form/10080/",
+      },
+    ],
 
     species: {
       name: "pikachu",
@@ -88,9 +103,12 @@ describe("pokemonMapper", () => {
   it("normaliza as URLs dos sprites nos detalhes", () => {
     const pokemonApi = createPokemonApiResponse();
 
-    const pokemon = mapPokemonApiToDetails(pokemonApi, {
-      description: "Descrição de teste.",
-    });
+    const pokemon = mapPokemonApiToDetails(
+      pokemonApi,
+      createSupplementaryData({
+        description: "Descrição de teste.",
+      }),
+    );
 
     expect(pokemon.sprites).toEqual({
       frontDefaultUrl: "https://example.com/pikachu-default.png",
@@ -120,13 +138,37 @@ describe("pokemonMapper", () => {
     const pokemonApi = createPokemonApiResponse();
     const evolutionChain = createEvolutionChain();
 
-    const pokemon = mapPokemonApiToDetails(pokemonApi, {
-      description: "Descrição de teste.",
-      evolutionChain,
-    });
+    const variations = [
+      {
+        id: 25,
+        name: "pikachu",
+        displayName: "Pikachu",
+        isDefault: true,
+      },
+      {
+        id: 10080,
+        name: "pikachu-cosplay",
+        displayName: "Pikachu Cosplay",
+        isDefault: false,
+      },
+    ];
+
+    const pokemon = mapPokemonApiToDetails(
+      pokemonApi,
+      createSupplementaryData({
+        description: "Descrição de teste.",
+        evolutionChain,
+        variations,
+        formsSwitchable: true,
+        hasGenderDifferences: false,
+      }),
+    );
 
     expect(pokemon.description).toBe("Descrição de teste.");
     expect(pokemon.evolutionChain).toEqual(evolutionChain);
+    expect(pokemon.variations).toEqual(variations);
+    expect(pokemon.formsSwitchable).toBe(true);
+    expect(pokemon.hasGenderDifferences).toBe(false);
   });
 
   it("utiliza null quando os dados complementares não são fornecidos", () => {
@@ -137,4 +179,86 @@ describe("pokemonMapper", () => {
     expect(pokemon.description).toBeNull();
     expect(pokemon.evolutionChain).toBeNull();
   });
+
+  it("mapeia se o Pokémon é a variação padrão", () => {
+    const pokemonApi = createPokemonApiResponse();
+
+    pokemonApi.is_default = false;
+
+    const pokemon = mapPokemonApiToDetails(pokemonApi);
+
+    expect(pokemon.isDefaultVariation).toBe(false);
+    expect(pokemon.variations).toBeNull();
+    expect(pokemon.formsSwitchable).toBeNull();
+    expect(pokemon.hasGenderDifferences).toBeNull();
+  });
+
+  it("mapeia as referências de formas preservando a ordem", () => {
+    const pokemonApi = createPokemonApiResponse();
+
+    const pokemon = mapPokemonApiToDetails(pokemonApi);
+
+    expect(pokemon.forms).toEqual([
+      {
+        id: 25,
+        name: "pikachu",
+        displayName: "Pikachu",
+      },
+      {
+        id: 10080,
+        name: "pikachu-cosplay",
+        displayName: "Pikachu Cosplay",
+      },
+    ]);
+  });
+  it("descarta referências de formas inválidas sem perder as válidas", () => {
+    const pokemonApi = createPokemonApiResponse();
+
+    pokemonApi.forms = [
+      {
+        name: "pikachu",
+        url: "https://pokeapi.co/api/v2/pokemon-form/25/",
+      },
+      {
+        name: "invalid-form",
+        url: "https://pokeapi.co/api/v2/pokemon-form/invalid/",
+      },
+      {
+        name: "   ",
+        url: "https://pokeapi.co/api/v2/pokemon-form/10080/",
+      },
+    ];
+
+    const pokemon = mapPokemonApiToDetails(pokemonApi);
+
+    expect(pokemon.forms).toEqual([
+      {
+        id: 25,
+        name: "pikachu",
+        displayName: "Pikachu",
+      },
+    ]);
+  });
+  it("retorna uma lista vazia quando não existem formas", () => {
+    const pokemonApi = createPokemonApiResponse();
+
+    pokemonApi.forms = [];
+
+    const pokemon = mapPokemonApiToDetails(pokemonApi);
+
+    expect(pokemon.forms).toEqual([]);
+  });
 });
+
+function createSupplementaryData(
+  overrides: Partial<PokemonDetailsSupplementaryData> = {},
+): PokemonDetailsSupplementaryData {
+  return {
+    description: null,
+    evolutionChain: null,
+    variations: null,
+    formsSwitchable: null,
+    hasGenderDifferences: null,
+    ...overrides,
+  };
+}

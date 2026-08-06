@@ -262,6 +262,10 @@ Exemplos:
 - `PokemonAbility`;
 - `PokemonStat`;
 - `PokemonSprites`;
+- `PokemonResourceReference`;
+- `PokemonVariationReference`;
+- `PokemonFormReference`;
+- `PokemonFormDetails`;
 - `PokemonListPage`;
 - `PokemonEvolutionChain`;
 - `PokemonEvolutionNode`;
@@ -375,18 +379,24 @@ O status `404` é tratado como Pokémon inexistente. Erros de rede ou servidor s
 
 ```text
 PokemonDetails
-→ usePokemonDetails
-→ pokemonService.getPokemonById
-→ /pokemon/{id}
-→ species.url
-→ /pokemon-species/{species}
-├── descrição
-└── evolution_chain.url
-    → /evolution-chain/{chain}
-    → pokemonEvolutionMapper
-    → PokemonEvolutionChain
-→ PokemonDetails
-→ componentes
+├── usePokemonDetails
+│   └── pokemonService.getPokemonById
+│       ├── /pokemon/{id}
+│       │   ├── dados principais
+│       │   ├── forms[]
+│       │   └── species.url
+│       ├── /pokemon-species/{species}
+│       │   ├── descrição
+│       │   ├── varieties[]
+│       │   ├── flags da espécie
+│       │   └── evolution_chain.url
+│       └── /evolution-chain/{chain}
+│           └── PokemonEvolutionChain
+│
+└── usePokemonForm
+    └── pokemonService.getPokemonFormById
+        └── /pokemon-form/{formId}
+            └── PokemonFormDetails
 ```
 
 A resposta principal fornece:
@@ -400,11 +410,16 @@ A resposta principal fornece:
 - estatísticas;
 - sprites;
 - relação com a espécie.
+- identificação da variação padrão;
+- referências das formas disponíveis.
 
 A resposta da espécie fornece:
 
 - textos de descrição;
 - URL da cadeia de evolução.
+- variações da espécie;
+- indicação de formas alternáveis;
+- indicação de diferenças por gênero;
 
 A resposta da cadeia fornece uma árvore recursiva formada por:
 
@@ -475,6 +490,66 @@ Grupos vazios permanecem na estrutura enquanto outra ramificação continua evol
 
 ---
 
+### Estratégia de formas e variações
+
+A relação entre os recursos utilizados é:
+
+```text
+PokemonSpecies
+└── varieties[] → Pokemon
+    └── forms[] → PokemonForm
+```
+
+Uma variação representa uma entrada de `pokemon-species.varieties` e aponta para um recurso `/pokemon`.
+
+Uma forma representa uma entrada de `pokemon.forms` e aponta para um recurso `/pokemon-form`.
+
+Categorias como Mega, Alola ou Gigantamax não são inferidas a partir de sufixos. A aplicação utiliza somente os campos oficiais fornecidos pela PokéAPI.
+
+A abertura inicial dos detalhes continua utilizando no máximo três requisições:
+
+```text
+/pokemon/{id}
+/pokemon-species/{species}
+/evolution-chain/{chain}
+```
+
+As referências das formas são obtidas da resposta principal, sem carregar antecipadamente cada recurso.
+
+A seleção explícita de uma forma adiciona somente:
+
+```text
+/pokemon-form/{formId}
+```
+
+A forma é representada na URL por:
+
+```text
+/pokemon/:pokemonId?form=:formId
+```
+
+A validação ocorre em etapas:
+
+```text
+query
+→ validação sintática
+→ verificação em pokemon.forms
+→ carregamento da forma
+→ validação do Pokémon associado
+```
+
+Somente uma query válida e disponível inicia a requisição.
+
+O carregamento da forma possui hook, estado, erro, retry e cancelamento independentes dos detalhes principais.
+
+A navegação entre variações utiliza `/pokemon/{variationId}` e remove qualquer query de forma anterior.
+
+A navegação entre dados principais e formas mantém o mesmo Pokémon e altera somente a query.
+
+O contexto de retorno à listagem é preservado entre esses links.
+
+---
+
 ### Falhas parciais dos detalhes
 
 Uma falha técnica na consulta principal de `/pokemon/{id}` interrompe o carregamento dos detalhes.
@@ -484,6 +559,9 @@ Uma falha ao buscar a espécie não interrompe os dados principais. Nesse caso:
 ```ts
 description: null;
 evolutionChain: null;
+variations: null;
+formsSwitchable: null;
+hasGenderDifferences: null;
 ```
 
 Uma falha exclusiva na consulta da cadeia preserva a descrição:
@@ -516,6 +594,9 @@ Quando species.url estiver ausente:
 ```ts
 description: null;
 evolutionChain: null;
+variations: null;
+formsSwitchable: null;
+hasGenderDifferences: null;
 ```
 
 Nesse caso, nenhuma requisição de espécie é iniciada.
@@ -622,6 +703,9 @@ O cancelamento é usado em situações como:
 - troca do Pokémon selecionado;
 - início de uma nova pesquisa;
 - saída da página.
+- troca da forma selecionada;
+- remoção da query de forma;
+- tentativa novamente da forma.
 
 Respostas antigas não devem substituir resultados mais recentes.
 
@@ -655,6 +739,12 @@ A aplicação diferencia estados conforme o contexto.
 - retry;
 - dados disponíveis;
 - conteúdo opcional indisponível.
+- dados principais;
+- query de forma inválida;
+- forma indisponível;
+- carregamento local da forma;
+- erro local da forma;
+- forma disponível.
 
 Um erro localizado não deve remover conteúdo que já foi carregado corretamente.
 
@@ -773,6 +863,40 @@ A cadeia de evolução possui testes para:
 - navegação por teclado;
 - parentesco presente na estrutura renderizada.
 
+### Cobertura de formas e variações
+
+Formas e variações possuem testes para:
+
+- extração segura de IDs pelas URLs da PokéAPI;
+- descarte individual de referências inválidas;
+- mapeamento das variações da espécie;
+- identificação da variação padrão;
+- mapeamento das referências de formas;
+- ordenação e validação dos tipos da forma;
+- normalização de sprites e textos opcionais;
+- requisição única de `/pokemon-form/{formId}`;
+- IDs inválidos sem requisição;
+- propagação de falhas HTTP e do mapper;
+- propagação de cancelamentos;
+- ausência de requisição sem forma selecionada;
+- validação do Pokémon associado;
+- retry independente;
+- troca rápida de formas;
+- troca de Pokémon;
+- remoção da query;
+- desmontagem;
+- prevenção de respostas obsoletas;
+- parsing estrito de `?form=`;
+- forma válida, inválida e indisponível;
+- navegação por links reais;
+- estados ativos com `aria-current`;
+- loading e erro locais;
+- recuperação para os dados principais;
+- hierarquia de títulos;
+- grupos acessíveis de tipos e características;
+- navegação por teclado;
+- apresentação dos metadados e sprites da forma.
+
 ### Limites dos testes DOM
 
 O jsdom não calcula o layout visual real do navegador.
@@ -811,7 +935,6 @@ As principais decisões da arquitetura são:
 - ausência de backend;
 - ausência de banco de dados;
 - ausência de autenticação;
-- ausência de testes automatizados;
 - traduções parciais;
 - pesquisa parcial limitada aos Pokémon carregados.
 

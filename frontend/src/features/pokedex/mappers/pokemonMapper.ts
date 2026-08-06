@@ -2,12 +2,18 @@ import { isPokemonType } from "../types/pokemon";
 
 import type {
   PokemonDetails,
-  PokemonEvolutionChain,
+  PokemonDetailsSupplementaryData,
+  PokemonFormReference,
   PokemonSprites,
   PokemonSummary,
 } from "../types/pokemon";
-import type { PokemonApiDetailResponse } from "../types/pokemonApi";
+import type {
+  PokemonApiDetailResponse,
+  PokemonApiNamedResource,
+} from "../types/pokemonApi";
 import { getAbilityDisplayName } from "./pokemonAbilityMapper";
+import { parsePokemonApiResourceId } from "../utils/pokemonApiResource";
+import { formatPokemonResourceName } from "../utils/pokemonResourceName";
 
 function mapPokemonTypes(
   pokemon: PokemonApiDetailResponse,
@@ -44,6 +50,33 @@ function mapOfficialArtworkUrl(pokemon: PokemonApiDetailResponse): string {
   );
 }
 
+function mapPokemonFormReference(
+  form: PokemonApiNamedResource,
+): PokemonFormReference | null {
+  const formId = parsePokemonApiResourceId(form.url);
+  const formName = form.name.trim();
+
+  if (formId === null || !formName) {
+    return null;
+  }
+
+  return {
+    id: formId,
+    name: formName,
+    displayName: formatPokemonResourceName(formName),
+  };
+}
+
+function mapPokemonFormReferences(
+  forms: PokemonApiNamedResource[],
+): PokemonFormReference[] {
+  return forms.flatMap((form) => {
+    const formReference = mapPokemonFormReference(form);
+
+    return formReference ? [formReference] : [];
+  });
+}
+
 export function mapPokemonApiToSummary(
   pokemon: PokemonApiDetailResponse,
 ): PokemonSummary {
@@ -55,18 +88,26 @@ export function mapPokemonApiToSummary(
   };
 }
 
-type PokemonDetailsAdditionalData = {
-  description?: string | null;
-  evolutionChain?: PokemonEvolutionChain | null;
-};
+const EMPTY_POKEMON_DETAILS_SUPPLEMENTARY_DATA: PokemonDetailsSupplementaryData =
+  {
+    description: null,
+    evolutionChain: null,
+    variations: null,
+    formsSwitchable: null,
+    hasGenderDifferences: null,
+  };
 
 export function mapPokemonApiToDetails(
   pokemon: PokemonApiDetailResponse,
-  {
-    description = null,
-    evolutionChain = null,
-  }: PokemonDetailsAdditionalData = {},
+  supplementaryData: PokemonDetailsSupplementaryData = EMPTY_POKEMON_DETAILS_SUPPLEMENTARY_DATA,
 ): PokemonDetails {
+  const {
+    description,
+    evolutionChain,
+    variations,
+    formsSwitchable,
+    hasGenderDifferences,
+  } = supplementaryData;
   return {
     id: pokemon.id,
     name: pokemon.name,
@@ -75,6 +116,14 @@ export function mapPokemonApiToDetails(
 
     description,
     evolutionChain,
+
+    isDefaultVariation: pokemon.is_default,
+    variations,
+    forms: mapPokemonFormReferences(pokemon.forms),
+
+    formsSwitchable,
+    hasGenderDifferences,
+
     sprites: mapPokemonSprites(pokemon),
 
     height: pokemon.height,

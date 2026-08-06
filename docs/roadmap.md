@@ -25,13 +25,13 @@ O Roadmap apresenta direções de desenvolvimento. O escopo pode ser ajustado co
 
 ## Histórico de Sprints
 
-| Sprint   | Escopo principal                                                              | Status       |
-| -------- | ----------------------------------------------------------------------------- | ------------ |
-| Sprint 0 | Configuração inicial, monorepo e ferramentas de desenvolvimento               | Concluído    |
-| Sprint 1 | Rotas, estrutura do frontend, integração com a PokéAPI, listagem e detalhes   | Concluído    |
-| Sprint 2 | Navegação responsiva, melhorias visuais, temas e traduções de habilidades     | Concluído    |
-| Sprint 3 | Paginação, pesquisa global exata, descrição, sprites e testes iniciais        | Concluído    |
-| Sprint 4 | Cadeias de evolução, polimento visual, acessibilidade e testes de componentes | Em andamento |
+| Sprint   | Escopo principal                                                            | Status          |
+| -------- | --------------------------------------------------------------------------- | --------------- |
+| Sprint 0 | Configuração inicial, monorepo e ferramentas de desenvolvimento             | Concluído       |
+| Sprint 1 | Rotas, estrutura do frontend, integração com a PokéAPI, listagem e detalhes | Concluído       |
+| Sprint 2 | Navegação responsiva, melhorias visuais, temas e traduções de habilidades   | Concluído       |
+| Sprint 3 | Paginação, pesquisa global exata, descrição, sprites e testes iniciais      | Concluído       |
+| Sprint 4 | Cadeias de evolução, formas, variações, acessibilidade e testes             | Em encerramento |
 
 ## Milestone 1 — Pokédex MVP
 
@@ -135,9 +135,7 @@ Entregar uma Pokédex responsiva que permita:
 
 Para concluir o Milestone 1:
 
-- formas e variações;
 - refinamentos finais da experiência;
-- ampliação da cobertura de testes automatizados para hooks, services e fluxos de interface;
 - preparação para publicação.
 
 ### Limitações atuais
@@ -153,7 +151,7 @@ Para concluir o Milestone 1:
 
 O Milestone 1 será concluído quando:
 
-- evoluções e formas estiverem implementadas ou formalmente movidas para uma versão posterior;
+- evoluções, formas e variações estiverem implementadas e validadas;
 - o fluxo completo da Pokédex estiver validado;
 - testes automatizados cobrirem os comportamentos mais importantes;
 - não existirem erros bloqueadores;
@@ -197,9 +195,7 @@ A Sprint somente será marcada como concluída após o code review e o merge.
 
 ### Objetivo
 
-Expandir os detalhes da Pokédex com a cadeia de evolução e preparar a base arquitetural para formas e variações.
-
-A implementação de formas não deve começar antes da conclusão e revisão da base da evolução.
+Expandir os detalhes da Pokédex com cadeias de evolução, formas e variações, preservando separação de responsabilidades, falhas parciais, cancelamento, acessibilidade, responsividade e cobertura automatizada.
 
 ### Cadeia de evolução — implementado
 
@@ -253,7 +249,7 @@ A implementação de formas não deve começar antes da conclusão e revisão da
 - validação de links, foco, requisitos, badges e fallback de imagem;
 - revisão em temas claro e escuro;
 - revisão de responsividade.
-- - correção do foco do card-base sem requisitos;
+- correção do foco do card-base sem requisitos;
 - adaptação da altura dos cards em dispositivos sem hover;
 - prevenção de corte em condições extensas;
 - espaçamento uniforme entre cards responsivos;
@@ -264,15 +260,39 @@ A implementação de formas não deve começar antes da conclusão e revisão da
 - ampliação dos testes do formatador de condições;
 - correções identificadas durante o code review consolidado.
 
-### Formas e variações
+### Formas e variações — implementado
 
-Ainda não iniciadas.
-
-A implementação somente começará depois que:
-
-- os refinamentos definidos para a cadeia forem concluídos ou formalmente planejados para outra etapa;
-- os testes da base estiverem aprovados;
-- o code review da cadeia não apresentar bloqueadores.
+- estudo da relação entre `PokemonSpecies`, `Pokemon` e `PokemonForm`;
+- referências de variações obtidas por `species.varieties`;
+- referências de formas obtidas por `pokemon.forms`;
+- identificação da variação padrão por `is_default`;
+- contratos separados para API e domínio;
+- utilitário compartilhado para extração segura de IDs;
+- utilitário compartilhado para formatação de nomes;
+- mapper de variações;
+- mapper de referências de formas;
+- mapper de detalhes da forma;
+- descarte individual de referências inválidas;
+- integração dos metadados da espécie aos detalhes;
+- carregamento independente por meio de `getPokemonFormById` para `/pokemon-form/{formId}`;
+- validação preventiva do ID da forma;
+- hook independente `usePokemonForm`;
+- cancelamento em troca de forma, Pokémon, retry e desmontagem;
+- proteção contra respostas obsoletas;
+- validação do Pokémon associado à forma;
+- parser estrito da query `?form=`;
+- validação da disponibilidade em `pokemon.forms`;
+- estados base, query inválida, forma indisponível, loading, sucesso e erro;
+- ausência de carregamento antecipado das formas;
+- navegação acessível entre variações e formas;
+- preservação do contexto de retorno à listagem;
+- remoção da query ao navegar para outra variação;
+- painel visual com tipos, características, metadados e sprites;
+- loading, erro e retry locais;
+- suporte aos temas claro e escuro;
+- responsividade a partir de 320px;
+- testes de utilitários, mappers, service, hook, componentes e integração da página;
+- revisão consolidada de contratos, requisições, concorrência, acessibilidade e regressões.
 
 ## Milestone 2 — Coleção pessoal
 

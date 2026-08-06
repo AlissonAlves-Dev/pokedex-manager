@@ -9,6 +9,7 @@ import type {
   PokemonApiEvolutionDetail,
   PokemonApiNamedResource,
 } from "../types/pokemonApi";
+import { parsePokemonApiResourceId } from "../utils/pokemonApiResource";
 
 const POKEMON_SPRITE_BASE_URL =
   "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon";
@@ -25,20 +26,6 @@ function normalizeOptionalText(value: string): string | null {
   const normalizedValue = value.trim();
 
   return normalizedValue || null;
-}
-
-function extractSpeciesId(speciesUrl: string): number {
-  const normalizedUrl = speciesUrl.trim().replace(/\/+$/, "");
-  const lastPathSegment = normalizedUrl.split("/").pop();
-  const speciesId = Number(lastPathSegment);
-
-  if (!Number.isInteger(speciesId) || speciesId <= 0) {
-    throw new Error(
-      `Não foi possível identificar a espécie pela URL: ${speciesUrl}`,
-    );
-  }
-
-  return speciesId;
 }
 
 function createPokemonSpriteUrl(speciesId: number): string {
@@ -131,7 +118,13 @@ function mapEvolutionOptions(
 function mapEvolutionNode(
   chainLink: PokemonApiEvolutionChainLink,
 ): PokemonEvolutionNode {
-  const speciesId = extractSpeciesId(chainLink.species.url);
+  const speciesId = parsePokemonApiResourceId(chainLink.species.url);
+
+  if (speciesId === null) {
+    throw new Error(
+      `Não foi possível identificar a espécie pela URL: ${chainLink.species.url}`,
+    );
+  }
 
   const evolutionOptions = mapEvolutionOptions(chainLink.evolution_details);
 

@@ -1,5 +1,5 @@
 import { useLocation, useParams } from "react-router";
-import { useEffect } from "react";
+import { useEffect, useMemo } from "react";
 
 import { PokemonDetailsHeader } from "../../features/pokedex/components/PokemonDetailsHeader/PokemonDetailsHeader";
 import { PokemonPhysicalInfo } from "../../features/pokedex/components/PokemonPhysicalInfo/PokemonPhysicalInfo";
@@ -14,6 +14,11 @@ import { BackButton } from "../../shared/components/BackButton/BackButton";
 import { PokemonDescription } from "../../features/pokedex/components/PokemonDescription/PokemonDescription";
 import { PokemonSprites } from "../../features/pokedex/components/PokemonSprites/PokemonSprites";
 import { PokemonEvolutionChain } from "../../features/pokedex/components/PokemonEvolutionChain/PokemonEvolutionChain";
+import { usePokemonForm } from "../../features/pokedex/hooks/usePokemonForm";
+import { parsePokemonFormSearchParam } from "../../features/pokedex/utils/pokemonFormSearchParam";
+import { resolvePokemonFormSelection } from "../../features/pokedex/utils/pokemonFormSelection";
+import { PokemonFormDetailsPanel } from "../../features/pokedex/components/PokemonFormDetailsPanel/PokemonFormDetailsPanel";
+import { PokemonVariationsAndForms } from "../../features/pokedex/components/PokemonVariationsAndForms/PokemonVariationsAndForms";
 
 import "./PokemonDetails.css";
 
@@ -35,6 +40,11 @@ function isPokemonDetailsLocationState(
 export function PokemonDetails() {
   const { pokemonId } = useParams<{ pokemonId: string }>();
   const location = useLocation();
+
+  const formSearchParam = useMemo(
+    () => parsePokemonFormSearchParam(new URLSearchParams(location.search)),
+    [location.search],
+  );
 
   const cameFromPokemonList = isPokemonDetailsLocationState(location.state);
 
@@ -60,6 +70,24 @@ export function PokemonDetails() {
 
   const { pokemon, isLoading, error, retry } =
     usePokemonDetails(validPokemonId);
+
+  const formSelection = useMemo(() => {
+    if (!pokemon) {
+      return null;
+    }
+
+    return resolvePokemonFormSelection(formSearchParam, pokemon.forms);
+  }, [formSearchParam, pokemon]);
+
+  const selectedFormId =
+    formSelection?.status === "selected" ? formSelection.formId : null;
+
+  const {
+    pokemonForm,
+    isLoading: isFormLoading,
+    error: formError,
+    retry: retryForm,
+  } = usePokemonForm(pokemon?.id ?? null, selectedFormId);
 
   return (
     <PageContainer>
@@ -88,6 +116,56 @@ export function PokemonDetails() {
       {!isLoading && !error && pokemon && (
         <div className="pokemon-details">
           <PokemonDetailsHeader pokemon={pokemon} />
+
+          <PokemonVariationsAndForms
+            pokemonId={pokemon.id}
+            variations={pokemon.variations}
+            forms={pokemon.forms}
+            selectedFormId={selectedFormId}
+            isBaseSelected={formSelection?.status === "base"}
+          />
+
+          {formSelection && formSelection.status !== "base" && (
+            <section
+              className="pokemon-details__form-state"
+              aria-label="Estado da forma selecionada"
+              aria-live="polite"
+              aria-busy={isFormLoading}
+            >
+              {formSelection.status === "invalid-query" && (
+                <p className="pokemon-details__form-message">
+                  O parâmetro de forma informado na URL é inválido.
+                </p>
+              )}
+
+              {formSelection.status === "unavailable" && (
+                <p className="pokemon-details__form-message">
+                  A forma solicitada não está disponível para este Pokémon.
+                </p>
+              )}
+
+              {formSelection.status === "selected" && isFormLoading && (
+                <Spinner size="small" label="Carregando forma do Pokémon..." />
+              )}
+
+              {formSelection.status === "selected" &&
+                !isFormLoading &&
+                formError && (
+                  <ErrorState
+                    title="Não foi possível carregar a forma"
+                    message={formError}
+                    onRetry={retryForm}
+                  />
+                )}
+
+              {formSelection.status === "selected" &&
+                !isFormLoading &&
+                !formError &&
+                pokemonForm && (
+                  <PokemonFormDetailsPanel pokemonForm={pokemonForm} />
+                )}
+            </section>
+          )}
 
           <PokemonDescription description={pokemon.description} />
 
