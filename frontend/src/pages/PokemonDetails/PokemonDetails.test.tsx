@@ -121,6 +121,21 @@ function renderPokemonDetails(path: string) {
   );
 }
 
+function renderPokemonDetailsWithHistory(initialEntries: string[]) {
+  return render(
+    <MemoryRouter
+      initialEntries={initialEntries}
+      initialIndex={initialEntries.length - 1}
+    >
+      <Routes>
+        <Route path="/pokemon" element={<h1>Lista da Pokédex</h1>} />
+
+        <Route path="/pokemon/:pokemonId" element={<PokemonDetails />} />
+      </Routes>
+    </MemoryRouter>,
+  );
+}
+
 beforeEach(() => {
   vi.clearAllMocks();
   vi.stubGlobal("scrollTo", vi.fn());
@@ -359,5 +374,86 @@ describe("PokemonDetails", () => {
         name: "Estado da forma selecionada",
       }),
     ).not.toBeInTheDocument();
+  });
+
+  it("retorna diretamente à Pokédex após navegar para uma forma", async () => {
+    const user = userEvent.setup();
+
+    renderPokemonDetailsWithHistory([
+      "/pokemon",
+      "/pokemon/25",
+      "/pokemon/25?form=10080",
+    ]);
+
+    await user.click(
+      screen.getByRole("button", {
+        name: /Voltar para Pokédex/,
+      }),
+    );
+
+    expect(
+      screen.getByRole("heading", {
+        name: "Lista da Pokédex",
+      }),
+    ).toBeInTheDocument();
+  });
+
+  it("retorna diretamente à Pokédex após navegar para uma variação", async () => {
+    const user = userEvent.setup();
+
+    renderPokemonDetailsWithHistory(["/pokemon", "/pokemon/25", "/pokemon/26"]);
+
+    await user.click(
+      screen.getByRole("button", {
+        name: /Voltar para Pokédex/,
+      }),
+    );
+
+    expect(
+      screen.getByRole("heading", {
+        name: "Lista da Pokédex",
+      }),
+    ).toBeInTheDocument();
+  });
+
+  it("retorna diretamente à Pokédex após navegar por variação e forma", async () => {
+    const user = userEvent.setup();
+
+    renderPokemonDetailsWithHistory([
+      "/pokemon",
+      "/pokemon/25",
+      "/pokemon/26",
+      "/pokemon/26?form=10080",
+    ]);
+
+    await user.click(
+      screen.getByRole("button", {
+        name: /Voltar para Pokédex/,
+      }),
+    );
+
+    expect(
+      screen.getByRole("heading", {
+        name: "Lista da Pokédex",
+      }),
+    ).toBeInTheDocument();
+  });
+
+  it("retorna à Pokédex em um acesso direto com query de forma", async () => {
+    const user = userEvent.setup();
+
+    renderPokemonDetailsWithHistory(["/pokemon/25?form=10080"]);
+
+    await user.click(
+      screen.getByRole("button", {
+        name: /Voltar para Pokédex/,
+      }),
+    );
+
+    expect(
+      screen.getByRole("heading", {
+        name: "Lista da Pokédex",
+      }),
+    ).toBeInTheDocument();
   });
 });

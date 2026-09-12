@@ -22,21 +22,6 @@ import { PokemonVariationsAndForms } from "../../features/pokedex/components/Pok
 
 import "./PokemonDetails.css";
 
-type PokemonDetailsLocationState = {
-  fromPokemonList: true;
-};
-
-function isPokemonDetailsLocationState(
-  value: unknown,
-): value is PokemonDetailsLocationState {
-  return (
-    typeof value === "object" &&
-    value !== null &&
-    "fromPokemonList" in value &&
-    value.fromPokemonList === true
-  );
-}
-
 export function PokemonDetails() {
   const { pokemonId } = useParams<{ pokemonId: string }>();
   const location = useLocation();
@@ -45,8 +30,6 @@ export function PokemonDetails() {
     () => parsePokemonFormSearchParam(new URLSearchParams(location.search)),
     [location.search],
   );
-
-  const cameFromPokemonList = isPokemonDetailsLocationState(location.state);
 
   const parsedPokemonId = pokemonId ? Number(pokemonId) : null;
 
@@ -91,10 +74,7 @@ export function PokemonDetails() {
 
   return (
     <PageContainer>
-      <BackButton
-        label="Voltar para Pokédex"
-        to={cameFromPokemonList ? undefined : "/pokemon"}
-      />
+      <BackButton label="Voltar para Pokédex" to="/pokemon" />
 
       <PageHeader
         title="Detalhes do Pokémon"

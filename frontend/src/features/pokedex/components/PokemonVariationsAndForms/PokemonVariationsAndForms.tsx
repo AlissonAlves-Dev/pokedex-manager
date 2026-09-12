@@ -1,4 +1,4 @@
-import { Link, useLocation } from "react-router";
+import { Link } from "react-router";
 
 import { Badge } from "../../../../shared/components/ui/Badge/Badge";
 
@@ -34,7 +34,6 @@ export function PokemonVariationsAndForms({
   selectedFormId,
   isBaseSelected,
 }: PokemonVariationsAndFormsProps) {
-  const location = useLocation();
   const shouldShowVariations = variations !== null && variations.length > 1;
 
   const shouldShowForms =
@@ -77,7 +76,6 @@ export function PokemonVariationsAndForms({
                   <Link
                     className={getOptionClassName(isCurrent)}
                     to={`/pokemon/${variation.id}`}
-                    state={location.state}
                     aria-label={[
                       `Ver variação ${variation.displayName}`,
                       variation.isDefault ? "padrão" : "",
@@ -118,7 +116,6 @@ export function PokemonVariationsAndForms({
               <Link
                 className={getOptionClassName(isBaseSelected)}
                 to={`/pokemon/${pokemonId}`}
-                state={location.state}
                 aria-label="Ver dados principais do Pokémon"
                 aria-current={isBaseSelected ? "true" : undefined}
               >
@@ -136,7 +133,6 @@ export function PokemonVariationsAndForms({
                   <Link
                     className={getOptionClassName(isCurrent)}
                     to={`/pokemon/${pokemonId}?form=${form.id}`}
-                    state={location.state}
                     aria-label={`Ver forma ${form.displayName}`}
                     aria-current={isCurrent ? "true" : undefined}
                   >

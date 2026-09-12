@@ -17,7 +17,6 @@ export function PokemonCard({ pokemon, onSelect }: PokemonCardProps) {
     <Link
       className="pokemon-card__link"
       to={`/pokemon/${pokemon.id}`}
-      state={{ fromPokemonList: true }}
       data-pokemon-id={pokemon.id}
       onClick={() => onSelect?.(pokemon.id)}
     >
