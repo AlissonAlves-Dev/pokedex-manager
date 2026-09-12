@@ -2622,3 +2622,121 @@ Durante a revisão consolidada, foram corrigidos problemas de navegação, recup
 Ao final da sessão, a cadeia de evolução, as formas e as variações estavam implementadas, revisadas e validadas na branch `sprint/sprint-4`. A Sprint 4 permanecia com o status **Em encerramento**, ainda sem merge com a `main`.
 
 ---
+
+## 2026/09/11
+
+### Objetivo
+
+Retomar o desenvolvimento da **Minha Pokédex** após uma pausa, reconstruir com segurança o estado atual da Sprint 4 e confirmar as pendências reais antes de seu encerramento e integração à `main`.
+
+### Atividades realizadas
+
+- Reconstrução do estado atual da Sprint 4 a partir do repositório local e remoto.
+- Confirmação da branch de trabalho:
+
+  - `sprint/sprint-4`.
+
+- Verificação do estado do working tree.
+- Verificação da sincronização entre o repositório local e o remoto.
+- Confirmação de que a Sprint 4 estava:
+
+  - cinco commits à frente da `main`;
+  - nenhum commit atrás da `main`;
+  - com working tree limpo;
+  - sem divergências entre a branch local e a remota.
+
+- Confirmação dos commits publicados na Sprint 4:
+
+  - `f60bd6c fix: restore Pokedex back navigation after form changes`;
+  - `7f77674 feat: add pokemon forms and variations`;
+  - `4843cb7 fix: address evolution chain review findings`;
+  - `be1d510 feat: polish pokemon evolution chain`;
+  - `3aa57da feat: add pokemon evolution chains`.
+
+- Execução de `git diff --check main...sprint/sprint-4`.
+- Confirmação da ausência de problemas no diff entre a Sprint 4 e a `main`.
+- Revisão das funcionalidades já concluídas e publicadas na Sprint 4.
+- Confirmação da implementação da cadeia de evolução.
+- Confirmação do suporte a cadeias lineares e ramificadas.
+- Confirmação da implementação dos requisitos de evolução.
+- Confirmação do agrupamento por parentesco.
+- Confirmação dos ajustes de acessibilidade e responsividade da cadeia.
+- Confirmação da implementação de formas e variações.
+- Confirmação do carregamento sob demanda dos detalhes das formas.
+- Confirmação da navegação utilizando query string.
+- Confirmação do cancelamento de requisições e da proteção contra respostas obsoletas.
+- Confirmação da existência de testes automatizados relacionados às funcionalidades da Sprint.
+- Confirmação das correções originadas durante o code review.
+- Confirmação da correção do retorno determinístico para `/pokemon` após a navegação por formas e variações.
+- Realização de validação manual do fluxo de retorno para a Pokédex.
+- Identificação de uma regressão na restauração da posição da listagem.
+- Confirmação de que o botão **“Voltar para Pokédex”** retorna corretamente para `/pokemon`.
+- Identificação de que, após o retorno, a listagem é exibida no topo da página em vez de restaurar o Pokémon anteriormente selecionado no viewport.
+- Confirmação de que o fluxo atual ocorre como:
+
+  - Pokédex;
+  - abertura de um Pokémon;
+  - página de detalhes;
+  - retorno para a Pokédex;
+  - listagem posicionada no topo.
+
+- Definição do comportamento esperado para o retorno:
+
+  - preservar a listagem existente;
+  - preservar a paginação;
+  - preservar a pesquisa;
+  - retornar para `/pokemon`;
+  - restaurar o card anteriormente selecionado no viewport.
+
+- Decisão de não iniciar a correção da restauração da posição nesta sessão.
+- Decisão de manter a Sprint 4 aberta.
+- Decisão de não realizar o merge na `main`.
+- Decisão de não marcar a Sprint como concluída no Roadmap.
+- Definição da restauração da posição como a última correção funcional da Sprint 4.
+- Definição da necessidade de adicionar testes de regressão antes do encerramento definitivo da Sprint.
+- Identificação dos pontos que deverão ser revisados durante a correção:
+
+  - botão **“Voltar para Pokédex”**;
+  - estado persistente das rotas da Pokédex;
+  - registro do Pokémon selecionado;
+  - restauração por `scrollIntoView`;
+  - efeito da navegação explícita para `/pokemon`;
+  - interação com formas e variações.
+
+- Definição do cenário principal para validação da correção:
+
+  - carregar várias páginas da Pokédex;
+  - rolar a listagem;
+  - abrir um Pokémon;
+  - navegar por forma ou variação;
+  - utilizar **“Voltar para Pokédex”**;
+  - restaurar o Pokémon anteriormente aberto no viewport.
+
+- Definição de que a correção deverá preservar:
+
+  - Pokémon já carregados;
+  - pesquisa;
+  - paginação;
+  - resultado remoto;
+  - Pokémon selecionado.
+
+- Confirmação do estado das principais entregas da Sprint:
+
+  - cadeia de evolução concluída;
+  - formas e variações concluídas;
+  - retorno determinístico para `/pokemon` concluído;
+  - restauração da posição da listagem ainda pendente;
+  - correção final ainda pendente;
+  - testes de regressão ainda pendentes;
+  - validação final ainda pendente;
+  - merge na `main` ainda pendente.
+
+### Observações
+
+A sessão foi dedicada à retomada segura do desenvolvimento após a pausa e à reconstrução do estado real da Sprint 4. O repositório local estava limpo e sincronizado com o remoto, e a branch `sprint/sprint-4` encontrava-se cinco commits à frente e nenhum commit atrás da `main`.
+
+As principais funcionalidades da Sprint — cadeia de evolução, formas e variações e correções decorrentes do code review — já estavam implementadas e publicadas. A validação manual, porém, revelou uma regressão no retorno para a Pokédex: embora a navegação volte corretamente para `/pokemon`, a posição anterior da listagem não é restaurada.
+
+Por esse motivo, a Sprint 4 permaneceu **Em encerramento**. O merge na `main` e a marcação da Sprint como concluída foram adiados até que a restauração do card anteriormente selecionado seja corrigida, coberta por testes de regressão e validada juntamente com a preservação dos demais estados da listagem.
+
+---
